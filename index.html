@@ -213,6 +213,16 @@ nav button{font-size:13px;padding:9px 2px}
 .dprompt{font-size:14px;font-weight:700;margin:6px 0 2px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .dprompt .ex{font-family:"PT Sans";font-size:16px}
 .soon{border-style:dashed;box-shadow:none;text-align:center;color:var(--sub);font-size:13px;line-height:1.7}
+
+.seg.cats{background:var(--ink);margin-bottom:10px}
+.seg.cats button{color:#d9cbb0;font-size:12.5px;padding:10px 2px;border-left-color:#5a4a40}
+.seg.cats button.on{background:var(--gold);color:var(--ink)}
+.dtbl thead th.sub{background:#3a2f2a;color:#fff;font-family:"Noto Sans JP";font-size:12px;padding:4px 2px}
+.dtbl input.lemma{background:#fff3c9;font-weight:700;font-size:16px;padding:9px 4px}
+.dtbl.wide{min-width:640px}
+.dtbl.wide td.ro{font-size:13px;padding:6px 1px;line-height:1.35}
+.dtbl td.ro.na{background:repeating-linear-gradient(45deg,#efe2c4 0 6px,#f8f0dc 6px 12px);color:var(--sub);font-size:12px}
+.dtbl b.plm{font-family:var(--ru);font-weight:400;font-size:10px;color:var(--red);letter-spacing:.05em}
 </style>
 </head>
 <body>
@@ -360,6 +370,12 @@ nav button{font-size:13px;padding:9px 2px}
 
 <!-- 格変化 -->
 <section id="decl">
+  <div class="seg cats" id="catSeg">
+    <button data-v="noun" class="on">名詞</button>
+    <button data-v="adj">形容詞</button>
+    <button data-v="pers">人称代名詞</button>
+    <button data-v="poss">所有代名詞</button>
+  </div>
   <div class="seg" id="declSeg" style="background:var(--card)">
     <button data-v="practice" class="on">練習</button>
     <button data-v="tables">表の登録</button>
@@ -369,7 +385,7 @@ nav button{font-size:13px;padding:9px 2px}
   <div id="dv-practice">
     <div class="band" data-go="log"></div>
     <div class="box">
-      <p class="label">РОД <em>範囲（名詞の性）</em></p>
+      <p class="label">ОБЛАСТЬ <em id="rangeLabel">範囲</em></p>
       <div class="chips" id="gChips"></div>
       <p class="label">РЕЖИМ <em>モード</em></p>
       <div class="seg" id="dModeSeg">
@@ -390,10 +406,11 @@ nav button{font-size:13px;padding:9px 2px}
     <div id="dEditor"></div>
     <button class="btn red" id="newTable">＋ 新しい表を作る</button>
     <div class="gap"></div><div class="gap"></div>
-    <div class="box">
-      <p class="label">ТАБЛИЦЫ <em>登録した表（<span id="tCnt">0</span>）</em></p>
+    <div class="box" id="tListBox">
+      <p class="label">ТАБЛИЦЫ <em id="tListLabel">登録した表</em></p>
       <div class="list" id="tList"></div>
     </div>
+    <div class="box" id="builtinView" style="display:none"></div>
   </div>
 
   <div id="dv-dlog" style="display:none">
@@ -403,7 +420,7 @@ nav button{font-size:13px;padding:9px 2px}
       <div><b id="dlToday">0</b><span>今日の解答</span></div>
     </div>
     <div class="box">
-      <p class="label">ЖУРНАЛ <em>格変化の解答記録</em></p>
+      <p class="label">ЖУРНАЛ <em id="dLogLabel">格変化の解答記録</em></p>
       <div class="seg" id="dLogSeg">
         <button data-v="all" class="on">すべて</button>
         <button data-v="x">× 不正解</button>
@@ -413,9 +430,9 @@ nav button{font-size:13px;padding:9px 2px}
     </div>
     <div class="box dangerzone">
       <p class="label">ЧИСТКА <em>間違いの記録を整理</em></p>
-      <p class="note">格変化の×の記録をすべて消し、「苦手なマス」の印をリセットします（表と○△の記録は残ります）。</p>
+      <p class="note">いま選んでいる種類（名詞・形容詞など）の×の記録をすべて消し、「苦手なマス」の印をリセットします（表と○△の記録は残ります）。</p>
       <div class="gap"></div>
-      <button class="btn danger" id="dWipe">格変化の間違いをすべて削除</button>
+      <button class="btn danger" id="dWipe">この種類の間違いをすべて削除</button>
     </div>
   </div>
   <div class="box soon">★ 格変化タブには、これから新しい教材を追加していく予定 ★<br><span style="font-family:var(--ru);letter-spacing:.1em">СКОРО БУДЕТ БОЛЬШЕ</span></div>
@@ -478,11 +495,12 @@ const mk = () => ({ dir:"rj", mode:"random", tags:[], queue:[], cur:null, lastId
 const st = {
   deck:"sent", tab:"quiz", logFilter:"all", calMonth:null,
   sent:mk(), word:mk(),
-  decl:{ mode:"random", genders:[], queue:[], cur:null, last:null, ok:0, ng:0, view:"practice", logFilter:"all", draft:null }
+  decl:{ cat:"noun", view:"practice", logFilter:"all", draft:null }
 };
+const mkD = () => ({ mode:"random", range:[], queue:[], cur:null, last:null, ok:0, ng:0 });
+["noun","adj","pers","poss"].forEach(k=>st.decl[k]=mkD());
 const S = () => st[st.deck];
 const deckCards = () => cards.filter(c => kindOf(c) === st.deck);
-const declCards = () => cards.filter(c => kindOf(c) === "decl");
 
 function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),2000); }
 function newId(){ return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,8); }
@@ -604,7 +622,7 @@ async function initStore(){
   useLocal();
   initFirebase();
 }
-function resetQuiz(){ st.sent.queue=[]; st.word.queue=[]; st.sent.cur=null; st.word.cur=null; st.decl.queue=[]; st.decl.cur=null; }
+function resetQuiz(){ st.sent.queue=[]; st.word.queue=[]; st.sent.cur=null; st.word.cur=null; ["noun","adj","pers","poss"].forEach(k=>{ st.decl[k].queue=[]; st.decl[k].cur=null; }); }
 
 /* ---------- アカウント（Firebase） ---------- */
 const FB_VER="10.12.2";
@@ -673,12 +691,12 @@ function refreshAfterData(){
     const s=st[k]; if(!s.cur) continue;
     const n=cards.find(c=>c.id===s.cur.id); s.cur = n || null;
   }
-  if(st.decl.cur && !cards.find(c=>c.id===st.decl.cur.id)) st.decl.cur=null;
+  ["noun","adj","pers","poss"].forEach(k=>{ const s=st.decl[k]; if(s.cur && !describe(k, s.cur.id, s.cur.key)) s.cur=null; });
   if(st.tab==="quiz"){ renderRange(); if(!S().cur) nextQ(); else updateScore(); }
   if(st.tab==="add" && !document.querySelector("#cardList .eRu")) renderList();
   if(st.tab==="log") renderLog();
   if(st.tab==="decl"){
-    if(st.decl.view==="practice"){ if(!st.decl.cur) nextDecl(); else updateDeclScore(); }
+    if(st.decl.view==="practice"){ if(!D().cur) nextDecl(); else updateDeclScore(); }
     if(st.decl.view==="tables") renderTables();
     if(st.decl.view==="dlog") renderDeclLog();
   }
@@ -795,7 +813,8 @@ seg("#dirSeg", v=>{ S().dir=v; S().queue=[]; nextQ(); });
 seg("#modeSeg", v=>{ S().mode=v; S().queue=[]; nextQ(); });
 seg("#logSeg", v=>{ st.logFilter=v; renderLog(); });
 seg("#declSeg", v=>{ st.decl.view=v; showDeclView(); });
-seg("#dModeSeg", v=>{ st.decl.mode=v; st.decl.queue=[]; nextDecl(); });
+seg("#dModeSeg", v=>{ D().mode=v; D().queue=[]; nextDecl(); });
+seg("#catSeg", v=>{ st.decl.cat=v; if(st.decl.draft && st.decl.draft.cat!==v) st.decl.draft=null; showDeclView(); });
 seg("#dLogSeg", v=>{ st.decl.logFilter=v; renderDeclLog(); });
 
 function applyDeck(){
@@ -930,8 +949,8 @@ function renderQ(){
   };
 }
 
-function revealAnswer(area, mine, a, aLang, memo, onGrade, onSkip){
-  const hit = matches(mine, a);
+function revealAnswer(area, mine, a, aLang, memo, onGrade, onSkip, hitOverride){
+  const hit = hitOverride ?? matches(mine, a);
   area.innerHTML = `
     <div class="ans">
       ${hit?'<div class="match">★ 一致 СОВПАДАЕТ</div>':""}
@@ -1104,95 +1123,234 @@ $("#wipeNg").onclick=async()=>{
 
 /* ---------- 格変化 ---------- */
 const cellKey = (r,c) => `r${r}c${c}`;
-const parseKey = k => { const m=/^r(\d+)c(\d+)$/.exec(k); return m ? [+m[1], +m[2]] : [0,0]; };
+const parseKey = k => { const m=/r(\d+)c(\d+)$/.exec(k); return m ? [+m[1], +m[2]] : [0,0]; };
 const rowName = r => `${ROWS[r][0]}・${ROWS[r][1]}`;
+const GSUB = ["男性","中性","女性"];
+const ATYPE = { h1:{ name:"硬変化Ⅰ", ex:"новый" }, h2:{ name:"硬変化Ⅱ", ex:"молодой" }, soft:{ name:"軟変化", ex:"синий" } };
+
+/* 決まった形の表（人称代名詞・所有代名詞）
+   1マスの答え＝「部分」の配列。部分の中の | は別の形（どちらでも正解）。
+   部分が2つ以上あるマスは、両方を答える（例：его / него、мой / моего）。
+   出典で確認：ロシア語版ウィクショナリーの свой・наш・ничей の変化表、
+   russianforfree.com・lingvist.com・russky.info の人称代名詞・кто・что・себя の表。 */
+const P = s => s.split(" ").filter(Boolean);
+const PERS_COLS = ["я","ты","вы","он","оно","она","кто","что","себя"];
+const PERS_SG = [
+  /* я   */ [P("я"), P("меня"), P("мне"), P("меня"), P("мной|мною"), P("мне")],
+  /* ты  */ [P("ты"), P("тебя"), P("тебе"), P("тебя"), P("тобой|тобою"), P("тебе")],
+  /* вы  */ [P("вы"), P("вас"), P("вам"), P("вас"), P("вами"), P("вас")],
+  /* он  */ [P("он"), P("его него"), P("ему нему"), P("его него"), P("им ним"), P("нём")],
+  /* оно */ [P("оно"), P("его него"), P("ему нему"), P("его него"), P("им ним"), P("нём")],
+  /* она */ [P("она"), P("её неё"), P("ей ней"), P("её неё"), P("ей|ею ней|нею"), P("ней")],
+  /* кто */ [P("кто"), P("кого"), P("кому"), P("кого"), P("кем"), P("ком")],
+  /* что */ [P("что"), P("чего"), P("чему"), P("что"), P("чем"), P("чём")],
+  /* себя*/ [null, P("себя"), P("себе"), P("себя"), P("собой|собою"), P("себе")]
+];
+const PERS_PL = [ // 複数：я→мы、ты・вы→вы、он・оно・она→они、кто・что・себя は複数形なし
+  { cols:[0], lemma:"мы", range:"12", forms:[P("мы"), P("нас"), P("нам"), P("нас"), P("нами"), P("нас")] },
+  { cols:[1,2], lemma:"вы", range:"12", forms:[P("вы"), P("вас"), P("вам"), P("вас"), P("вами"), P("вас")] },
+  { cols:[3,4,5], lemma:"они", range:"3", forms:[P("они"), P("их них"), P("им ним"), P("их них"), P("ими ними"), P("них")] },
+  { cols:[6,7,8], lemma:null, range:"q", forms:null }
+];
+const persRange = c => c<=2 ? "12" : c<=5 ? "3" : "q";
+
+function moiLike(s){ return {
+  m:[[s+"й"],[s+"его"],[s+"ему"],[s+"й",s+"его"],[s+"им"],[s+"ём"]],
+  n:[[s+"ё"],[s+"его"],[s+"ему"],[s+"ё"],[s+"им"],[s+"ём"]],
+  f:[[s+"я"],[s+"ей"],[s+"ей"],[s+"ю"],[s+"ей|"+s+"ею"],[s+"ей"]],
+  pl:[[s+"и"],[s+"их"],[s+"им"],[s+"и",s+"их"],[s+"ими"],[s+"их"]] }; }
+function nashLike(s){ return {
+  m:[[s],[s+"его"],[s+"ему"],[s,s+"его"],[s+"им"],[s+"ем"]],
+  n:[[s+"е"],[s+"его"],[s+"ему"],[s+"е"],[s+"им"],[s+"ем"]],
+  f:[[s+"а"],[s+"ей"],[s+"ей"],[s+"у"],[s+"ей|"+s+"ею"],[s+"ей"]],
+  pl:[[s+"и"],[s+"их"],[s+"им"],[s+"и",s+"их"],[s+"ими"],[s+"их"]] }; }
+const POSS = {
+  "мой":moiLike("мо"), "твой":moiLike("тво"), "свой":moiLike("сво"),
+  "наш":nashLike("наш"), "ваш":nashLike("ваш"),
+  "чей":{ m:[["чей"],["чьего"],["чьему"],["чей","чьего"],["чьим"],["чьём"]],
+          n:[["чьё"],["чьего"],["чьему"],["чьё"],["чьим"],["чьём"]],
+          f:[["чья"],["чьей"],["чьей"],["чью"],["чьей|чьею"],["чьей"]],
+          pl:[["чьи"],["чьих"],["чьим"],["чьи","чьих"],["чьими"],["чьих"]] }
+};
+const POSS_GROUPS = [ { range:"moi", lemmas:["мой","твой","свой"] }, { range:"nash", lemmas:["наш","ваш"] }, { range:"chei", lemmas:["чей"] } ];
+const GKEYS = ["m","n","f"];
+
+function partsText(parts){ return parts.map(p=>{ const a=p.split("|"); return a.length>1 ? `${a[0]}（${a.slice(1).join("・")}）` : a[0]; }).join(" / "); }
+function hintFor(parts, row, kind){
+  const cs=row%6, h=[];
+  if(parts.length>1) h.push(kind==="pers" ? "前置詞なしの形 / 前置詞のあとの н- の形 の2つを答えよう" : "不活動体 / 活動体 の2つを答えよう");
+  if(cs===5) h.push("前置格は о・об・обо を付けずに答える（付けてもOK）");
+  return h.join("　");
+}
+const BUILTIN = { pers:[], poss:[] };
+PERS_COLS.forEach((lemma,c)=>PERS_SG[c].forEach((parts,r)=>{
+  if(parts) BUILTIN.pers.push({ key:`s${c}r${r}`, range:persRange(c), lemma: c===2 ? "вы（敬称・1人）" : lemma, row:r, parts });
+}));
+PERS_PL.forEach((g,gi)=>{ if(g.forms) g.forms.forEach((parts,r)=>BUILTIN.pers.push({ key:`p${gi}r${r+6}`, range:g.range, lemma:g.lemma, row:r+6, parts })); });
+POSS_GROUPS.forEach(g=>g.lemmas.forEach(l=>{
+  GKEYS.forEach((gk,gi)=>POSS[l][gk].forEach((parts,r)=>BUILTIN.poss.push({ key:`${l}-${gk}-r${r}`, range:g.range, lemma:l, sub:GSUB[gi], row:r, parts })));
+  POSS[l].pl.forEach((parts,r)=>BUILTIN.poss.push({ key:`${l}-pl-r${r+6}`, range:g.range, lemma:l, sub:"", row:r+6, parts }));
+}));
+const BMAP = { pers:new Map(BUILTIN.pers.map(i=>[i.key,i])), poss:new Map(BUILTIN.poss.map(i=>[i.key,i])) };
+
+// 複数の形を答えるマスの照合：前置詞 о/об/обо は無視、全部そろって余分がなければ一致
+function matchParts(mine, parts){
+  const toks=String(mine||"").split(/[\/,、;；\s()（）・]+/).map(norm).filter(t=>t && !["о","об","обо"].includes(t));
+  if(!toks.length) return false;
+  const alts=parts.map(p=>p.split("|").map(norm));
+  return alts.every(a=>toks.some(t=>a.includes(t))) && toks.every(t=>alts.some(a=>a.includes(t)));
+}
+
+const CAT = {
+  noun:{ name:"名詞", user:true, rangeLabel:"範囲（名詞の性）", range:[["m","男性名詞"],["n","中性名詞"],["f","女性名詞"]], rangeOf:t=>t.gender },
+  adj: { name:"形容詞", user:true, rangeLabel:"範囲（変化のタイプ）", range:[["h1","硬変化Ⅰ"],["h2","硬変化Ⅱ"],["soft","軟変化"]], rangeOf:t=>t.atype },
+  pers:{ name:"人称代名詞", user:false, sys:"sys-pers", rangeLabel:"範囲", range:[["12","я・ты・вы（мы）"],["3","он・оно・она（они）"],["q","кто・что・себя"]] },
+  poss:{ name:"所有代名詞", user:false, sys:"sys-poss", rangeLabel:"範囲", range:[["moi","мой・твой・свой"],["nash","наш・ваш"],["chei","чей"]] }
+};
+const catOf = c => c.cat || "noun";
+const D = () => st.decl[st.decl.cat];
+const declCards = (cat=st.decl.cat) => cards.filter(c => kindOf(c)==="decl" && catOf(c)===cat && !c.sysTable);
+const sysCard = cat => cards.find(c=>c.id===CAT[cat].sys);
+function ensureSys(cat){
+  let c=sysCard(cat);
+  if(!c){ c={ id:CAT[cat].sys, kind:"decl", cat, sysTable:true, cs:{}, history:[], createdAt:Date.now() }; cards.push(c); }
+  return c;
+}
 const filledCells = t => Object.entries(t.cells||{}).filter(([k,v])=>String(v).trim());
-const tableTitle = t => t.name || (t.heads||[]).filter(Boolean).join(" / ") || GENDER[t.gender].name+"の表";
+const tableTitle = t => catOf(t)==="adj" ? (t.lemma || "形容詞の表") : (t.name || (t.heads||[]).filter(Boolean).join(" / ") || GENDER[t.gender].name+"の表");
+const cellStat = (tid, key) => { const t=cards.find(c=>c.id===tid); return (t && t.cs && t.cs[key]) || {}; };
+
+/* 出題する1マスの説明（問題文・答え・照合） */
+function describe(cat, tid, key){
+  if(cat==="pers"||cat==="poss"){
+    const it=BMAP[cat].get(key); if(!it) return null;
+    return {
+      badge:`<span class="gb">${CAT[cat].name}</span><b class="ex" lang="ru">${esc(it.lemma)}</b>${it.sub?`<b>${it.sub}</b>`:""}`,
+      prompt: rowName(it.row), answer: partsText(it.parts), hint: hintFor(it.parts, it.row, cat),
+      check: m=>matchParts(m, it.parts), short:`${it.lemma}${it.sub?"・"+it.sub:""}・${rowName(it.row)}`
+    };
+  }
+  const t=cards.find(c=>c.id===tid); if(!t) return null;
+  const ans=String((t.cells||{})[key]||"").trim(); if(!ans) return null;
+  const [r,c]=parseKey(key);
+  if(cat==="adj"){
+    const sub = r<6 ? GSUB[c] : "";
+    return {
+      badge:`<span class="gb">${ATYPE[t.atype].name}</span><b class="ex" lang="ru">${esc(t.lemma||"")}</b>${sub?`<b>${sub}</b>`:""}`,
+      prompt: rowName(r), answer: ans, hint:"", check: m=>matches(m, ans),
+      short:`${ATYPE[t.atype].name}・${t.lemma||""}${sub?"・"+sub:""}・${rowName(r)}`
+    };
+  }
+  const G=GENDER[t.gender], head=(t.heads||[])[c];
+  return {
+    badge:`<span class="gb ${t.gender}">${G.name}</span><b>${esc(G.cols[c])} 型</b>${head?`<span class="ex" lang="ru">例：${esc(head)}</span>`:""}`,
+    prompt: rowName(r), answer: ans, hint: t.name||"", check: m=>matches(m, ans),
+    short:`${G.name}・${G.cols[c]}型${head?`（${head}）`:""}・${rowName(r)}`
+  };
+}
 
 function showDeclView(){
-  const v=st.decl.view;
+  const v=st.decl.view, cat=st.decl.cat, C=CAT[cat];
+  setOn($("#catSeg"),"v",cat);
   setOn($("#declSeg"),"v",v);
+  $("#declSeg [data-v=tables]").textContent = C.user ? "表の登録" : "表を見る";
   ["practice","tables","dlog"].forEach(x=>$("#dv-"+x).style.display = x===v ? "" : "none");
-  if(v==="practice"){ renderGChips(); if(!st.decl.cur || !cards.find(c=>c.id===st.decl.cur.id)) nextDecl(); else renderDeclQ(); }
+  if(v==="practice"){ renderGChips(); const s=D(); if(!s.cur || !describe(cat, s.cur.id, s.cur.key)) nextDecl(); else renderDeclQ(); setOn($("#dModeSeg"),"v",s.mode); }
   if(v==="tables") renderTables();
-  if(v==="dlog") renderDeclLog();
+  if(v==="dlog"){ setOn($("#dLogSeg"),"v",st.decl.logFilter); renderDeclLog(); }
 }
 
 function renderGChips(){
-  const s=st.decl, el=$("#gChips");
-  el.innerHTML = `<button class="chip${s.genders.length?"":" on"}" data-g="">すべて</button>` +
-    Object.entries(GENDER).map(([g,G])=>`<button class="chip${s.genders.includes(g)?" on":""}" data-g="${g}">${G.name}</button>`).join("");
+  const s=D(), C=CAT[st.decl.cat], el=$("#gChips");
+  $("#rangeLabel").textContent=C.rangeLabel;
+  el.innerHTML = `<button class="chip${s.range.length?"":" on"}" data-g="">すべて</button>` +
+    C.range.map(([g,name])=>`<button class="chip${s.range.includes(g)?" on":""}" data-g="${g}">${esc(name)}</button>`).join("");
   el.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
     const g=b.dataset.g;
-    if(!g) s.genders=[]; else s.genders = s.genders.includes(g) ? s.genders.filter(x=>x!==g) : [...s.genders, g];
-    if(s.genders.length===3) s.genders=[];
+    if(!g) s.range=[]; else s.range = s.range.includes(g) ? s.range.filter(x=>x!==g) : [...s.range, g];
+    if(s.range.length===C.range.length) s.range=[];
     s.queue=[]; renderGChips(); nextDecl();
   });
 }
-function declItems(){
-  const s=st.decl, out=[];
-  for(const t of declCards()){
-    if(s.genders.length && !s.genders.includes(t.gender)) continue;
-    for(const [k] of filledCells(t)){
-      if(s.mode==="drill" && !(t.cs && t.cs[k] && t.cs[k].need)) continue;
-      out.push(t.id+"|"+k);
+function declItems(cat=st.decl.cat){
+  const s=st.decl[cat], C=CAT[cat], out=[];
+  const need=(tid,key)=>{ const x=cellStat(tid,key); return !!x.need; };
+  if(C.user){
+    for(const t of declCards(cat)){
+      if(s.range.length && !s.range.includes(C.rangeOf(t))) continue;
+      for(const [k] of filledCells(t)){
+        if(cat==="adj"){ const [r,c]=parseKey(k); if(r>=6 && c>0) continue; }
+        if(s.mode==="drill" && !need(t.id,k)) continue;
+        out.push(t.id+"|"+k);
+      }
+    }
+  } else {
+    for(const it of BUILTIN[cat]){
+      if(s.range.length && !s.range.includes(it.range)) continue;
+      if(s.mode==="drill" && !need(C.sys,it.key)) continue;
+      out.push(C.sys+"|"+it.key);
     }
   }
   return out;
 }
 function nextDecl(){
-  const s=st.decl, pool=declItems();
+  const s=D(), pool=declItems();
   if(!pool.length){ s.cur=null; renderDeclQ(); return; }
   const ok=new Set(pool);
   for(let tries=0; tries<3; tries++){
     if(!s.queue.length){ s.queue=shuffle(pool.slice()); if(s.queue.length>1 && s.queue[s.queue.length-1]===s.last) s.queue.unshift(s.queue.pop()); }
     while(s.queue.length){
       const item=s.queue.pop();
-      if(ok.has(item)){ const [id,key]=item.split("|"); s.cur={id,key}; s.last=item; renderDeclQ(); return; }
+      if(ok.has(item)){ const i=item.indexOf("|"); s.cur={ id:item.slice(0,i), key:item.slice(i+1) }; s.last=item; renderDeclQ(); return; }
     }
   }
   s.cur=null; renderDeclQ();
 }
+function hotCount(cat=st.decl.cat){
+  let n=0;
+  const list = CAT[cat].user ? declCards(cat) : [sysCard(cat)].filter(Boolean);
+  for(const t of list) for(const x of Object.values(t.cs||{})) if(x.need) n++;
+  return n;
+}
 function updateDeclScore(){
-  const s=st.decl;
-  let hot=0; for(const t of declCards()) for(const [k] of filledCells(t)) if(t.cs&&t.cs[k]&&t.cs[k].need) hot++;
-  $("#dOk").textContent=s.ok; $("#dNg").textContent=s.ng; $("#dHot").textContent=hot;
-  const n=declItems().length;
+  const s=D(), n=declItems().length;
+  $("#dOk").textContent=s.ok; $("#dNg").textContent=s.ng; $("#dHot").textContent=hotCount();
   $("#dNote").textContent = s.mode==="random"
-    ? `登録した表の埋まっているマス（${n}マス）からランダムに出題します。`
+    ? `${CAT[st.decl.cat].user?"登録した表の埋まっているマス":"表のすべてのマス"}（${n}マス）からランダムに出題します。`
     : `間違えたマスだけを出題します（${n}マス）。${CLEAR_STREAK}回連続で正解すると卒業です。`;
 }
 function renderDeclQ(){
   updateDeclScore();
-  const s=st.decl, box=$("#dqbox");
-  const t = s.cur && cards.find(c=>c.id===s.cur.id);
-  if(!t || !String((t.cells||{})[s.cur.key]||"").trim()){
+  const s=D(), box=$("#dqbox"), cat=st.decl.cat, C=CAT[cat];
+  const d = s.cur && describe(cat, s.cur.id, s.cur.key);
+  if(!d){
     s.cur=null;
-    box.innerHTML = declCards().length===0
-      ? `<div class="empty">まだ格変化の表がありません。<br>「表の登録」から作ろう、同志！<span class="ru">ВПЕРЁД!</span></div>`
+    box.innerHTML = C.user && declCards().length===0
+      ? `<div class="empty">まだ${C.name}の表がありません。<br>「表の登録」から作ろう、同志！<span class="ru">ВПЕРЁД!</span></div>`
       : s.mode==="drill" ? `<div class="empty">苦手なマスはありません。<br>見事だ、同志！<span class="ru">СЛАВА ТРУДУ!</span></div>`
-      : `<div class="empty">選んだ性の表がありません。<br>範囲を変えてみよう。</div>`;
+      : `<div class="empty">選んだ範囲に出題できるマスがありません。<br>範囲を変えてみよう。</div>`;
     return;
   }
-  const [r,col]=parseKey(s.cur.key), G=GENDER[t.gender], head=(t.heads||[])[col], st_=(t.cs||{})[s.cur.key]||{};
-  const answer=t.cells[s.cur.key];
+  const x=cellStat(s.cur.id, s.cur.key);
   box.innerHTML=`
-    <div class="meta"><span class="dirtag">ПАДЕЖ</span><span><span class="tag">○${st_.c||0} △${st_.v||0} ×${st_.w||0}</span>${st_.need?' <span class="tag hot">苦手</span>':""}</span></div>
-    <div class="dprompt"><span class="gb ${t.gender}">${G.name}</span><b>${esc(G.cols[col])} 型</b>${head?`<span class="ex" lang="ru">例：${esc(head)}</span>`:""}</div>
-    ${t.name?`<div class="note" style="margin:0">${esc(t.name)}</div>`:""}
-    <div class="q word" style="font-family:var(--disp)">${rowName(r)}</div>
-    <input type="text" id="dAns" lang="ru" autocomplete="off" autocapitalize="off" placeholder="Ответьте по-русски">
+    <div class="meta"><span class="dirtag">ПАДЕЖ</span><span><span class="tag">○${x.c||0} △${x.v||0} ×${x.w||0}</span>${x.need?' <span class="tag hot">苦手</span>':""}</span></div>
+    <div class="dprompt">${d.badge}</div>
+    <div class="q word" style="font-family:var(--disp)">${d.prompt}</div>
+    ${d.hint?`<p class="note" style="margin:-8px 0 10px;text-align:center">${esc(d.hint)}</p>`:""}
+    <input type="text" id="dAns" lang="ru" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Ответьте по-русски">
     <div class="gap"></div>
     <div id="dAnsArea"><button class="btn red" id="dAnswer">回答する</button></div>`;
   const inp=$("#dAns");
   inp.addEventListener("keydown", e=>{ if(e.key==="Enter" && !e.isComposing){ e.preventDefault(); $("#dAnswer")?.click(); }});
   $("#dAnswer").onclick=()=>{
     const mine=inp.value.trim(); inp.disabled=true;
-    revealAnswer($("#dAnsArea"), mine, answer, "ru", "", res=>gradeDecl(res, mine), ()=>nextDecl());
+    revealAnswer($("#dAnsArea"), mine, d.answer, "ru", "", res=>gradeDecl(res, mine), ()=>nextDecl(), d.check(mine));
   };
 }
 function gradeDecl(res, mine){
-  const s=st.decl, t=s.cur && cards.find(c=>c.id===s.cur.id); if(!t || grading) return;
+  const s=D(), cat=st.decl.cat; if(!s.cur || grading) return;
+  const t = CAT[cat].user ? cards.find(c=>c.id===s.cur.id) : ensureSys(cat);
+  if(!t) return;
   grading=true;
   const k=s.cur.key; t.cs=t.cs||{}; const x=t.cs[k]={ c:0, v:0, w:0, s:0, need:false, ...(t.cs[k]||{}) };
   let grad=false;
@@ -1207,65 +1365,139 @@ function gradeDecl(res, mine){
   setTimeout(()=>{ grading=false; nextDecl(); }, 650);
 }
 
-/* 表の登録・編集 */
-$("#newTable").onclick=()=>{ st.decl.draft={ id:null, gender:"m", name:"", heads:["","",""], cells:{} }; renderEditor(); $("#dEditor").scrollIntoView({behavior:"smooth"}); };
+/* 表の登録・編集（名詞・形容詞） */
+$("#newTable").onclick=()=>{
+  st.decl.draft = st.decl.cat==="adj"
+    ? { id:null, cat:"adj", atype:"h1", lemma:"", cells:{} }
+    : { id:null, cat:"noun", gender:"m", name:"", heads:["","",""], cells:{} };
+  renderEditor(); $("#dEditor").scrollIntoView({behavior:"smooth"});
+};
+const cellInput = (k, v) => `<td${/r([6-9]|1[01])c0$/.test(k)&&st.decl.draft.cat==="adj"?' colspan="3"':""}><input lang="ru" autocapitalize="off" autocomplete="off" spellcheck="false" data-k="${k}" value="${esc(v||"")}"></td>`;
 function readEditor(){
-  const d=st.decl.draft; if(!d) return;
-  const ed=$("#dEditor"); if(!ed.querySelector(".dtbl")) return;
-  d.name=ed.querySelector("#tName").value.trim();
-  d.heads=[0,1,2].map(i=>ed.querySelector(`[data-h="${i}"]`).value.trim());
+  const d=st.decl.draft, ed=$("#dEditor"); if(!d || !ed.querySelector(".dtbl")) return;
+  if(d.cat==="adj"){ d.lemma=ed.querySelector("#tLemma").value.trim(); }
+  else { d.name=ed.querySelector("#tName").value.trim(); d.heads=[0,1,2].map(i=>ed.querySelector(`[data-h="${i}"]`).value.trim()); }
   const cells={}; ed.querySelectorAll("[data-k]").forEach(inp=>{ const v=inp.value.trim(); if(v) cells[inp.dataset.k]=v; });
   d.cells=cells;
 }
 function renderEditor(){
   const d=st.decl.draft, ed=$("#dEditor");
-  $("#newTable").style.display = d ? "none" : "";
-  if(!d){ ed.innerHTML=""; return; }
-  const G=GENDER[d.gender];
-  let rows="";
-  ROWS.forEach(([num,cs],r)=>{
-    rows+=`<tr class="${r>=6?"pl":""}${r===6?" split":""}"><th class="rh">${num}<br>${cs}</th>`+
-      [0,1,2].map(c=>`<td><input lang="ru" autocapitalize="off" autocomplete="off" spellcheck="false" data-k="${cellKey(r,c)}" value="${esc(d.cells[cellKey(r,c)]||"")}"></td>`).join("")+`</tr>`;
-  });
+  const mine = d && d.cat===st.decl.cat;
+  $("#newTable").style.display = (!CAT[st.decl.cat].user || mine) ? "none" : "";
+  $("#newTable").textContent = `＋ 新しい${CAT[st.decl.cat].name}の表を作る`;
+  if(!mine){ ed.innerHTML=""; return; }
+  let head, body="", top;
+  if(d.cat==="adj"){
+    top = `<p class="label">ТИП <em>変化のタイプ</em></p>
+      <div class="seg" id="gSeg">${Object.entries(ATYPE).map(([k,X])=>`<button data-v="${k}" class="${k===d.atype?"on":""}">${X.name}</button>`).join("")}</div>`;
+    head = `<thead><tr><th class="rh" rowspan="2" style="background:var(--ink);color:var(--gold)">格</th>
+        <th colspan="3" style="padding:0"><input id="tLemma" lang="ru" autocapitalize="off" autocomplete="off" spellcheck="false" class="lemma" placeholder="原型（例：${ATYPE[d.atype].ex}）" value="${esc(d.lemma)}"></th></tr>
+      <tr>${GSUB.map(g=>`<th class="sub">${g}</th>`).join("")}</tr></thead>`;
+    ROWS.forEach(([num,cs],r)=>{
+      body+=`<tr class="${r>=6?"pl":""}${r===6?" split":""}"><th class="rh">${num}<br>${cs}</th>`+
+        (r<6 ? [0,1,2].map(c=>cellInput(cellKey(r,c), d.cells[cellKey(r,c)])).join("") : cellInput(cellKey(r,0), d.cells[cellKey(r,0)]))+`</tr>`;
+    });
+  } else {
+    const G=GENDER[d.gender];
+    top = `<p class="label">РОД <em>名詞の性</em></p>
+      <div class="seg" id="gSeg">${Object.entries(GENDER).map(([g,X])=>`<button data-v="${g}" class="${g===d.gender?"on":""}">${X.name}</button>`).join("")}</div>
+      <p class="label">НАЗВАНИЕ <em>表の名前（任意）</em></p>
+      <input type="text" id="tName" placeholder="例：語尾の表 / 教科書p.32" value="${esc(d.name)}"><div class="gap"></div>`;
+    head = `<thead><tr><th class="rh" style="background:var(--ink);color:var(--gold)">格</th>${G.cols.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead>`;
+    const ph=["стол","музей","словарь","окно","поле","имя","мама","неделя","ночь"], gi=Object.keys(GENDER).indexOf(d.gender);
+    body = `<tr class="ex"><th class="rh">例の<br>単語</th>${[0,1,2].map(i=>`<td><input lang="ru" autocapitalize="off" autocomplete="off" spellcheck="false" data-h="${i}" value="${esc(d.heads[i]||"")}" placeholder="${ph[gi*3+i]}"></td>`).join("")}</tr>`;
+    ROWS.forEach(([num,cs],r)=>{
+      body+=`<tr class="${r>=6?"pl":""}${r===6?" split":""}"><th class="rh">${num}<br>${cs}</th>`+[0,1,2].map(c=>cellInput(cellKey(r,c), d.cells[cellKey(r,c)])).join("")+`</tr>`;
+    });
+  }
   ed.innerHTML=`<div class="box">
-    <p class="label">НОВАЯ ТАБЛИЦА <em>${d.id?"表を編集":"新しい表"}</em></p>
-    <p class="label">РОД <em>名詞の性</em></p>
-    <div class="seg" id="gSeg">${Object.entries(GENDER).map(([g,X])=>`<button data-v="${g}" class="${g===d.gender?"on":""}">${X.name}</button>`).join("")}</div>
-    <p class="label">НАЗВАНИЕ <em>表の名前（任意）</em></p>
-    <input type="text" id="tName" placeholder="例：語尾の表 / 教科書p.32" value="${esc(d.name)}">
-    <div class="gap"></div>
-    <p class="note" style="margin-bottom:8px">黄色の行には例の単語を入れておくと、出題のときにヒントとして表示されます。マスには語尾（-а）でも単語（стола）でも、習った形だけ入れればOKです。</p>
-    <div class="dtwrap"><table class="dtbl">
-      <thead><tr><th class="rh" style="background:var(--ink);color:var(--gold)">格</th>${G.cols.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead>
-      <tbody><tr class="ex"><th class="rh">例の<br>単語</th>${[0,1,2].map(i=>`<td><input lang="ru" autocapitalize="off" autocomplete="off" spellcheck="false" data-h="${i}" value="${esc(d.heads[i]||"")}" placeholder="${["стол","музей","словарь","окно","поле","имя","мама","неделя","ночь"][Object.keys(GENDER).indexOf(d.gender)*3+i]}"></td>`).join("")}</tr>${rows}</tbody>
-    </table></div>
+    <p class="label">НОВАЯ ТАБЛИЦА <em>${d.id?"表を編集":"新しい表"}（${CAT[d.cat].name}）</em></p>
+    ${top}
+    <p class="note" style="margin-bottom:8px">${d.cat==="adj"
+      ? "いちばん上に形容詞の原型を入れてください。複数形は性による区別がないので1マスです。対格は「новый / нового」のように不活動体・活動体を両方書いてもOK。"
+      : "黄色の行には例の単語を入れておくと、出題のときにヒントとして表示されます。マスには語尾（-а）でも単語（стола）でも、習った形だけ入れればOKです。"}</p>
+    <div class="dtwrap"><table class="dtbl">${head}<tbody>${body}</tbody></table></div>
     <div class="gap"></div>
     <div class="row"><button class="btn ghost" id="tCancel">やめる</button><button class="btn red" id="tSave">保存する</button></div>
   </div>`;
-  ed.querySelectorAll("#gSeg button").forEach(b=>b.onclick=()=>{ readEditor(); d.gender=b.dataset.v; renderEditor(); });
+  ed.querySelectorAll("#gSeg button").forEach(b=>b.onclick=()=>{ readEditor(); if(d.cat==="adj") d.atype=b.dataset.v; else d.gender=b.dataset.v; renderEditor(); });
   $("#tCancel").onclick=()=>{ st.decl.draft=null; renderEditor(); };
   $("#tSave").onclick=()=>{
     readEditor();
+    if(d.cat==="adj" && !d.lemma){ toast("形容詞の原型を入力してください"); return; }
     if(!Object.keys(d.cells).length){ toast("少なくとも1マスは入力してください"); return; }
     let t = d.id && cards.find(c=>c.id===d.id);
-    if(t){ t.gender=d.gender; t.name=d.name; t.heads=d.heads; t.cells=d.cells; }
-    else { t={ id:newId(), kind:"decl", gender:d.gender, name:d.name, heads:d.heads, cells:d.cells, cs:{}, history:[], createdAt:Date.now() }; cards.push(t); }
+    const fields = d.cat==="adj" ? { atype:d.atype, lemma:d.lemma, cells:d.cells } : { gender:d.gender, name:d.name, heads:d.heads, cells:d.cells };
+    if(t) Object.assign(t, fields);
+    else { t={ id:newId(), kind:"decl", cat:d.cat, ...fields, cs:{}, history:[], createdAt:Date.now() }; cards.push(t); }
     if(t.cs) for(const k of Object.keys(t.cs)) if(!t.cells[k]) delete t.cs[k];
-    backend.save(t); st.decl.draft=null; st.decl.queue=[];
-    toast("表を保存しました ★"); renderEditor(); renderTables();
+    backend.save(t); st.decl.draft=null; D().queue=[];
+    toast("表を保存しました ★"); renderTables();
   };
 }
+
+/* 読み取り専用の表 */
+function tableView(t){
+  const cat=catOf(t), td=(k)=>`<td class="ro${t.cs&&t.cs[k]&&t.cs[k].need?" hot":""}"${cat==="adj"&&/r([6-9]|1[01])c0$/.test(k)?' colspan="3"':""}>${esc((t.cells||{})[k]||"")}</td>`;
+  if(cat==="adj"){
+    return `<div class="dtwrap"><table class="dtbl"><thead><tr><th class="rh" rowspan="2" style="background:var(--ink);color:var(--gold)">格</th><th colspan="3">${esc(t.lemma||"")}</th></tr>
+      <tr>${GSUB.map(g=>`<th class="sub">${g}</th>`).join("")}</tr></thead><tbody>
+      ${ROWS.map(([num,cs],r)=>`<tr class="${r>=6?"pl":""}${r===6?" split":""}"><th class="rh">${num}<br>${cs}</th>${r<6?[0,1,2].map(c=>td(cellKey(r,c))).join(""):td(cellKey(r,0))}</tr>`).join("")}
+      </tbody></table></div>`;
+  }
+  const G=GENDER[t.gender];
+  return `<div class="dtwrap"><table class="dtbl">
+    <thead><tr><th class="rh" style="background:var(--ink);color:var(--gold)">格</th>${G.cols.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead>
+    <tbody><tr class="ex"><th class="rh">例の<br>単語</th>${[0,1,2].map(i=>`<td class="ro" style="background:#fff3c9;font-weight:700">${esc((t.heads||[])[i]||"")}</td>`).join("")}</tr>
+    ${ROWS.map(([num,cs],r)=>`<tr class="${r>=6?"pl":""}${r===6?" split":""}"><th class="rh">${num}<br>${cs}</th>${[0,1,2].map(c=>td(cellKey(r,c))).join("")}</tr>`).join("")}
+    </tbody></table></div>`;
+}
+function builtinView(cat){
+  const sys=sysCard(cat)||{cs:{}}, hot=k=>sys.cs&&sys.cs[k]&&sys.cs[k].need;
+  const cell=(k,parts,span)=>`<td class="ro${hot(k)?" hot":""}"${span>1?` colspan="${span}"`:""} lang="ru">${parts?esc(partsText(parts)).replace(/ \/ /g,"<br>"):"—"}</td>`;
+  if(cat==="pers"){
+    let h=`<div class="dtwrap"><table class="dtbl wide"><thead><tr><th class="rh" style="background:var(--ink);color:var(--gold)">格</th>${PERS_COLS.map(c=>`<th>${c}</th>`).join("")}</tr></thead><tbody>`;
+    ROWS.forEach(([num,cs],r)=>{
+      h+=`<tr class="${r>=6?"pl":""}${r===6?" split":""}"><th class="rh">${num}<br>${cs}</th>`;
+      if(r<6) PERS_COLS.forEach((_,c)=>{ h+=cell(`s${c}r${r}`, PERS_SG[c][r], 1); });
+      else PERS_PL.forEach((g,gi)=>{ h+= g.forms ? cell(`p${gi}r${r}`, g.forms[r-6], g.cols.length).replace(">",`><b class="plm">${g.lemma}</b><br>`) : `<td class="ro na" colspan="${g.cols.length}">${r===6?"複数形なし":""}</td>`; });
+      h+="</tr>";
+    });
+    return h+`</tbody></table></div><p class="note">複数の行：я → мы、ты・вы → вы、он・оно・она → они。кто・что・себя は数による変化がありません。себя には主格がありません。<br>он・оно・она・они は前置詞のあとで н- が付きます（его → у него）。前置格はいつも前置詞と使うので н- の形だけです。<br>赤いマスは苦手なマスです。</p>`;
+  }
+  let h=`<div class="dtwrap"><table class="dtbl wide"><thead><tr><th class="rh" rowspan="2" style="background:var(--ink);color:var(--gold)">格</th>${POSS_GROUPS.map(g=>`<th colspan="3">${g.lemmas.join("・")}</th>`).join("")}</tr>
+    <tr>${POSS_GROUPS.map(()=>GSUB.map(s=>`<th class="sub">${s}</th>`).join("")).join("")}</tr></thead><tbody>`;
+  ROWS.forEach(([num,cs],r)=>{
+    h+=`<tr class="${r>=6?"pl":""}${r===6?" split":""}"><th class="rh">${num}<br>${cs}</th>`;
+    POSS_GROUPS.forEach(g=>{
+      const l=g.lemmas[0];
+      if(r<6) GKEYS.forEach(gk=>{ h+=cell(`${l}-${gk}-r${r}`, POSS[l][gk][r], 1); });
+      else h+=cell(`${l}-pl-r${r}`, POSS[l].pl[r-6], 3);
+    });
+    h+="</tr>";
+  });
+  return h+`</tbody></table></div><p class="note">表には мой・наш・чей の形を載せています。твой・свой は мой と、ваш は наш と同じ変化です（練習ではすべての語から出題）。<br>対格が2つあるマスは「不活動体 / 活動体」。複数形は性による区別がないので1マスです。<br>赤いマスは мой・наш・чей で苦手なマスです。</p>`;
+}
+
 function renderTables(){
+  const cat=st.decl.cat, C=CAT[cat];
+  $("#tListBox").style.display = C.user ? "" : "none";
+  $("#builtinView").style.display = C.user ? "none" : "";
   renderEditor();
+  if(!C.user){
+    $("#builtinView").innerHTML=`<p class="label">ТАБЛИЦА <em>${C.name}の格変化表</em></p><p class="note" style="margin:-4px 0 8px">表は横にスクロールできます →</p>${builtinView(cat)}`;
+    return;
+  }
   const list=declCards().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)), el=$("#tList");
-  $("#tCnt").textContent=list.length;
+  $("#tListLabel").textContent=`登録した${C.name}の表（${list.length}）`;
   if(!list.length){ el.innerHTML=`<div class="empty">まだありません</div>`; return; }
   el.innerHTML=list.map(t=>{
-    const f=filledCells(t).length; let c=0,v=0,w=0,hot=0;
+    const f=filledCells(t).length, total= cat==="adj" ? 24 : 36; let c=0,v=0,w=0,hot=0;
     for(const x of Object.values(t.cs||{})){ c+=x.c||0; v+=x.v||0; w+=x.w||0; if(x.need) hot++; }
+    const badge = cat==="adj" ? `<span class="gb">${ATYPE[t.atype].name}</span>` : `<span class="gb ${t.gender}">${GENDER[t.gender].name}</span>`;
     return `<div class="item" data-id="${esc(t.id)}">
-      <div><span class="gb ${t.gender}">${GENDER[t.gender].name}</span> <b>${esc(tableTitle(t))}</b></div>
-      <div class="ja">${f} / 36マス入力済み${hot?`・苦手 ${hot}マス`:""}</div>
+      <div>${badge} <b lang="ru">${esc(tableTitle(t))}</b></div>
+      <div class="ja">${f} / ${total}マス入力済み${hot?`・苦手 ${hot}マス`:""}</div>
       <div class="acts"><span class="tag">○${c} △${v} ×${w}</span><span style="flex:1"></span>
         <button class="mini" data-act="view">表を見る</button><button class="mini" data-act="edit">編集</button><button class="mini danger" data-act="del">削除</button></div>
       <div class="tview"></div>
@@ -1273,49 +1505,51 @@ function renderTables(){
   }).join("");
   el.querySelectorAll(".item").forEach(it=>{
     const t=cards.find(c=>c.id===it.dataset.id);
-    it.querySelector('[data-act="edit"]').onclick=()=>{ st.decl.draft={ id:t.id, gender:t.gender, name:t.name||"", heads:[...(t.heads||["","",""])], cells:{...(t.cells||{})} }; renderEditor(); $("#dEditor").scrollIntoView({behavior:"smooth"}); };
+    it.querySelector('[data-act="edit"]').onclick=()=>{
+      st.decl.draft = cat==="adj"
+        ? { id:t.id, cat:"adj", atype:t.atype, lemma:t.lemma||"", cells:{...(t.cells||{})} }
+        : { id:t.id, cat:"noun", gender:t.gender, name:t.name||"", heads:[...(t.heads||["","",""])], cells:{...(t.cells||{})} };
+      renderEditor(); $("#dEditor").scrollIntoView({behavior:"smooth"});
+    };
     it.querySelector('[data-act="del"]').onclick=async()=>{
-      if(!await ask("この表を削除しますか？", `${GENDER[t.gender].name}：${tableTitle(t)}\n\nこの表の解答記録もいっしょに消えます（学習カレンダーは残ります）。元に戻せません。`)) return;
+      if(!await ask("この表を削除しますか？", `${C.name}：${tableTitle(t)}\n\nこの表の解答記録もいっしょに消えます（学習カレンダーは残ります）。元に戻せません。`)) return;
       cards=cards.filter(x=>x.id!==t.id); backend.del(t.id);
-      if(st.decl.cur && st.decl.cur.id===t.id) st.decl.cur=null;
+      if(D().cur && D().cur.id===t.id) D().cur=null;
       toast("削除しました"); renderTables();
     };
     it.querySelector('[data-act="view"]').onclick=e=>{
       const v=it.querySelector(".tview");
       if(v.innerHTML){ v.innerHTML=""; e.target.textContent="表を見る"; return; }
       e.target.textContent="閉じる";
-      const G=GENDER[t.gender];
-      v.innerHTML=`<div class="gap"></div><div class="dtwrap"><table class="dtbl">
-        <thead><tr><th class="rh" style="background:var(--ink);color:var(--gold)">格</th>${G.cols.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead>
-        <tbody><tr class="ex"><th class="rh">例の<br>単語</th>${[0,1,2].map(i=>`<td class="ro" style="background:#fff3c9;font-weight:700">${esc((t.heads||[])[i]||"")}</td>`).join("")}</tr>
-        ${ROWS.map(([num,cs],r)=>`<tr class="${r>=6?"pl":""}${r===6?" split":""}"><th class="rh">${num}<br>${cs}</th>${[0,1,2].map(c=>{const k=cellKey(r,c);return `<td class="ro${t.cs&&t.cs[k]&&t.cs[k].need?" hot":""}">${esc((t.cells||{})[k]||"")}</td>`;}).join("")}</tr>`).join("")}
-        </tbody></table></div><p class="note">赤いマスは苦手なマスです。</p>`;
+      v.innerHTML=`<div class="gap"></div>${tableView(t)}<p class="note">赤いマスは苦手なマスです。</p>`;
     };
   });
 }
 
 /* 格変化の記録 */
+function logSources(){ const cat=st.decl.cat; return CAT[cat].user ? declCards(cat) : [sysCard(cat)].filter(Boolean); }
 function renderDeclLog(){
-  const all=[];
-  declCards().forEach(t=>(t.history||[]).forEach(h=>all.push({...h, t, ref:h})));
+  const cat=st.decl.cat, all=[];
+  logSources().forEach(t=>(t.history||[]).forEach(h=>all.push({...h, tb:t, ref:h})));
   all.sort((a,b)=>b.t-a.t);
   fillStats(all, ["#dlTotal","#dlRate","#dlToday"]);
+  $("#dLogLabel").textContent=`${CAT[cat].name}の解答記録`;
   const rows=filterRows(all, st.decl.logFilter).slice(0,150), el=$("#dLogList");
   if(!rows.length){ el.innerHTML=`<div class="empty">まだ記録がありません</div>`; return; }
   el.innerHTML=rows.map((h,i)=>{
-    const r=resOf(h), [row,col]=parseKey(h.key), G=GENDER[h.t.gender], head=(h.t.heads||[])[col];
+    const r=resOf(h), d=describe(cat, h.tb.id, h.key);
     return `<div class="item" data-i="${i}">
       <button class="mini danger del">削除</button>
       <div class="d"><span class="mark ${r}">${RES[r].mark}</span>${fmt(h.t)}${h.mode==="drill"?"・苦手":""}</div>
-      <div class="line"><i>問題</i>${G.name}・${esc(G.cols[col])}型${head?`（${esc(head)}）`:""}・${rowName(row)}</div>
+      <div class="line"><i>問題</i>${d?esc(d.short):"（表のマスが空になっています）"}</div>
       <div class="line"><i>あなた</i>${h.ans?esc(h.ans):"（未入力）"}</div>
-      <div class="line"><i>正解</i>${esc((h.t.cells||{})[h.key]||"（マスが空になっています）")}</div>
+      <div class="line"><i>正解</i>${d?esc(d.answer):"—"}</div>
     </div>`;
   }).join("");
   el.querySelectorAll(".item").forEach(it=>{
     it.querySelector(".del").onclick=async()=>{
-      const row=rows[+it.dataset.i], t=row.t, h=row.ref, r=resOf(h);
-      if(!await ask("この記録を削除しますか？", `${RES[r].mark} ${RES[r].name}　${fmt(h.t)}\n${GENDER[t.gender].name}・${rowName(parseKey(h.key)[0])}\n\n元に戻せません（学習カレンダーの問題数は残ります）。`)) return;
+      const row=rows[+it.dataset.i], t=row.tb, h=row.ref, r=resOf(h), d=describe(cat, t.id, h.key);
+      if(!await ask("この記録を削除しますか？", `${RES[r].mark} ${RES[r].name}　${fmt(h.t)}\n${d?d.short:""}\n\n元に戻せません（学習カレンダーの問題数は残ります）。`)) return;
       t.history=(t.history||[]).filter(x=>x!==h);
       const x=(t.cs||{})[h.key];
       if(x){
@@ -1327,17 +1561,17 @@ function renderDeclLog(){
   });
 }
 $("#dWipe").onclick=async()=>{
-  const list=declCards();
+  const cat=st.decl.cat, list=logSources();
   let n=0, hot=0; for(const t of list){ n+=(t.history||[]).filter(h=>resOf(h)==="x").length; for(const x of Object.values(t.cs||{})) if(x.need) hot++; }
   if(!n && !hot){ toast("消す間違いの記録はありません"); return; }
-  if(!await ask("格変化の間違いを全削除しますか？", `×の記録 ${n}件を消し、苦手なマス（${hot}マス）の印をすべて外します。\n\nこの操作は元に戻せません。`, "すべて削除")) return;
+  if(!await ask(`${CAT[cat].name}の間違いを全削除しますか？`, `×の記録 ${n}件を消し、苦手なマス（${hot}マス）の印をすべて外します。\n\nこの操作は元に戻せません。`, "すべて削除")) return;
   for(const t of list){
     t.history=(t.history||[]).filter(h=>resOf(h)!=="x");
     for(const x of Object.values(t.cs||{})){ x.w=0; x.need=false; x.s=0; }
     backend.save(t);
   }
-  st.decl.queue=[]; if(st.decl.mode==="drill") st.decl.cur=null;
-  toast("格変化の間違いをすべて削除しました"); renderDeclLog();
+  D().queue=[]; if(D().mode==="drill") D().cur=null;
+  toast(`${CAT[cat].name}の間違いをすべて削除しました`); renderDeclLog();
 };
 
 $("#expBtn").onclick=exportData;
