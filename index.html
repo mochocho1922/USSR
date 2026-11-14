@@ -331,6 +331,20 @@ nav button{font-size:13px;padding:9px 2px}
 .sitem .sd b{display:block;font-size:14px}.sitem .sd small{font-size:10px;color:var(--sub);font-weight:700}
 .sitem .sb{flex:1;min-width:0}
 .sitem .st{font-family:var(--disp);font-weight:400;font-size:20px;color:var(--red)}
+
+#medalArea{margin-top:6px}
+#medalArea > .box:first-child{border-color:var(--gold);box-shadow:6px 6px 0 var(--gold)}
+
+/* 自習カレンダー：色の区切りと☭ */
+.scal .d{position:relative}
+.scal .d .hs{position:absolute;right:2px;top:2px;width:15px;height:15px;filter:drop-shadow(1px 1px 0 rgba(0,0,0,.5))}
+.scal .d .hm.long{font-size:8.5px;letter-spacing:-.04em}
+.lg-s{width:13px;height:13px;vertical-align:-2px;margin-right:3px}
+details.thr{margin-top:10px;border-top:2px dashed rgba(22,18,16,.3);padding-top:8px}
+details.thr summary{font-size:13px}
+.thrrow{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:10px 0;font-size:12px;font-weight:700}
+.thrrow i{display:inline-block;width:12px;height:12px;border:1.5px solid rgba(22,18,16,.3);vertical-align:-2px;margin:0 3px}
+details.thr .btn{font-size:14px;padding:10px}
 </style>
 </head>
 <body>
@@ -357,7 +371,7 @@ nav button{font-size:13px;padding:9px 2px}
   <button data-tab="quiz" class="on">出題</button>
   <button data-tab="add">登録</button>
   <button data-tab="log">記録</button>
-  <button data-tab="medal">勲章</button>
+  <button data-tab="tags">タグ</button>
   <button data-tab="acct">同志証</button>
 </nav>
 <div id="catBar"><div class="seg cats" id="catSeg">
@@ -421,12 +435,6 @@ nav button{font-size:13px;padding:9px 2px}
 <!-- 登録 -->
 <section id="add">
   <div id="cardAdd" class="pane">
-  <div class="box">
-    <p class="label">ТЕГИ <em>タグの管理（先に作っておこう）</em></p>
-    <div class="row tagnew"><input type="text" id="newTag" placeholder="例：第5課 / 動詞 / 試験範囲"><button class="btn red" id="newTagBtn">作成</button></div>
-    <div class="chips" id="tagMgr" style="margin:10px 0 0"></div>
-    <p class="note">作ったタグは翻訳と単語で共通です。×でタグを削除できます（登録した単語・例文は消えません）。</p>
-  </div>
   <div class="box">
     <p class="label">ПО-РУССКИ <em id="ruL">ロシア語の例文</em></p>
     <textarea id="inRu" rows="2" lang="ru"></textarea>
@@ -549,6 +557,18 @@ nav button{font-size:13px;padding:9px 2px}
       <button class="btn danger" id="dWipe">この種類の間違いをすべて削除</button>
     </div>
   </div>
+  <div id="medalArea">
+  <div class="box">
+    <p class="label">НАГРАДЫ <em>勲章（学習の功績で授与）</em></p>
+    <div class="calsum">
+      <div><b id="mGot">0</b><span>授与された勲章</span></div>
+      <div><b id="mAll">0</b><span>勲章の数</span></div>
+      <div><b id="mTotal">0</b><span>累計の解答</span></div>
+    </div>
+    <p class="note">勲章の名前は実在したソ連の勲章・称号です。絵は色と形を簡略化したイメージです。</p>
+  </div>
+  <div class="medals" id="medalList"></div>
+  </div>
   </div>
   <div id="logSelf">
     <div class="box">
@@ -566,12 +586,21 @@ nav button{font-size:13px;padding:9px 2px}
       <p class="label">КАЛЕНДАРЬ <em>自習カレンダー</em></p>
       <div class="calhead"><button class="mini" id="sPrev">‹ 前月</button><b id="sTitle"></b><button class="mini" id="sNext">次月 ›</button></div>
       <div class="cal scal" id="sCal"></div>
-      <div class="legend">
-        <span><i style="background:#f3d9b0"></i>1時間未満</span>
-        <span><i style="background:#e58f6f"></i>1〜2時間</span>
-        <span><i style="background:var(--red)"></i>2時間以上</span>
-        <button class="mini" id="sToday" style="margin-left:auto">今月へ</button>
-      </div>
+      <div class="legend" id="sLegend"></div>
+      <div class="legend"><button class="mini" id="sToday" style="margin-left:auto">今月へ</button></div>
+      <details class="thr">
+        <summary>色の区切りを変える</summary>
+        <div class="thrrow">
+          <span><i style="background:#f3d9b0"></i>薄い色 → <i style="background:#e58f6f"></i>中間の色：</span>
+          <span class="goalin"><input type="number" id="th1" min="0.5" step="0.5" inputmode="decimal"><em>時間から</em></span>
+        </div>
+        <div class="thrrow">
+          <span><i style="background:#e58f6f"></i>中間の色 → <i style="background:var(--red)"></i>赤：</span>
+          <span class="goalin"><input type="number" id="th2" min="0.5" step="0.5" inputmode="decimal"><em>時間から</em></span>
+        </div>
+        <button class="btn ghost" id="thSave">この区切りで保存</button>
+        <p class="note">色は3段階で固定です。10時間以上の日には ☭ の印がつきます。</p>
+      </details>
     </div>
     <div class="poster">
       <svg class="pstar" viewBox="0 0 24 24" aria-hidden="true"><path fill="#e8b923" d="M12 1.5l3 6.8 7.3.6-5.6 4.8 1.7 7.2L12 17.1l-6.4 3.8 1.7-7.2L1.7 8.9 9 8.3z"/></svg>
@@ -606,18 +635,19 @@ nav button{font-size:13px;padding:9px 2px}
   </div>
 </section>
 
-<!-- 勲章 -->
-<section id="medal">
+
+<!-- タグ -->
+<section id="tags">
   <div class="box">
-    <p class="label">НАГРАДЫ <em>勲章（学習の功績で授与）</em></p>
-    <div class="calsum">
-      <div><b id="mGot">0</b><span>授与された勲章</span></div>
-      <div><b id="mAll">0</b><span>勲章の数</span></div>
-      <div><b id="mTotal">0</b><span>累計の解答</span></div>
-    </div>
-    <p class="note">勲章の名前は実在したソ連の勲章・称号です。絵は色と形を簡略化したイメージです。</p>
+    <p class="label">ТЕГИ <em>タグの管理（先に作っておこう）</em></p>
+    <div class="row tagnew"><input type="text" id="newTag" placeholder="例：第5課 / 動詞 / 試験範囲"><button class="btn red" id="newTagBtn">作成</button></div>
+    <div class="chips" id="tagMgr" style="margin:10px 0 0"></div>
+    <p class="note">作ったタグは翻訳と単語で共通です。×でタグを削除できます（登録した単語・例文は消えません）。</p>
   </div>
-  <div class="medals" id="medalList"></div>
+  <div class="box">
+    <p class="label">ИНФО <em>タグの使い方</em></p>
+    <p class="note">1. ここでタグを作る　2.「登録」で単語・例文にタップでつける　3.「出題」の範囲でタグを選んで練習。<br>タグは翻訳と単語で共通です。数字はそのタグがついている件数です。</p>
+  </div>
 </section>
 
 <!-- アカウント -->
@@ -854,7 +884,7 @@ function flushStats(){ try{ localStorage.setItem(KEY_STATS, JSON.stringify(stats
 function useLocal(){
   cards=readLocal();
   stats=readLocalStats() || { days:countsFromHistory(cards) };
-  stats.goalFrom=stats.goalFrom||{}; stats.medals=stats.medals||{}; stats.studyGoals=stats.studyGoals||{};
+  stats.goalFrom=stats.goalFrom||{}; stats.medals=stats.medals||{}; stats.studyGoals=stats.studyGoals||{}; stats.selfColor=stats.selfColor||{};
   if(!stats.cnt) stats.cnt=cntFromHistory(cards);
   statsReady=true;
   flushStats();
@@ -919,6 +949,7 @@ function onUser(u){
     }
     if(localStats && localStats.goalFrom) for(const [k,v] of Object.entries(localStats.goalFrom)) if(!(stats.goalFrom||{})[k]) (body.goalFrom=body.goalFrom||{})[k]=v;
     if(!Array.isArray(stats.tagList) && localStats && Array.isArray(localStats.tagList)) body.tagList=localStats.tagList;
+    if(localStats && localStats.selfColor && localStats.selfColor.t1 && !(stats.selfColor||{}).t1) body.selfColor=localStats.selfColor;
     if(localStats && localStats.studyGoals) for(const [k,v] of Object.entries(localStats.studyGoals)) if(!(stats.studyGoals||{})[k]) (body.studyGoals=body.studyGoals||{})[k]=v;
     if(localStats && localStats.medals) for(const [k,v] of Object.entries(localStats.medals)) if(!(stats.medals||{})[k]) (body.medals=body.medals||{})[k]=v;
     F.setDoc(statsRef, body, { merge:true }).catch(fail);
@@ -933,14 +964,14 @@ function onUser(u){
   }, e=>{ console.warn(e); toast("同期できませんでした"); setStatus("error"); }));
   acct.unsubs.push(F.onSnapshot(statsRef, snap=>{
     const sd = snap.exists() ? snap.data() : {};
-    stats = { days:{ ...(sd.days||{}) }, goalFrom:{ ...(sd.goalFrom||{}) }, cnt:{ ...(sd.cnt||{}) }, medals:{ ...(sd.medals||{}) }, studyGoals:{ ...(sd.studyGoals||{}) } };
+    stats = { days:{ ...(sd.days||{}) }, goalFrom:{ ...(sd.goalFrom||{}) }, cnt:{ ...(sd.cnt||{}) }, medals:{ ...(sd.medals||{}) }, studyGoals:{ ...(sd.studyGoals||{}) }, selfColor:{ ...(sd.selfColor||{}) } };
     if(Array.isArray(sd.tagList)) stats.tagList=[...sd.tagList];
     statsReady=true;
     if(st.tab==="add" && !isGrid()) renderTagUI();
     if(statsState===null){ statsState = snap.exists() ? "ok" : "missing"; syncStats(); }
     renderBand();
     if(st.tab==="log") renderCalendar();
-    if(st.tab==="medal") renderMedals();
+    if(st.tab==="log" && st.logView==="app") renderMedals();
     if(st.tab==="log" && st.logView==="self") renderSelf();
   }, e=>console.warn(e)));
   renderAcct();
@@ -962,7 +993,7 @@ function refreshAfterData(){
     if(st.tab==="add" && !document.querySelector("#cardList .eRu")) renderList();
     if(st.tab==="log") renderLog();
   }
-  if(st.tab==="medal") renderMedals();
+  if(st.tab==="log" && st.logView==="app") renderMedals();
   if(st.tab==="log" && st.logView==="self") renderSelf();
 }
 
@@ -1118,7 +1149,8 @@ function showTab(){
     if(st.tab==="add") renderList();
     if(st.tab==="log" && st.logView==="app") renderLog();
   }
-  if(st.tab==="medal") renderMedals();
+  if(st.tab==="log" && st.logView==="app") renderMedals();
+  if(st.tab==="tags") renderTagUI();
   if(st.tab==="acct") renderAcct();
 }
 
@@ -1290,7 +1322,7 @@ function addTags(names){
 }
 function tagChips(selected, cls){
   const list=tagList();
-  if(!list.length) return `<span class="note">まだタグがありません。上の「タグの管理」で作ろう。</span>`;
+  if(!list.length) return `<span class="note">まだタグがありません。「タグ」タブで作ろう。</span>`;
   return list.map(t=>`<button type="button" class="chip ${cls}${selected.includes(t)?" on":""}" data-t="${esc(t)}">#${esc(t)}</button>`).join("");
 }
 function renderTagUI(){
@@ -2042,7 +2074,7 @@ function checkMedals(silent){
   backend.patchStats({ medals:Object.fromEntries(won.map(m=>[m.id, stats.medals[m.id]])) });
   if(!silent) won.forEach((m,i)=>setTimeout(()=>toast(`勲章授与：${m.ja}！ Ура!`), 300+i*2200));
   st.newMedals = new Set([...(st.newMedals||[]), ...won.map(m=>m.id)]);
-  if(st.tab==="medal") renderMedals();
+  if(st.tab==="log" && st.logView==="app") renderMedals();
 }
 function renderMedals(){
   checkMedals(true);
@@ -2075,6 +2107,15 @@ function redStars(){
   return Object.keys(goals).filter(ym=>+goals[ym]>0 && monthMin(ym)>=+goals[ym]).sort().reverse();
 }
 seg("#logViewSeg", v=>{ st.logView=v; showTab(); });
+const selfTh = () => { const c=stats.selfColor||{}; const t1=+c.t1||60, t2=+c.t2||120; return t2>t1 ? [t1,t2] : [60,120]; };
+$("#thSave").onclick=()=>{
+  const t1=Math.round((+$("#th1").value)*60), t2=Math.round((+$("#th2").value)*60);
+  if(!(t1>0) || !(t2>0)){ toast("時間を数字で入れてください"); return; }
+  if(t2<=t1){ toast("赤になる時間は、中間の色より長くしてください"); return; }
+  stats.selfColor={ t1, t2 }; backend.patchStats({ selfColor:{ t1, t2 } });
+  $("#logSelf details.thr").open=false;
+  toast("カレンダーの色の区切りを保存しました"); renderSelf();
+};
 
 function renderSelf(){
   const today=dayKey();
@@ -2088,11 +2129,16 @@ function renderSelf(){
   for(let i=0;i<first.getDay();i++) html+=`<div class="d blank"></div>`;
   for(let d=1; d<=lastD; d++){
     const k=`${y}-${p2(m)}-${p2(d)}`, n=dayMin(k), cls=["d"];
-    if(n>=120) cls.push("h3"); else if(n>=60) cls.push("h2"); else if(n>0) cls.push("h1");
+    const [t1,t2]=selfTh();
+    if(n>=t2) cls.push("h3"); else if(n>=t1) cls.push("h2"); else if(n>0) cls.push("h1");
+    if(n>=600) cls.push("hammer");
     if(k===today) cls.push("today"); if(k>today) cls.push("fut"); if(k===$("#sDate").value) cls.push("sel");
-    html+=`<div class="${cls.join(" ")}" data-k="${k}"><span class="dn">${d}</span>${n?`<span class="hm">${fmtHM(n)}</span>`:""}</div>`;
+    html+=`<div class="${cls.join(" ")}" data-k="${k}"><span class="dn">${d}</span>${n>=600?`<svg class="hs" viewBox="0 0 100 100" aria-label="10時間以上"><path fill="#e8b923" d="${SICKLE}"/></svg>`:""}${n?`<span class="hm${fmtHM(n).length>5?" long":""}">${fmtHM(n)}</span>`:""}</div>`;
   }
   $("#sCal").innerHTML=html;
+  const [t1,t2]=selfTh(), hh=m=>{ const h=Math.floor(m/60), r=m%60; return (h?h+"時間":"")+(r?r+"分":""); };
+  $("#sLegend").innerHTML=`<span><i style="background:#f3d9b0"></i>${hh(t1)}未満</span><span><i style="background:#e58f6f"></i>${hh(t1)}〜${hh(t2)}</span><span><i style="background:var(--red)"></i>${hh(t2)}以上</span><span><svg class="lg-s" viewBox="0 0 100 100"><path fill="#c8201b" d="${SICKLE}"/></svg>10時間以上</span>`;
+  if(!$("#logSelf details.thr").open){ $("#th1").value=t1/60; $("#th2").value=t2/60; }
   $("#sTitle").textContent=ymLabel(ym);
   $("#sCal").querySelectorAll(".d[data-k]").forEach(c=>c.onclick=()=>{
     if(c.dataset.k>today){ toast("未来の日付は選べません"); return; }
