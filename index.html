@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>露日学習戦線</title>
+<meta name="theme-color" content="#c8201b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="学習戦線">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Russo+One&family=Noto+Sans+JP:wght@400;700;900&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ecdfc0; --card:#f8f0dc; --ink:#161210; --sub:#5d4d40;
+  --red:#c8201b; --red-d:#8f1411; --gold:#e8b923; --green:#2c5e34; --line:#161210;
+  --disp:"Dela Gothic One","Russo One","Noto Sans JP",sans-serif;
+  --ru:"Russo One","Dela Gothic One",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;color:var(--ink);font-family:"PT Sans","Noto Sans JP",system-ui,sans-serif;-webkit-text-size-adjust:100%}
+body{background:
+  radial-gradient(circle at 20% 10%,rgba(255,255,255,.35),transparent 40%),
+  repeating-linear-gradient(45deg,rgba(0,0,0,.018) 0 2px,transparent 2px 6px),var(--paper);min-height:100vh}
+
+/* ===== 帽子：構成主義ポスター風 ===== */
+header{position:relative;overflow:hidden;background:var(--red);color:#fff;padding:18px 16px 16px;min-height:118px}
+header::before{content:"";position:absolute;right:-40px;top:-30px;width:230px;height:230px;background:var(--ink);
+  clip-path:polygon(38% 0,100% 0,100% 100%,0 100%)}
+header::after{content:"";position:absolute;left:-20px;bottom:-12px;width:62%;height:18px;background:var(--gold);transform:rotate(-4deg)}
+.bigstar{position:absolute;right:14px;top:12px;width:92px;height:92px;filter:drop-shadow(4px 4px 0 rgba(0,0,0,.35))}
+header .t{position:relative;z-index:1;max-width:70%}
+header h1{margin:0;font-family:var(--disp);font-size:27px;line-height:1.1;letter-spacing:.02em;text-shadow:3px 3px 0 var(--ink)}
+header .ru{font-family:var(--ru);font-size:12px;letter-spacing:.14em;margin-top:6px;color:#ffe9a8}
+#status{position:absolute;z-index:2;left:16px;bottom:22px;font-family:var(--ru);font-size:10px;letter-spacing:.08em;
+  background:var(--ink);color:var(--gold);padding:3px 8px}
+
+.slogan{background:var(--ink);color:var(--gold);overflow:hidden;white-space:nowrap;font-family:var(--ru);font-size:12px;letter-spacing:.18em;padding:6px 0}
+.slogan span{display:inline-block;padding-left:100%;animation:run 22s linear infinite}
+@keyframes run{to{transform:translateX(-100%)}}
+
+/* 教材の切替 */
+.decks{display:flex;gap:10px;max-width:640px;margin:14px auto 0;padding:0 14px}
+.decks button{flex:1;border:3px solid var(--ink);background:var(--card);color:var(--ink);padding:10px 6px 8px;cursor:pointer;
+  font-family:var(--disp);font-size:18px;box-shadow:4px 4px 0 var(--ink);transition:transform .08s}
+.decks button small{display:block;font-family:var(--ru);font-size:10px;letter-spacing:.15em;color:var(--sub);margin-top:2px}
+.decks button.on{background:var(--red);color:#fff}.decks button.on small{color:#ffe9a8}
+.decks button:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+
+nav{display:flex;max-width:640px;margin:14px auto 0;padding:0 14px;gap:0}
+nav button{flex:1;background:var(--card);border:3px solid var(--ink);border-left-width:0;color:var(--ink);padding:9px 4px;
+  font-family:var(--disp);font-size:15px;cursor:pointer}
+nav button:first-child{border-left-width:3px}
+nav button.on{background:var(--ink);color:var(--gold)}
+
+main{max-width:640px;margin:0 auto;padding:16px 14px 70px}
+section{display:none}section.on{display:block}
+.box{position:relative;background:var(--card);border:3px solid var(--ink);padding:16px 14px;margin-bottom:18px;box-shadow:6px 6px 0 var(--ink)}
+.label{font-family:var(--ru);font-size:11px;letter-spacing:.12em;margin:0 0 7px;display:flex;align-items:center;gap:7px;color:var(--ink)}
+.label::before{content:"";width:14px;height:6px;background:var(--red);transform:skewX(-20deg)}
+.label em{font-style:normal;font-family:"Noto Sans JP";font-weight:700;letter-spacing:0;color:var(--sub);font-size:12px}
+.seg{display:flex;border:2.5px solid var(--ink);margin-bottom:12px}
+.seg button{flex:1;border:0;border-left:2.5px solid var(--ink);background:none;padding:9px 4px;font:inherit;font-weight:700;font-size:14px;color:var(--ink);cursor:pointer}
+.seg button:first-child{border-left:0}
+.seg button.on{background:var(--red);color:#fff}
+.btn{display:block;width:100%;border:3px solid var(--ink);padding:13px;font-family:var(--disp);font-size:18px;letter-spacing:.06em;cursor:pointer;
+  box-shadow:4px 4px 0 var(--ink);transition:transform .08s}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btn.red{background:var(--red);color:#fff}
+.btn.ghost{background:var(--card);color:var(--ink);font-size:15px}
+.btn.ok{background:var(--green);color:#fff}.btn.ng{background:var(--red);color:#fff}
+.btn.hint{outline:4px solid var(--gold);outline-offset:2px}
+.row{display:flex;gap:12px}.row>*{flex:1}
+textarea,input[type=text]{width:100%;border:2.5px solid var(--ink);border-radius:0;padding:10px;font:inherit;font-size:16px;background:#fffdf6;color:var(--ink);resize:vertical}
+textarea:focus,input:focus{outline:3px solid var(--gold);outline-offset:0}
+.q{font-size:22px;line-height:1.5;font-weight:700;margin:6px 0 16px;word-break:break-word}
+.q.word{font-family:var(--disp);font-size:34px;text-align:center;margin:14px 0 20px;font-weight:400}
+.q[lang=ru].word{font-family:var(--ru)}
+.meta{font-size:12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px}
+.meta .dirtag{font-family:var(--ru);letter-spacing:.1em;background:var(--ink);color:var(--gold);padding:3px 8px}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border:1.5px solid var(--ink);background:#fffdf6}
+.tag.hot{background:var(--red);color:#fff;border-color:var(--red)}
+.ans{border-top:3px solid var(--ink);margin-top:16px;padding-top:14px}
+.ans .yours{color:var(--sub);font-size:15px;margin:2px 0 12px;white-space:pre-wrap}
+.ans .right{font-size:20px;font-weight:700;color:var(--red-d);margin:2px 0 12px;white-space:pre-wrap}
+.ans .memo{font-size:14px;background:#fff3c9;border-left:5px solid var(--gold);padding:7px 10px;margin:0 0 14px;white-space:pre-wrap}
+.match{display:inline-block;font-family:var(--ru);font-size:12px;letter-spacing:.1em;background:var(--green);color:#fff;padding:3px 9px;margin-bottom:10px;transform:rotate(-2deg)}
+.empty{text-align:center;color:var(--sub);padding:24px 8px;line-height:1.8;font-weight:700}
+.empty .ru{display:block;font-family:var(--ru);color:var(--red);letter-spacing:.08em;margin-top:6px;font-weight:400}
+.score{display:flex;gap:10px;margin-bottom:18px}
+.score div{flex:1;background:var(--card);border:3px solid var(--ink);padding:8px 4px 7px;text-align:center;box-shadow:4px 4px 0 var(--ink)}
+.score b{display:block;font-family:var(--disp);font-weight:400;font-size:26px;color:var(--red);line-height:1.2}
+.score span{font-size:11px;font-weight:700}
+.list .item{border-bottom:2px dashed rgba(22,18,16,.35);padding:11px 0}
+.list .item:last-child{border-bottom:0}
+.item .ru{font-weight:700;font-size:16px}.item .ja{color:var(--sub);font-size:14px;margin-top:2px}
+.item .mm{font-size:12px;color:var(--sub);margin-top:2px}
+.item .acts{display:flex;gap:6px;margin-top:7px;align-items:center;flex-wrap:wrap}
+.mini{border:2px solid var(--ink);background:#fffdf6;padding:5px 10px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--ink)}
+.mini.danger{color:var(--red);border-color:var(--red)}
+.mini.danger.armed,.mini.save{background:var(--red);color:#fff;border-color:var(--red)}
+.log .d{font-size:12px;color:var(--sub);font-weight:700}
+.log .mark{font-family:var(--disp);margin-right:6px;font-size:14px}
+.log .mark.o{color:var(--green)}.log .mark.x{color:var(--red)}
+.log .line{font-size:14px;margin-top:3px;word-break:break-word}
+.log .line i{font-style:normal;font-size:11px;font-weight:700;background:var(--ink);color:var(--card);padding:0 5px;margin-right:6px}
+.note{font-size:12px;color:var(--sub);line-height:1.6;margin:4px 0 0}
+details summary{cursor:pointer;font-weight:700;font-size:14px}
+.gap{height:10px}
+
+/* 判定スタンプ */
+.stamp{position:absolute;left:50%;top:42%;z-index:4;font-family:var(--ru);font-size:42px;letter-spacing:.06em;padding:6px 18px;
+  border:6px double currentColor;background:rgba(248,240,220,.85);pointer-events:none;transform:translate(-50%,-50%) rotate(-12deg) scale(1.8);opacity:0;
+  animation:stamp .7s ease-out forwards}
+.stamp.o{color:var(--green)}.stamp.x{color:var(--red)}
+@keyframes stamp{30%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}}
+
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--gold);padding:10px 18px;border:2px solid var(--gold);
+  font-size:14px;font-weight:700;opacity:0;transition:opacity .25s;pointer-events:none;z-index:9;white-space:nowrap}
+.toast.show{opacity:1}
+footer{text-align:center;font-family:var(--ru);font-size:10px;letter-spacing:.2em;color:var(--sub);padding:0 0 30px}
+</style>
+</head>
+<body>
+<header>
+  <svg class="bigstar" viewBox="0 0 24 24" aria-hidden="true"><path fill="#e8b923" stroke="#161210" stroke-width=".6" d="M12 1.5l3 6.8 7.3.6-5.6 4.8 1.7 7.2L12 17.1l-6.4 3.8 1.7-7.2L1.7 8.9 9 8.3z"/></svg>
+  <div class="t">
+    <h1>露日<br>学習戦線</h1>
+    <div class="ru">ПЕРЕВОД · СЛОВА · ПАМЯТЬ</div>
+  </div>
+  <div id="status">ЗАГРУЗКА…</div>
+</header>
+<div class="slogan"><span>★ УЧИТЬСЯ, УЧИТЬСЯ И ЕЩЁ РАЗ УЧИТЬСЯ! ★ 学べ、学べ、さらに学べ！ ★ ПЯТИЛЕТКУ — В ЧЕТЫРЕ ГОДА! ★ 五ヵ年計画を四年で！ ★</span></div>
+
+<div class="decks">
+  <button data-deck="sent" class="on">翻訳<small>ПЕРЕВОД</small></button>
+  <button data-deck="word">単語<small>СЛОВА</small></button>
+</div>
+<nav>
+  <button data-tab="quiz" class="on">出題</button>
+  <button data-tab="add">登録</button>
+  <button data-tab="log">記録</button>
+</nav>
+
+<main>
+<!-- 出題 -->
+<section id="quiz" class="on">
+  <div class="box">
+    <p class="label">НАПРАВЛЕНИЕ <em>方向</em></p>
+    <div class="seg" id="dirSeg">
+      <button data-v="rj" class="on" id="dirRj"></button>
+      <button data-v="jr" id="dirJr"></button>
+    </div>
+    <p class="label">РЕЖИМ <em>モード</em></p>
+    <div class="seg" id="modeSeg">
+      <button data-v="random" class="on">ランダム</button>
+      <button data-v="drill" id="drillName"></button>
+    </div>
+    <p class="note" id="modeNote"></p>
+  </div>
+  <div class="score">
+    <div><b id="sOk">0</b><span>今回の正解</span></div>
+    <div><b id="sNg">0</b><span>今回の不正解</span></div>
+    <div><b id="sHot">0</b><span id="sHotL">特訓対象</span></div>
+  </div>
+  <div class="box" id="qbox"></div>
+</section>
+
+<!-- 登録 -->
+<section id="add">
+  <div class="box">
+    <p class="label">ПО-РУССКИ <em id="ruL">ロシア語の例文</em></p>
+    <textarea id="inRu" rows="2" lang="ru"></textarea>
+    <div class="gap"></div>
+    <p class="label">ПО-ЯПОНСКИ <em>日本語訳</em></p>
+    <textarea id="inJa" rows="2" lang="ja"></textarea>
+    <div id="memoWrap">
+      <div class="gap"></div>
+      <p class="label">ЗАМЕТКА <em>メモ（任意：性・格変化・例など）</em></p>
+      <input type="text" id="inMemo" placeholder="例：女性名詞 / 複数 книги">
+    </div>
+    <div class="gap"></div>
+    <button class="btn red" id="addBtn">登録する</button>
+    <div class="gap"></div>
+    <details>
+      <summary>まとめて登録する</summary>
+      <p class="note" id="bulkNote"></p>
+      <textarea id="bulk" rows="5"></textarea>
+      <div class="gap"></div>
+      <button class="btn ghost" id="bulkBtn">まとめて登録</button>
+    </details>
+  </div>
+  <div class="box">
+    <p class="label">АРХИВ <em>登録済み（<span id="cnt">0</span>）</em></p>
+    <input type="text" id="search" placeholder="検索 / поиск">
+    <div class="list" id="cardList"></div>
+  </div>
+  <div class="box">
+    <p class="label">РЕЗЕРВ <em>バックアップ</em></p>
+    <p class="note">データはこの端末のブラウザにだけ保存されます。機種変更やブラウザのデータ削除に備えて、ときどきバックアップを保存してください。読み込むと、例文・単語・記録が復元されます。</p>
+    <div class="gap"></div>
+    <div class="row">
+      <button class="btn ghost" id="expBtn">保存する</button>
+      <button class="btn ghost" id="impBtn">読み込む</button>
+    </div>
+    <input type="file" id="impFile" accept="application/json,.json" style="display:none">
+  </div>
+</section>
+
+<!-- 記録 -->
+<section id="log">
+  <div class="score">
+    <div><b id="lTotal">0</b><span>解答数</span></div>
+    <div><b id="lRate">–</b><span>正答率</span></div>
+    <div><b id="lToday">0</b><span>今日の解答</span></div>
+  </div>
+  <div class="box">
+    <p class="label">ЖУРНАЛ <em>解答記録</em></p>
+    <div class="seg" id="logSeg">
+      <button data-v="all" class="on">すべて</button>
+      <button data-v="ng">間違いのみ</button>
+    </div>
+    <div class="list log" id="logList"></div>
+  </div>
+</section>
+</main>
+<footer>★ ЗА ЗНАНИЯ! ★</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const HIST_MAX = 30;      // 1件ごとに残す解答履歴
+const CLEAR_STREAK = 2;   // 特訓・苦手モードで連続この回数正解すると卒業
+
+const DECK = {
+  sent:{ ruL:"ロシア語の例文", ruPh:"Я учусь в университете.", jaPh:"私は大学で学んでいる。",
+         rj:"露文和訳 RU→JA", jr:"和文露訳 JA→RU", drill:"間違い特訓", hot:"特訓対象",
+         bulkPh:"Привет! | こんにちは！\nКак дела? | 元気？" },
+  word:{ ruL:"ロシア語の単語", ruPh:"книга", jaPh:"本",
+         rj:"露→日 RU→JA", jr:"日→露 JA→RU", drill:"苦手", hot:"苦手な単語",
+         bulkPh:"книга | 本 | 女性名詞\nстол | 机" }
+};
+const kindOf = c => c.kind === "word" ? "word" : "sent";
+
+let cards = [];
+let backend = null;
+const mk = () => ({ dir:"rj", mode:"random", queue:[], cur:null, lastId:null, ok:0, ng:0 });
+const st = { deck:"sent", tab:"quiz", logFilter:"all", sent:mk(), word:mk() };
+const S = () => st[st.deck];
+const deckCards = () => cards.filter(c => kindOf(c) === st.deck);
+
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),1800); }
+function newId(){ return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,8); }
+function fmt(t){ const d=new Date(t), p=n=>String(n).padStart(2,"0"); return `${d.getFullYear()}/${p(d.getMonth()+1)}/${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; }
+const sameDay = (a,b) => new Date(a).toDateString() === new Date(b).toDateString();
+
+/* 単語の自動照合（ё=е、アクセント記号・記号・空白を無視） */
+function norm(s){ return String(s||"").toLowerCase().normalize("NFD").replace(/́/g,"").normalize("NFC").replace(/ё/g,"е")
+  .replace(/[\s。、，,.!?！？「」『』()（）〜~・…\-—]/g,""); }
+function matches(mine, answer){
+  const m = norm(mine); if(!m) return false;
+  return String(answer).split(/[、,;；／\/]/).map(norm).filter(Boolean).some(a => a === m) || norm(answer) === m;
+}
+
+/* ---------- 保存先：この端末（localStorage） ---------- */
+const KEY="ru-ja-drill-cards";
+function flush(){ try{ localStorage.setItem(KEY, JSON.stringify(cards)); return true; }catch(e){ toast("保存できませんでした"); return false; } }
+async function initStore(){
+  let ok=true;
+  try{ cards = JSON.parse(localStorage.getItem(KEY)||"[]"); if(!Array.isArray(cards)) cards=[]; }catch(e){ ok=false; cards=[]; }
+  try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+  backend = { save:async()=>flush(), del:async()=>flush() };
+  $("#status").textContent = ok ? "★ この端末に保存" : "保存できません";
+}
+
+/* ---------- バックアップ ---------- */
+function exportData(){
+  const blob=new Blob([JSON.stringify({app:"ru-ja-drill", v:1, exportedAt:new Date().toISOString(), cards}, null, 1)], {type:"application/json"});
+  const a=document.createElement("a"), d=new Date(), p=n=>String(n).padStart(2,"0");
+  a.href=URL.createObjectURL(blob); a.download=`gakushu-sensen-${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}.json`;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+  toast("バックアップを保存しました");
+}
+function importData(file){
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const j=JSON.parse(r.result); const list=Array.isArray(j)?j:j.cards;
+      if(!Array.isArray(list)) throw 0;
+      const have=new Map(cards.map(c=>[c.id,c])); let n=0;
+      for(const c of list){ if(c && c.id && c.ru && c.ja){ have.set(c.id,c); n++; } }
+      cards=[...have.values()]; flush();
+      st.sent.queue=[]; st.word.queue=[]; st.sent.cur=null; st.word.cur=null;
+      toast(`${n}件を読み込みました`); showTab();
+    }catch(e){ toast("このファイルは読み込めません"); }
+  };
+  r.readAsText(file);
+}
+
+/* ---------- 切替 ---------- */
+function setOn(container, attr, val){ container.querySelectorAll("button").forEach(b=>b.classList.toggle("on", b.dataset[attr]===val)); }
+
+document.querySelectorAll(".decks button").forEach(b=>b.onclick=()=>{ st.deck=b.dataset.deck; applyDeck(); });
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{ st.tab=b.dataset.tab; showTab(); });
+
+function seg(id, onPick){ const el=$(id); el.querySelectorAll("button").forEach(b=>b.onclick=()=>{ setOn(el,"v",b.dataset.v); onPick(b.dataset.v); }); }
+seg("#dirSeg", v=>{ S().dir=v; S().queue=[]; nextQ(); });
+seg("#modeSeg", v=>{ S().mode=v; S().queue=[]; modeNote(); nextQ(); });
+seg("#logSeg", v=>{ st.logFilter=v; renderLog(); });
+
+function applyDeck(){
+  const D = DECK[st.deck], s = S();
+  setOn($(".decks"),"deck",st.deck);
+  $("#dirRj").textContent=D.rj; $("#dirJr").textContent=D.jr; $("#drillName").textContent=D.drill; $("#sHotL").textContent=D.hot;
+  setOn($("#dirSeg"),"v",s.dir); setOn($("#modeSeg"),"v",s.mode);
+  $("#ruL").textContent=D.ruL; $("#inRu").placeholder=D.ruPh; $("#inJa").placeholder=D.jaPh;
+  $("#inRu").rows = $("#inJa").rows = st.deck==="word" ? 1 : 2;
+  $("#memoWrap").style.display = st.deck==="word" ? "" : "none";
+  $("#bulk").placeholder=D.bulkPh;
+  $("#bulkNote").textContent = st.deck==="word"
+    ? "1行に1語、「ロシア語 | 日本語 | メモ」の形で（メモは省略可、区切りは | かタブ）。"
+    : "1行に1文、「ロシア語 | 日本語」の形で（区切りは | かタブ）。";
+  modeNote(); showTab();
+}
+function showTab(){
+  setOn($("nav"),"tab",st.tab);
+  document.querySelectorAll("section").forEach(x=>x.classList.toggle("on",x.id===st.tab));
+  if(st.tab==="quiz"){ if(!S().cur || kindOf(S().cur)!==st.deck || !cards.includes(S().cur)) nextQ(); else renderQ(); }
+  if(st.tab==="add") renderList();
+  if(st.tab==="log") renderLog();
+}
+function modeNote(){
+  const D=DECK[st.deck];
+  $("#modeNote").textContent = S().mode==="random"
+    ? `登録した${st.deck==="word"?"単語":"例文"}すべてからランダムに出題します。`
+    : `間違えた${st.deck==="word"?"単語":"例文"}だけを出題します。${D.drill}モードで${CLEAR_STREAK}回連続正解すると卒業です。`;
+}
+
+/* ---------- 出題 ---------- */
+const eligible = c => kindOf(c)===st.deck && (S().mode==="random" || !!c.needReview);
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+function nextQ(){
+  const s=S(), pool=cards.filter(eligible);
+  if(!pool.length){ s.cur=null; renderQ(); return; }
+  for(let tries=0; tries<3; tries++){
+    if(!s.queue.length){
+      s.queue = shuffle(pool.map(c=>c.id));
+      if(s.queue.length>1 && s.queue[s.queue.length-1]===s.lastId) s.queue.unshift(s.queue.pop());
+    }
+    while(s.queue.length){
+      const id=s.queue.pop(), c=cards.find(x=>x.id===id);
+      if(c && eligible(c)){ s.cur=c; s.lastId=id; renderQ(); return; }
+    }
+  }
+  s.cur=null; renderQ();
+}
+
+function renderQ(){
+  updateScore();
+  const s=S(), box=$("#qbox"), c=s.cur, isWord=st.deck==="word";
+  if(!c){
+    box.innerHTML = deckCards().length===0
+      ? `<div class="empty">まだ${isWord?"単語":"例文"}がありません。<br>「登録」から最初の一${isWord?"語":"文"}を登録しよう、同志！<span class="ru">ВПЕРЁД!</span></div>`
+      : `<div class="empty">${DECK[st.deck].hot}はありません。<br>見事だ、同志！ ランダムで鍛錬を続けよう。<span class="ru">СЛАВА ТРУДУ!</span></div>`;
+    return;
+  }
+  const rj = s.dir==="rj", q = rj?c.ru:c.ja, a = rj?c.ja:c.ru, aLang = rj?"ja":"ru";
+  const tags = `<span><span class="tag">○${c.correct||0} ×${c.wrong||0}</span>${c.needReview?` <span class="tag hot">${DECK[st.deck].hot}</span>`:""}</span>`;
+  const input = isWord
+    ? `<input type="text" id="myAns" lang="${aLang}" autocomplete="off" autocapitalize="off" placeholder="${rj?"日本語で答える":"Ответьте по-русски"}">`
+    : `<textarea id="myAns" rows="3" lang="${aLang}" placeholder="${rj?"日本語訳を書こう":"Переведите на русский"}"></textarea>`;
+  box.innerHTML = `
+    <div class="meta"><span class="dirtag">${rj?"RU → JA":"JA → RU"}</span>${tags}</div>
+    <div class="q${isWord?" word":""}" lang="${rj?"ru":"ja"}">${esc(q)}</div>
+    ${input}
+    <div class="gap"></div>
+    <div id="ansArea"><button class="btn red" id="answer">回答する</button></div>`;
+  const inp=$("#myAns");
+  if(isWord) inp.addEventListener("keydown", e=>{ if(e.key==="Enter" && !e.isComposing){ e.preventDefault(); $("#answer")?.click(); }});
+  $("#answer").onclick = () => {
+    const mine = inp.value.trim();
+    inp.disabled = true;
+    const hit = matches(mine, a);
+    $("#ansArea").innerHTML = `
+      <div class="ans">
+        ${hit?'<div class="match">★ 一致 СОВПАДАЕТ</div>':""}
+        <p class="label">ВАШ ОТВЕТ <em>あなたの答え</em></p><div class="yours">${mine?esc(mine):"（未入力）"}</div>
+        <p class="label">ПРАВИЛЬНО <em>正解</em></p><div class="right" lang="${aLang}">${esc(a)}</div>
+        ${c.memo?`<div class="memo">${esc(c.memo)}</div>`:""}
+        <div class="row"><button class="btn ok${hit?" hint":""}" id="gOk">○ 正解</button><button class="btn ng" id="gNg">× 不正解</button></div>
+        <div class="gap"></div><button class="btn ghost" id="skip">記録せず次へ</button>
+      </div>`;
+    $("#gOk").onclick=()=>grade(true, mine);
+    $("#gNg").onclick=()=>grade(false, mine);
+    $("#skip").onclick=()=>nextQ();
+  };
+}
+
+let grading=false;
+function grade(ok, mine){
+  const s=S(), c=s.cur; if(!c || grading) return;
+  grading=true;
+  c.history = (c.history||[]).concat([{ t:Date.now(), dir:s.dir, ok, ans:mine, mode:s.mode }]).slice(-HIST_MAX);
+  let grad=false;
+  if(ok){
+    c.correct=(c.correct||0)+1; c.streak=(c.streak||0)+1;
+    if(c.needReview && s.mode==="drill" && c.streak>=CLEAR_STREAK){ c.needReview=false; grad=true; }
+    s.ok++;
+  }else{ c.wrong=(c.wrong||0)+1; c.streak=0; c.needReview=true; s.ng++; }
+  backend.save(c);
+  updateScore();
+  const stamp=document.createElement("div");
+  stamp.className="stamp "+(ok?"o":"x"); stamp.textContent= ok?"ВЕРНО!":"ОШИБКА";
+  $("#qbox").appendChild(stamp);
+  if(grad) toast("卒業！ Молодец, товарищ!");
+  setTimeout(()=>{ grading=false; nextQ(); }, 650);
+}
+
+function updateScore(){
+  const s=S(); $("#sOk").textContent=s.ok; $("#sNg").textContent=s.ng;
+  $("#sHot").textContent=deckCards().filter(c=>c.needReview).length;
+}
+
+/* ---------- 登録 ---------- */
+function addCard(ru, ja, memo){
+  const c={ id:newId(), kind:st.deck, ru, ja, createdAt:Date.now(), correct:0, wrong:0, streak:0, needReview:false, history:[] };
+  if(st.deck==="word" && memo) c.memo=memo;
+  cards.push(c); backend.save(c); return c;
+}
+$("#addBtn").onclick=()=>{
+  const ru=$("#inRu").value.trim(), ja=$("#inJa").value.trim(), memo=$("#inMemo").value.trim();
+  if(!ru||!ja){ toast("ロシア語と日本語の両方を入力してください"); return; }
+  addCard(ru,ja,memo); $("#inRu").value=""; $("#inJa").value=""; $("#inMemo").value=""; $("#inRu").focus();
+  toast("登録しました ★"); S().queue=[]; renderList();
+};
+$("#bulkBtn").onclick=()=>{
+  const lines=$("#bulk").value.split("\n").map(l=>l.trim()).filter(Boolean);
+  let n=0, bad=0;
+  for(const l of lines){
+    const p=l.split(/\s*[|\t｜]\s*/);
+    if(p.length>=2 && p[0] && p[1]){
+      if(st.deck==="word") addCard(p[0], p[1], p.slice(2).join(" / "));
+      else addCard(p[0], p.slice(1).join(" "));
+      n++;
+    } else bad++;
+  }
+  $("#bulk").value="";
+  toast(`${n}件を登録${bad?`（${bad}行は形式違い）`:""}`); S().queue=[]; renderList();
+};
+$("#search").oninput=renderList;
+
+function renderList(){
+  const mine=deckCards();
+  $("#cnt").textContent=mine.length + (st.deck==="word"?"語":"文");
+  const q=$("#search").value.trim().toLowerCase();
+  const list=[...mine].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0))
+    .filter(c=>!q || c.ru.toLowerCase().includes(q) || c.ja.toLowerCase().includes(q) || (c.memo||"").toLowerCase().includes(q));
+  const el=$("#cardList");
+  if(!list.length){ el.innerHTML=`<div class="empty">${mine.length?"該当なし":"まだありません"}</div>`; return; }
+  el.innerHTML=list.map(c=>`
+    <div class="item" data-id="${esc(c.id)}">
+      <div class="ru" lang="ru">${esc(c.ru)}</div><div class="ja">${esc(c.ja)}</div>${c.memo?`<div class="mm">メモ：${esc(c.memo)}</div>`:""}
+      <div class="acts"><span class="tag">○${c.correct||0} ×${c.wrong||0}</span>${c.needReview?`<span class="tag hot">${DECK[st.deck].hot}</span>`:""}
+        <span style="flex:1"></span><button class="mini" data-act="edit">編集</button><button class="mini danger" data-act="del">削除</button></div>
+    </div>`).join("");
+  el.querySelectorAll(".item").forEach(it=>{
+    const id=it.dataset.id, c=cards.find(x=>x.id===id);
+    it.querySelector('[data-act="del"]').onclick=e=>{
+      const b=e.currentTarget;
+      if(!b.classList.contains("armed")){ b.classList.add("armed"); b.textContent="本当に削除"; setTimeout(()=>{ b.classList.remove("armed"); b.textContent="削除"; },3000); return; }
+      cards=cards.filter(x=>x.id!==id); backend.del(id);
+      if(S().cur && S().cur.id===id) S().cur=null;
+      toast("削除しました"); renderList();
+    };
+    it.querySelector('[data-act="edit"]').onclick=()=>{
+      const isWord=kindOf(c)==="word";
+      it.innerHTML=`<textarea rows="${isWord?1:2}" lang="ru" class="eRu">${esc(c.ru)}</textarea><div class="gap"></div>
+        <textarea rows="${isWord?1:2}" lang="ja" class="eJa">${esc(c.ja)}</textarea><div class="gap"></div>
+        ${isWord?`<input type="text" class="eMemo" placeholder="メモ" value="${esc(c.memo||"")}"><div class="gap"></div>`:""}
+        <div class="row"><button class="mini" data-act="cancel">やめる</button><button class="mini save" data-act="save">保存</button></div>`;
+      it.querySelector('[data-act="cancel"]').onclick=renderList;
+      it.querySelector('[data-act="save"]').onclick=()=>{
+        const ru=it.querySelector(".eRu").value.trim(), ja=it.querySelector(".eJa").value.trim();
+        if(!ru||!ja){ toast("両方入力してください"); return; }
+        c.ru=ru; c.ja=ja;
+        if(isWord){ const m=it.querySelector(".eMemo").value.trim(); if(m) c.memo=m; else delete c.memo; }
+        backend.save(c); toast("保存しました"); renderList();
+      };
+    };
+  });
+}
+
+/* ---------- 記録 ---------- */
+function renderLog(){
+  const all=[];
+  deckCards().forEach(c=>(c.history||[]).forEach(h=>all.push({...h, c})));
+  all.sort((a,b)=>b.t-a.t);
+  const total=all.length, okN=all.filter(h=>h.ok).length, now=Date.now();
+  $("#lTotal").textContent=total;
+  $("#lRate").textContent= total ? Math.round(okN/total*100)+"%" : "–";
+  $("#lToday").textContent=all.filter(h=>sameDay(h.t,now)).length;
+  const rows=(st.logFilter==="ng"? all.filter(h=>!h.ok) : all).slice(0,150);
+  const el=$("#logList");
+  if(!rows.length){ el.innerHTML=`<div class="empty">まだ記録がありません</div>`; return; }
+  const drillName=DECK[st.deck].drill;
+  el.innerHTML=rows.map(h=>{
+    const rj=h.dir==="rj", q=rj?h.c.ru:h.c.ja, a=rj?h.c.ja:h.c.ru;
+    return `<div class="item">
+      <div class="d"><span class="mark ${h.ok?"o":"x"}">${h.ok?"○":"×"}</span>${fmt(h.t)}・${rj?"露→日":"日→露"}${h.mode==="drill"?"・"+drillName:""}</div>
+      <div class="line"><i>問題</i>${esc(q)}</div>
+      <div class="line"><i>あなた</i>${h.ans?esc(h.ans):"（未入力）"}</div>
+      <div class="line"><i>正解</i>${esc(a)}</div>
+    </div>`;
+  }).join("");
+}
+
+$("#expBtn").onclick=exportData;
+$("#impBtn").onclick=()=>$("#impFile").click();
+$("#impFile").onchange=e=>{ const f=e.target.files[0]; if(f) importData(f); e.target.value=""; };
+
+/* ---------- 起動 ---------- */
+if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }
+applyDeck();
+initStore().then(()=>{ st.sent.queue=[]; st.word.queue=[]; st.sent.cur=null; st.word.cur=null; showTab(); });
+</script>
+</body>
+</html>

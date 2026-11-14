@@ -1,0 +1,15 @@
+{
+  "name": "露日学習戦線",
+  "short_name": "学習戦線",
+  "description": "ロシア語の翻訳と単語の暗記ドリル",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ecdfc0",
+  "theme_color": "#c8201b",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
