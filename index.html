@@ -52,6 +52,15 @@ header::after{content:"";position:absolute;left:-20px;bottom:-12px;width:62%;hei
 .dangerzone{border-color:var(--red)}
 .btn.danger{background:var(--ink);color:#fff;font-size:15px}
 .log .item{position:relative;padding-right:52px}
+.idcard{border-color:var(--red)}
+.idcard .who{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.idcard .photo{flex:none;width:64px;height:64px;background:var(--red);border:3px solid var(--ink);display:flex;align-items:center;justify-content:center}
+.idcard .photo svg{width:46px;height:46px}
+.idcard .nm{font-family:var(--disp);font-size:16px;word-break:break-all}
+.idcard .sub{font-size:12px;color:var(--sub);margin-top:3px}
+.err{color:var(--red);font-size:13px;font-weight:700;min-height:1em;margin:8px 0 0}
+.linkbtn{background:none;border:0;color:var(--sub);text-decoration:underline;font:inherit;font-size:13px;cursor:pointer;padding:6px 0;margin-top:6px}
+nav button{font-size:14px}
 .log .item .del{position:absolute;right:0;top:10px}
 header .t{position:relative;z-index:1;max-width:70%}
 header h1{margin:0;font-family:var(--disp);font-size:27px;line-height:1.1;letter-spacing:.02em;text-shadow:3px 3px 0 var(--ink)}
@@ -166,6 +175,7 @@ footer{text-align:center;font-family:var(--ru);font-size:10px;letter-spacing:.2e
   <button data-tab="quiz" class="on">出題</button>
   <button data-tab="add">登録</button>
   <button data-tab="log">記録</button>
+  <button data-tab="acct" id="acctTab">同志証</button>
 </nav>
 
 <main>
@@ -255,6 +265,14 @@ footer{text-align:center;font-family:var(--ru);font-size:10px;letter-spacing:.2e
     <button class="btn danger" id="wipeNg">間違いの記録をすべて削除</button>
   </div>
 </section>
+<!-- アカウント -->
+<section id="acct">
+  <div class="box idcard" id="acctBox"></div>
+  <div class="box">
+    <p class="label">ИНФО <em>アカウントについて</em></p>
+    <p class="note">ログインすると、例文・単語・記録がクラウドに保存され、パソコンとスマホなど同じアカウントの端末どうしで自動的に共有されます。ログインしていないあいだは、この端末だけに保存されます。</p>
+  </div>
+</section>
 <div class="modal" id="modal" role="dialog" aria-modal="true">
   <div class="dlg">
     <div class="bar"><svg viewBox="0 0 100 100"><path fill="#e8b923" d="M53.7,14.0 L56.1,14.2 L58.6,14.5 L61.0,15.0 L63.3,15.8 L65.6,16.7 L67.8,17.8 L69.9,19.0 L72.0,20.5 L73.8,22.1 L75.6,23.8 L77.2,25.6 L78.7,27.6 L80.0,29.7 L81.1,31.9 L82.1,34.2 L82.8,36.5 L83.4,38.9 L83.8,41.4 L84.0,43.8 L84.0,46.3 L83.8,48.7 L83.4,51.2 L82.8,53.6 L82.0,55.9 L81.1,58.2 L79.9,60.4 L78.6,62.5 L77.1,64.4 L75.5,66.3 L73.8,68.0 L71.9,69.6 L69.8,71.0 L67.7,72.3 L65.5,73.4 L63.2,74.3 L60.9,75.0 L58.5,75.5 L56.0,75.9 L53.6,76.0 L51.1,75.9 L48.6,75.7 L46.2,75.2 L43.8,74.6 L41.5,73.8 L39.3,72.8 L37.1,71.6 L35.0,70.3 L33.1,68.7 L27.2,56.4 L28.6,57.8 L30.1,59.2 L31.7,60.4 L33.4,61.4 L35.1,62.4 L37.0,63.2 L38.9,63.9 L40.8,64.4 L42.8,64.7 L44.8,64.9 L46.8,65.0 L48.8,64.9 L50.8,64.6 L52.7,64.2 L54.6,63.7 L56.5,63.0 L58.3,62.1 L60.1,61.2 L61.8,60.1 L63.3,58.8 L64.8,57.5 L66.2,56.0 L67.4,54.4 L68.5,52.8 L69.5,51.0 L70.4,49.2 L71.1,47.4 L71.7,45.4 L72.1,43.5 L72.4,41.5 L72.5,39.5 L72.5,37.5 L72.3,35.5 L71.9,33.5 L71.4,31.6 L70.8,29.7 L70.0,27.8 L69.1,26.1 L68.0,24.4 L66.8,22.8 L65.5,21.2 L64.1,19.8 L62.5,18.5 L60.9,17.4 L59.2,16.3 L57.4,15.4 L55.6,14.6 L53.7,14.0Z M30.8,55.2 L14.8,71.2 L21.5,77.9 L37.5,61.9Z M82.9,83.2 L38.9,37.2 L33.1,42.8 L77.1,88.8Z M28.3,53.6 L45.6,37.0 L36.6,27.6 L19.3,44.2Z"/></svg>ВНИМАНИЕ! 警告</div>
@@ -267,9 +285,11 @@ footer{text-align:center;font-family:var(--ru);font-size:10px;letter-spacing:.2e
 <footer><svg class="sickle-mini" viewBox="0 0 100 100"><path fill="#5d4d40" d="M53.7,14.0 L56.1,14.2 L58.6,14.5 L61.0,15.0 L63.3,15.8 L65.6,16.7 L67.8,17.8 L69.9,19.0 L72.0,20.5 L73.8,22.1 L75.6,23.8 L77.2,25.6 L78.7,27.6 L80.0,29.7 L81.1,31.9 L82.1,34.2 L82.8,36.5 L83.4,38.9 L83.8,41.4 L84.0,43.8 L84.0,46.3 L83.8,48.7 L83.4,51.2 L82.8,53.6 L82.0,55.9 L81.1,58.2 L79.9,60.4 L78.6,62.5 L77.1,64.4 L75.5,66.3 L73.8,68.0 L71.9,69.6 L69.8,71.0 L67.7,72.3 L65.5,73.4 L63.2,74.3 L60.9,75.0 L58.5,75.5 L56.0,75.9 L53.6,76.0 L51.1,75.9 L48.6,75.7 L46.2,75.2 L43.8,74.6 L41.5,73.8 L39.3,72.8 L37.1,71.6 L35.0,70.3 L33.1,68.7 L27.2,56.4 L28.6,57.8 L30.1,59.2 L31.7,60.4 L33.4,61.4 L35.1,62.4 L37.0,63.2 L38.9,63.9 L40.8,64.4 L42.8,64.7 L44.8,64.9 L46.8,65.0 L48.8,64.9 L50.8,64.6 L52.7,64.2 L54.6,63.7 L56.5,63.0 L58.3,62.1 L60.1,61.2 L61.8,60.1 L63.3,58.8 L64.8,57.5 L66.2,56.0 L67.4,54.4 L68.5,52.8 L69.5,51.0 L70.4,49.2 L71.1,47.4 L71.7,45.4 L72.1,43.5 L72.4,41.5 L72.5,39.5 L72.5,37.5 L72.3,35.5 L71.9,33.5 L71.4,31.6 L70.8,29.7 L70.0,27.8 L69.1,26.1 L68.0,24.4 L66.8,22.8 L65.5,21.2 L64.1,19.8 L62.5,18.5 L60.9,17.4 L59.2,16.3 L57.4,15.4 L55.6,14.6 L53.7,14.0Z M30.8,55.2 L14.8,71.2 L21.5,77.9 L37.5,61.9Z M82.9,83.2 L38.9,37.2 L33.1,42.8 L77.1,88.8Z M28.3,53.6 L45.6,37.0 L36.6,27.6 L19.3,44.2Z"/></svg>ЗА ЗНАНИЯ! ★ 知識のために！</footer>
 <div class="toast" id="toast"></div>
 
+<script src="firebase-config.js"></script>
 <script>
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const SICKLE = "M53.7,14.0 L56.1,14.2 L58.6,14.5 L61.0,15.0 L63.3,15.8 L65.6,16.7 L67.8,17.8 L69.9,19.0 L72.0,20.5 L73.8,22.1 L75.6,23.8 L77.2,25.6 L78.7,27.6 L80.0,29.7 L81.1,31.9 L82.1,34.2 L82.8,36.5 L83.4,38.9 L83.8,41.4 L84.0,43.8 L84.0,46.3 L83.8,48.7 L83.4,51.2 L82.8,53.6 L82.0,55.9 L81.1,58.2 L79.9,60.4 L78.6,62.5 L77.1,64.4 L75.5,66.3 L73.8,68.0 L71.9,69.6 L69.8,71.0 L67.7,72.3 L65.5,73.4 L63.2,74.3 L60.9,75.0 L58.5,75.5 L56.0,75.9 L53.6,76.0 L51.1,75.9 L48.6,75.7 L46.2,75.2 L43.8,74.6 L41.5,73.8 L39.3,72.8 L37.1,71.6 L35.0,70.3 L33.1,68.7 L27.2,56.4 L28.6,57.8 L30.1,59.2 L31.7,60.4 L33.4,61.4 L35.1,62.4 L37.0,63.2 L38.9,63.9 L40.8,64.4 L42.8,64.7 L44.8,64.9 L46.8,65.0 L48.8,64.9 L50.8,64.6 L52.7,64.2 L54.6,63.7 L56.5,63.0 L58.3,62.1 L60.1,61.2 L61.8,60.1 L63.3,58.8 L64.8,57.5 L66.2,56.0 L67.4,54.4 L68.5,52.8 L69.5,51.0 L70.4,49.2 L71.1,47.4 L71.7,45.4 L72.1,43.5 L72.4,41.5 L72.5,39.5 L72.5,37.5 L72.3,35.5 L71.9,33.5 L71.4,31.6 L70.8,29.7 L70.0,27.8 L69.1,26.1 L68.0,24.4 L66.8,22.8 L65.5,21.2 L64.1,19.8 L62.5,18.5 L60.9,17.4 L59.2,16.3 L57.4,15.4 L55.6,14.6 L53.7,14.0Z M30.8,55.2 L14.8,71.2 L21.5,77.9 L37.5,61.9Z M82.9,83.2 L38.9,37.2 L33.1,42.8 L77.1,88.8Z M28.3,53.6 L45.6,37.0 L36.6,27.6 L19.3,44.2Z";
 const HIST_MAX = 30;      // 1件ごとに残す解答履歴
 const CLEAR_STREAK = 2;   // 特訓・苦手モードで連続この回数正解すると卒業
 
@@ -318,13 +338,148 @@ function ask(title, body, yes="削除する"){
 
 /* ---------- 保存先：この端末（localStorage） ---------- */
 const KEY="ru-ja-drill-cards";
+function readLocal(){ try{ const v=JSON.parse(localStorage.getItem(KEY)||"[]"); return Array.isArray(v)?v:[]; }catch(e){ return []; } }
 function flush(){ try{ localStorage.setItem(KEY, JSON.stringify(cards)); return true; }catch(e){ toast("保存できませんでした"); return false; } }
+function useLocal(){
+  cards=readLocal();
+  backend = { save:async()=>flush(), del:async()=>flush(), cloud:false };
+  $("#status").textContent = "★ この端末に保存";
+}
 async function initStore(){
-  let ok=true;
-  try{ cards = JSON.parse(localStorage.getItem(KEY)||"[]"); if(!Array.isArray(cards)) cards=[]; }catch(e){ ok=false; cards=[]; }
   try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
-  backend = { save:async()=>flush(), del:async()=>flush() };
-  $("#status").textContent = ok ? "★ この端末に保存" : "保存できません";
+  useLocal();
+  initFirebase();
+}
+function resetQuiz(){ st.sent.queue=[]; st.word.queue=[]; st.sent.cur=null; st.word.cur=null; }
+
+/* ---------- アカウント（Firebase） ---------- */
+const FB_VER="10.12.2";
+const acct={ A:null, F:null, auth:null, db:null, user:null, unsub:null, state:"off", msg:"" };
+async function initFirebase(){
+  const cfg=window.FIREBASE_CONFIG;
+  if(!cfg || !cfg.apiKey){ acct.state="nocfg"; renderAcct(); return; }
+  acct.state="loading"; renderAcct();
+  try{
+    const base=`https://www.gstatic.com/firebasejs/${FB_VER}/`;
+    const [appM,A,F]=await Promise.all([import(base+"firebase-app.js"),import(base+"firebase-auth.js"),import(base+"firebase-firestore.js")]);
+    const app=appM.initializeApp(cfg);
+    acct.A=A; acct.F=F; acct.auth=A.getAuth(app);
+    try{ acct.db=F.initializeFirestore(app,{ localCache:F.persistentLocalCache({ tabManager:F.persistentMultipleTabManager() }) }); }
+    catch(e){ acct.db=F.getFirestore(app); }
+    A.onAuthStateChanged(acct.auth, u=>onUser(u));
+  }catch(e){ console.warn(e); acct.state="error"; renderAcct(); }
+}
+
+function onUser(u){
+  if(acct.unsub){ acct.unsub(); acct.unsub=null; }
+  acct.user=u;
+  if(!u){ acct.state="out"; useLocal(); resetQuiz(); showTab(); renderAcct(); return; }
+  acct.state="in";
+  const F=acct.F, col=F.collection(acct.db,"users",u.uid,"cards");
+  const fail=e=>{ console.warn(e); toast("クラウドに保存できませんでした"); };
+  backend={
+    save:c=>{ const {id,...body}=c; return F.setDoc(F.doc(col,id), JSON.parse(JSON.stringify(body))).catch(fail); },
+    del:id=>F.deleteDoc(F.doc(col,id)).catch(fail),
+    cloud:true
+  };
+  $("#status").textContent="★ 同期中…";
+  const local=readLocal(); let first=true;
+  acct.unsub=F.onSnapshot(col, snap=>{
+    cards=snap.docs.map(d=>({ id:d.id, ...d.data() }));
+    $("#status").textContent = snap.metadata.fromCache ? "★ オフライン（あとで同期）" : "★ クラウド同期中";
+    if(first){ first=false; resetQuiz(); showTab(); offerMigrate(local); }
+    else refreshAfterData();
+    renderAcct();
+  }, e=>{ console.warn(e); toast("同期できませんでした"); $("#status").textContent="同期エラー"; });
+  renderAcct();
+}
+
+// 他の端末で変わったデータを、作業中の画面をこわさずに反映する
+function refreshAfterData(){
+  for(const k of ["sent","word"]){
+    const s=st[k]; if(!s.cur) continue;
+    const n=cards.find(c=>c.id===s.cur.id);
+    if(n) s.cur=n; else s.cur=null;
+  }
+  if(st.tab==="quiz"){ if(!S().cur) nextQ(); else updateScore(); }
+  if(st.tab==="add" && !document.querySelector("#cardList .eRu")) renderList();
+  if(st.tab==="log") renderLog();
+}
+
+async function offerMigrate(local){
+  const have=new Set(cards.map(c=>c.id));
+  const todo=local.filter(c=>c && c.id && !have.has(c.id));
+  if(!todo.length) return;
+  if(!await ask(`この端末のデータ${todo.length}件をアカウントに移しますか？`,
+    "ログイン前にこの端末に保存していた例文・単語・記録を、アカウントにコピーします。ほかの端末からも使えるようになります。", "移す")) return;
+  const F=acct.F, col=F.collection(acct.db,"users",acct.user.uid,"cards");
+  try{
+    for(let i=0;i<todo.length;i+=400){
+      const b=F.writeBatch(acct.db);
+      todo.slice(i,i+400).forEach(c=>{ const {id,...body}=c; b.set(F.doc(col,id), JSON.parse(JSON.stringify(body))); });
+      await b.commit();
+    }
+    toast(`${todo.length}件をアカウントに移しました`);
+  }catch(e){ console.warn(e); toast("移せませんでした。通信を確認してください"); }
+}
+
+const AUTH_ERR={
+  "auth/invalid-email":"メールアドレスの形が正しくありません",
+  "auth/missing-password":"パスワードを入力してください",
+  "auth/weak-password":"パスワードは6文字以上にしてください",
+  "auth/email-already-in-use":"このメールアドレスはすでに登録されています。ログインしてください",
+  "auth/invalid-credential":"メールアドレスかパスワードが違います",
+  "auth/wrong-password":"メールアドレスかパスワードが違います",
+  "auth/user-not-found":"メールアドレスかパスワードが違います",
+  "auth/too-many-requests":"試行が多すぎます。少し時間をおいてください",
+  "auth/network-request-failed":"通信できません。ネット接続を確認してください"
+};
+const authMsg=e=>AUTH_ERR[e&&e.code]||"うまくいきませんでした（"+(e&&e.code||"不明")+"）";
+
+function renderAcct(){
+  const box=$("#acctBox"); if(!box) return;
+  const photo=`<div class="photo"><svg viewBox="0 0 100 100"><path fill="#e8b923" d="${SICKLE}"/></svg></div>`;
+  if(acct.state==="nocfg"){
+    box.innerHTML=`<p class="label">УДОСТОВЕРЕНИЕ <em>同志証</em></p>
+      <div class="empty" style="padding:10px 0">アカウント機能はまだ準備されていません。<br>いまはこの端末だけに保存しています。<span class="ru">firebase-config.js を設定してください</span></div>`;
+    return;
+  }
+  if(acct.state==="loading"||acct.state==="off"){ box.innerHTML=`<p class="label">УДОСТОВЕРЕНИЕ <em>同志証</em></p><div class="empty">読み込み中…</div>`; return; }
+  if(acct.state==="error"){ box.innerHTML=`<p class="label">УДОСТОВЕРЕНИЕ <em>同志証</em></p><div class="empty">アカウント機能を読み込めませんでした。<br>ネットにつないで開き直してください。</div>`; return; }
+  if(acct.state==="in"){
+    const n=cards.length;
+    box.innerHTML=`<p class="label">УДОСТОВЕРЕНИЕ <em>同志証</em></p>
+      <div class="who">${photo}<div><div class="nm">${esc(acct.user.email)}</div><div class="sub">ログイン中・データ${n}件をクラウドで同期</div></div></div>
+      <button class="btn ghost" id="outBtn">ログアウト</button>`;
+    $("#outBtn").onclick=async()=>{
+      if(!await ask("ログアウトしますか？","クラウドのデータは消えません。もう一度ログインすれば、そのまま使えます。","ログアウト")) return;
+      try{ await acct.A.signOut(acct.auth); toast("ログアウトしました"); }catch(e){ toast(authMsg(e)); }
+    };
+    return;
+  }
+  // ログアウト中
+  box.innerHTML=`<p class="label">УДОСТОВЕРЕНИЕ <em>同志証</em></p>
+    <div class="who">${photo}<div><div class="nm">未登録の同志</div><div class="sub">ログインすると端末どうしでデータを共有できます</div></div></div>
+    <p class="label">E-MAIL <em>メールアドレス</em></p>
+    <input type="text" id="aMail" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false">
+    <div class="gap"></div>
+    <p class="label">ПАРОЛЬ <em>パスワード（6文字以上）</em></p>
+    <input type="password" id="aPass" autocomplete="current-password">
+    <p class="err" id="aErr">${esc(acct.msg)}</p>
+    <div class="gap"></div>
+    <div class="row"><button class="btn red" id="inBtn">ログイン</button><button class="btn ghost" id="upBtn">新規登録</button></div>
+    <button class="linkbtn" id="resetBtn">パスワードを忘れた</button>`;
+  const pass=$("#aPass");
+  const val=()=>[$("#aMail").value.trim(), $("#aPass").value];
+  const run=async(fn, okMsg)=>{
+    $("#aErr").textContent=""; acct.msg="";
+    const [m,p]=val();
+    try{ await fn(m,p); if(okMsg) toast(okMsg); }catch(e){ acct.msg=authMsg(e); const el=$("#aErr"); if(el) el.textContent=acct.msg; }
+  };
+  $("#inBtn").onclick=()=>run((m,p)=>acct.A.signInWithEmailAndPassword(acct.auth,m,p),"ようこそ、同志！");
+  $("#upBtn").onclick=()=>run((m,p)=>acct.A.createUserWithEmailAndPassword(acct.auth,m,p),"同志証を発行しました！");
+  $("#resetBtn").onclick=()=>run(async m=>{ if(!m) throw {code:"auth/invalid-email"}; await acct.A.sendPasswordResetEmail(acct.auth,m); }, "パスワード再設定のメールを送りました");
+  pass.addEventListener("keydown",e=>{ if(e.key==="Enter") $("#inBtn").click(); });
 }
 
 /* ---------- バックアップ ---------- */
@@ -341,10 +496,12 @@ function importData(file){
     try{
       const j=JSON.parse(r.result); const list=Array.isArray(j)?j:j.cards;
       if(!Array.isArray(list)) throw 0;
-      const have=new Map(cards.map(c=>[c.id,c])); let n=0;
-      for(const c of list){ if(c && c.id && c.ru && c.ja){ have.set(c.id,c); n++; } }
-      cards=[...have.values()]; flush();
-      st.sent.queue=[]; st.word.queue=[]; st.sent.cur=null; st.word.cur=null;
+      const have=new Map(cards.map(c=>[c.id,c])); const got=[];
+      for(const c of list){ if(c && c.id && c.ru && c.ja){ have.set(c.id,c); got.push(c); } }
+      const n=got.length;
+      cards=[...have.values()];
+      if(backend.cloud) got.forEach(c=>backend.save(c)); else flush();
+      resetQuiz();
       toast(`${n}件を読み込みました`); showTab();
     }catch(e){ toast("このファイルは読み込めません"); }
   };
@@ -380,6 +537,8 @@ function applyDeck(){
 function showTab(){
   setOn($("nav"),"tab",st.tab);
   document.querySelectorAll("section").forEach(x=>x.classList.toggle("on",x.id===st.tab));
+  $(".decks").style.display = st.tab==="acct" ? "none" : "";
+  if(st.tab==="acct") renderAcct();
   if(st.tab==="quiz"){ if(!S().cur || kindOf(S().cur)!==st.deck || !cards.includes(S().cur)) nextQ(); else renderQ(); }
   if(st.tab==="add") renderList();
   if(st.tab==="log") renderLog();
@@ -610,7 +769,7 @@ $("#impFile").onchange=e=>{ const f=e.target.files[0]; if(f) importData(f); e.ta
 /* ---------- 起動 ---------- */
 if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }
 applyDeck();
-initStore().then(()=>{ st.sent.queue=[]; st.word.queue=[]; st.sent.cur=null; st.word.cur=null; showTab(); });
+initStore().then(()=>{ resetQuiz(); showTab(); });
 </script>
 </body>
 </html>
