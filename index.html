@@ -223,6 +223,32 @@ nav button{font-size:13px;padding:9px 2px}
 .dtbl.wide td.ro{font-size:13px;padding:6px 1px;line-height:1.35}
 .dtbl td.ro.na{background:repeating-linear-gradient(45deg,#efe2c4 0 6px,#f8f0dc 6px 12px);color:var(--sub);font-size:12px}
 .dtbl b.plm{font-family:var(--ru);font-weight:400;font-size:10px;color:var(--red);letter-spacing:.05em}
+
+/* 教材4つ・タブ5つ */
+.decks{gap:7px}
+.decks button{font-size:15px;padding:8px 2px 6px;box-shadow:3px 3px 0 var(--ink)}
+.decks button small{font-size:8px;letter-spacing:.08em}
+#catBar{max-width:640px;margin:12px auto 0;padding:0 14px}
+#catBar .seg{margin:0}
+.dtbl tr.grp th{background:#3a2f2a;color:var(--gold);font-family:"Noto Sans JP";font-size:11px;padding:4px;text-align:left;letter-spacing:.05em}
+/* 目標 */
+.goalrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px;font-weight:700;margin:-2px 0 12px}
+.goalrow select{font:inherit;font-size:15px;font-weight:700;border:2.5px solid var(--ink);background:#fffdf6;padding:4px 8px;border-radius:0;color:var(--red)}
+.goalrow .note{margin:0;font-weight:400}
+/* 勲章 */
+.medals{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.medal{background:var(--card);border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:10px 8px 10px;text-align:center;position:relative}
+.medal svg{width:86px;height:112px;display:block;margin:0 auto 4px;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.25))}
+.medal.locked svg{filter:grayscale(1) opacity(.35)}
+.medal .mj{font-family:var(--disp);font-size:14px;line-height:1.3}
+.medal .mr{font-family:var(--ru);font-size:9.5px;color:var(--sub);margin:3px 0 6px;line-height:1.3}
+.medal .mc{font-size:11px;font-weight:700;line-height:1.5}
+.medal .bar{height:7px;border:1.5px solid var(--ink);background:#fffdf6;margin:6px 4px 3px}
+.medal .bar i{display:block;height:100%;background:var(--red)}
+.medal .pg{font-size:10px;color:var(--sub);font-weight:700}
+.medal .got{position:absolute;top:6px;right:6px;font-size:10px;font-weight:700;background:var(--gold);color:var(--ink);border:1.5px solid var(--ink);padding:1px 5px;transform:rotate(6deg)}
+.medal.new{animation:medalIn 1s ease-out}
+@keyframes medalIn{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08)}100%{transform:none;opacity:1}}
 </style>
 </head>
 <body>
@@ -242,19 +268,28 @@ nav button{font-size:13px;padding:9px 2px}
 <div class="decks">
   <button data-deck="sent" class="on">翻訳<small>ПЕРЕВОД</small></button>
   <button data-deck="word">単語<small>СЛОВА</small></button>
+  <button data-deck="decl">格変化<small>ПАДЕЖИ</small></button>
+  <button data-deck="verb">動詞<small>ГЛАГОЛЫ</small></button>
 </div>
 <nav>
   <button data-tab="quiz" class="on">出題</button>
   <button data-tab="add">登録</button>
   <button data-tab="log">記録</button>
-  <button data-tab="decl">格変化</button>
+  <button data-tab="medal">勲章</button>
   <button data-tab="acct">同志証</button>
 </nav>
+<div id="catBar"><div class="seg cats" id="catSeg">
+    <button data-v="noun" class="on">名詞</button>
+    <button data-v="adj">形容詞</button>
+    <button data-v="poss">所有代名詞</button>
+    <button data-v="pers">人称代名詞</button>
+  </div></div>
 
 <main>
 <!-- 出題 -->
 <section id="quiz" class="on">
   <div class="band" data-go="log"></div>
+  <div id="cardQuiz" class="pane">
   <div class="box">
     <p class="label">НАПРАВЛЕНИЕ <em>方向</em></p>
     <div class="seg" id="dirSeg">
@@ -278,10 +313,32 @@ nav button{font-size:13px;padding:9px 2px}
     <div><b id="sDue">0</b><span>今日の復習</span></div>
   </div>
   <div class="box" id="qbox"></div>
+  </div>
+  <div id="gridQuiz" class="pane">
+    <div class="box">
+      <p class="label">ОБЛАСТЬ <em id="rangeLabel">範囲</em></p>
+      <div class="chips" id="gChips"></div>
+      <p class="label">РЕЖИМ <em>モード</em></p>
+      <div class="seg" id="dModeSeg">
+        <button data-v="random" class="on">ランダム</button>
+        <button data-v="drill">苦手</button>
+        <button data-v="review">今日の復習</button>
+      </div>
+      <p class="note" id="dNote"></p>
+    </div>
+    <div class="score four">
+      <div><b id="dOk">0</b><span>今回の正解</span></div>
+      <div><b id="dNg">0</b><span>今回の不正解</span></div>
+      <div><b id="dHot">0</b><span>苦手なマス</span></div>
+      <div><b id="dDue">0</b><span>今日の復習</span></div>
+    </div>
+    <div class="box" id="dqbox"></div>
+  </div>
 </section>
 
 <!-- 登録 -->
 <section id="add">
+  <div id="cardAdd" class="pane">
   <div class="box">
     <p class="label">ПО-РУССКИ <em id="ruL">ロシア語の例文</em></p>
     <textarea id="inRu" rows="2" lang="ru"></textarea>
@@ -312,15 +369,18 @@ nav button{font-size:13px;padding:9px 2px}
     <input type="text" id="search" placeholder="検索（ロシア語・日本語・タグ）">
     <div class="list" id="cardList"></div>
   </div>
-  <div class="box">
-    <p class="label">РЕЗЕРВ <em>バックアップ</em></p>
-    <p class="note">例文・単語・格変化の表・記録・学習カレンダーをファイルに保存して、あとで読み込めます。ログインしていない場合はとくに、ときどき保存しておくと安心です。</p>
-    <div class="gap"></div>
-    <div class="row">
-      <button class="btn ghost" id="expBtn">保存する</button>
-      <button class="btn ghost" id="impBtn">読み込む</button>
+
+
+  </div>
+  <div id="gridAdd" class="pane">
+    <div id="dEditor"></div>
+    <button class="btn red" id="newTable">＋ 新しい表を作る</button>
+    <div class="gap"></div><div class="gap"></div>
+    <div class="box" id="tListBox">
+      <p class="label">ТАБЛИЦЫ <em id="tListLabel">登録した表</em></p>
+      <div class="list" id="tList"></div>
     </div>
-    <input type="file" id="impFile" accept="application/json,.json" style="display:none">
+    <div class="box" id="builtinView" style="display:none"></div>
   </div>
 </section>
 
@@ -328,6 +388,10 @@ nav button{font-size:13px;padding:9px 2px}
 <section id="log">
   <div class="box">
     <p class="label">ПЯТИЛЕТКА <em>学習カレンダー（1日5問で★）</em></p>
+    <div class="goalrow">★の目標：1日
+      <select id="goalSel"><option value="3">3</option><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select> 問
+      <span class="note">（変えると今日から適用・過去の★はそのまま）</span>
+    </div>
     <div class="calsum">
       <div><b id="cStreak">0</b><span>連続日数</span></div>
       <div><b id="cBest">0</b><span>最長連続</span></div>
@@ -341,11 +405,13 @@ nav button{font-size:13px;padding:9px 2px}
     <div class="cal" id="cal"></div>
     <div class="legend">
       <span><i style="background:#f3d9b0"></i>1〜4問</span>
-      <span><i style="background:var(--red)"></i>5問以上（★）</span>
+      <span><i style="background:var(--red)"></i><span id="legendStar">目標以上（★）</span></span>
       <span><i style="outline:2px solid var(--gold);background:#fffdf6"></i>今日</span>
       <button class="mini" id="calToday" style="margin-left:auto">今月へ</button>
     </div>
   </div>
+  <div id="cardLog" class="pane">
+
   <div class="score">
     <div><b id="lTotal">0</b><span>解答数</span></div>
     <div><b id="lRate">–</b><span>正答率</span></div>
@@ -366,54 +432,9 @@ nav button{font-size:13px;padding:9px 2px}
     <div class="gap"></div>
     <button class="btn danger" id="wipeNg">間違いの記録をすべて削除</button>
   </div>
-</section>
 
-<!-- 格変化 -->
-<section id="decl">
-  <div class="seg cats" id="catSeg">
-    <button data-v="noun" class="on">名詞</button>
-    <button data-v="adj">形容詞</button>
-    <button data-v="poss">所有代名詞</button>
-    <button data-v="pers">人称代名詞</button>
   </div>
-  <div class="seg" id="declSeg" style="background:var(--card)">
-    <button data-v="practice" class="on">練習</button>
-    <button data-v="tables">表の登録</button>
-    <button data-v="dlog">記録</button>
-  </div>
-
-  <div id="dv-practice">
-    <div class="band" data-go="log"></div>
-    <div class="box">
-      <p class="label">ОБЛАСТЬ <em id="rangeLabel">範囲</em></p>
-      <div class="chips" id="gChips"></div>
-      <p class="label">РЕЖИМ <em>モード</em></p>
-      <div class="seg" id="dModeSeg">
-        <button data-v="random" class="on">ランダム</button>
-        <button data-v="drill">苦手</button>
-      </div>
-      <p class="note" id="dNote"></p>
-    </div>
-    <div class="score">
-      <div><b id="dOk">0</b><span>今回の正解</span></div>
-      <div><b id="dNg">0</b><span>今回の不正解</span></div>
-      <div><b id="dHot">0</b><span>苦手なマス</span></div>
-    </div>
-    <div class="box" id="dqbox"></div>
-  </div>
-
-  <div id="dv-tables" style="display:none">
-    <div id="dEditor"></div>
-    <button class="btn red" id="newTable">＋ 新しい表を作る</button>
-    <div class="gap"></div><div class="gap"></div>
-    <div class="box" id="tListBox">
-      <p class="label">ТАБЛИЦЫ <em id="tListLabel">登録した表</em></p>
-      <div class="list" id="tList"></div>
-    </div>
-    <div class="box" id="builtinView" style="display:none"></div>
-  </div>
-
-  <div id="dv-dlog" style="display:none">
+  <div id="gridLog" class="pane">
     <div class="score">
       <div><b id="dlTotal">0</b><span>解答数</span></div>
       <div><b id="dlRate">–</b><span>正答率</span></div>
@@ -437,12 +458,36 @@ nav button{font-size:13px;padding:9px 2px}
   </div>
 </section>
 
+<!-- 勲章 -->
+<section id="medal">
+  <div class="box">
+    <p class="label">НАГРАДЫ <em>勲章（学習の功績で授与）</em></p>
+    <div class="calsum">
+      <div><b id="mGot">0</b><span>授与された勲章</span></div>
+      <div><b id="mAll">0</b><span>勲章の数</span></div>
+      <div><b id="mTotal">0</b><span>累計の解答</span></div>
+    </div>
+    <p class="note">勲章の名前は実在したソ連の勲章・称号です。絵は色と形を簡略化したイメージです。</p>
+  </div>
+  <div class="medals" id="medalList"></div>
+</section>
+
 <!-- アカウント -->
 <section id="acct">
   <div class="box idcard" id="acctBox"></div>
   <div class="box">
     <p class="label">ИНФО <em>アカウントについて</em></p>
     <p class="note">ログインすると、例文・単語・格変化の表・記録・学習カレンダーがクラウドに保存され、パソコンとスマホなど同じアカウントの端末どうしで自動的に共有されます。ログインしていないあいだは、この端末だけに保存されます。</p>
+  </div>
+  <div class="box">
+    <p class="label">РЕЗЕРВ <em>バックアップ</em></p>
+    <p class="note">例文・単語・格変化の表・記録・学習カレンダーをファイルに保存して、あとで読み込めます。ログインしていない場合はとくに、ときどき保存しておくと安心です。</p>
+    <div class="gap"></div>
+    <div class="row">
+      <button class="btn ghost" id="expBtn">保存する</button>
+      <button class="btn ghost" id="impBtn">読み込む</button>
+    </div>
+    <input type="file" id="impFile" accept="application/json,.json" style="display:none">
   </div>
 </section>
 
@@ -497,7 +542,9 @@ const st = {
   decl:{ cat:"noun", view:"practice", logFilter:"all", draft:null }
 };
 const mkD = () => ({ mode:"random", range:[], queue:[], cur:null, last:null, ok:0, ng:0 });
-["noun","adj","pers","poss"].forEach(k=>st.decl[k]=mkD());
+["noun","adj","pers","poss","verb"].forEach(k=>st.decl[k]=mkD());
+const isGrid = () => st.deck==="decl" || st.deck==="verb";
+const gridCat = () => st.deck==="verb" ? "verb" : st.decl.cat;
 const S = () => st[st.deck];
 const deckCards = () => cards.filter(c => kindOf(c) === st.deck);
 
@@ -541,40 +588,66 @@ function countsFromHistory(list){
   for(const c of list) for(const h of (c.history||[])){ const k=tKey(h.t); days[k]=(days[k]||0)+1; }
   return days;
 }
+function dayGoal(k){
+  const g=stats.goalFrom||{}; let best=null;
+  for(const d in g) if(d<=k && (!best || d>best)) best=d;
+  return best ? +g[best] : STAR_GOAL;
+}
+const isStar = k => dayCount(k) >= dayGoal(k);
+function cntFromHistory(list){
+  const c={};
+  for(const x of list) for(const h of (x.history||[])){
+    if(resOf(h)==="o") c.o=(c.o||0)+1;
+    const d = kindOf(x)==="decl" ? (catOf(x)==="verb" ? "verb" : "decl") : kindOf(x);
+    c["d_"+d]=(c["d_"+d]||0)+1;
+  }
+  return c;
+}
 function streakInfo(){
   const today=dayKey(); let k=today, n=0;
-  if(dayCount(k) < STAR_GOAL) k=addDays(k,-1);
-  while(dayCount(k) >= STAR_GOAL){ n++; k=addDays(k,-1); }
-  const starDays=Object.keys(stats.days||{}).filter(d=>dayCount(d)>=STAR_GOAL).sort();
+  if(!isStar(k)) k=addDays(k,-1);
+  while(isStar(k)){ n++; k=addDays(k,-1); }
+  const starDays=Object.keys(stats.days||{}).filter(isStar).sort();
   let best=0, run=0, prev=null;
   for(const d of starDays){ run = (prev && addDays(prev,1)===d) ? run+1 : 1; best=Math.max(best,run); prev=d; }
-  return { streak:n, best, today:dayCount(today) };
+  return { streak:n, best, today:dayCount(today), goal:dayGoal(today), starDays:starDays.length };
 }
-function bump(){
-  const k=dayKey(); stats.days = stats.days || {};
+function bump(res, grad){
+  const k=dayKey(); stats.days = stats.days || {}; stats.cnt = stats.cnt || {};
   stats.days[k] = dayCount(k) + 1;
-  backend.bump(k);
-  if(stats.days[k] === STAR_GOAL) setTimeout(()=>toast("今日の★を獲得！ Ура, товарищ!"), 700);
+  const dk = "d_" + st.deck;
+  if(res==="o") stats.cnt.o=(stats.cnt.o||0)+1;
+  if(grad) stats.cnt.grad=(stats.cnt.grad||0)+1;
+  stats.cnt[dk]=(stats.cnt[dk]||0)+1;
+  backend.bump(k, res, grad, dk);
+  if(stats.days[k] === dayGoal(k)) setTimeout(()=>toast("今日の★を獲得！ Ура, товарищ!"), 700);
   renderBand();
+  setTimeout(()=>checkMedals(false), 1400);
+}
+function setGoal(v){
+  const k=dayKey(); stats.goalFrom = stats.goalFrom || {};
+  stats.goalFrom[k]=v; backend.patchStats({ goalFrom:{ [k]:v } });
+  toast(`★の目標を1日${v}問にしました（今日から）`);
+  renderBand(); if(st.tab==="log") renderCalendar();
 }
 function renderBand(){
-  const { streak, today } = streakInfo();
-  const done = today >= STAR_GOAL;
-  const pips = "★".repeat(Math.min(today,STAR_GOAL)) + `<i>${"★".repeat(Math.max(0,STAR_GOAL-today))}</i>`;
+  const { streak, today, goal } = streakInfo();
+  const done = today >= goal, shown = Math.min(goal, 10), lit = Math.min(shown, Math.floor(today/goal*shown));
+  const pips = "★".repeat(lit) + `<i>${"★".repeat(shown-lit)}</i>`;
   $$(".band").forEach(b=>{
     b.classList.toggle("done", done);
     b.innerHTML = `<div class="sk"><small>СТРИК · 連続学習</small>${streak}日</div>
-      <div class="td"><div class="pips">${pips}</div>${done ? `今日 <b>${today}</b>問・★達成！` : `今日 <b>${today}</b>問・★まであと${STAR_GOAL-today}問`}</div>`;
+      <div class="td"><div class="pips">${pips}</div>${done ? `今日 <b>${today}</b>/${goal}問・★達成！` : `今日 <b>${today}</b>/${goal}問・★まであと${goal-today}問`}</div>`;
   });
 }
 let lastDay = dayKey();
 function checkDayChange(){
   if(dayKey() === lastDay) return;
   lastDay = dayKey();
-  st.sent.queue=[]; st.word.queue=[];
+  st.sent.queue=[]; st.word.queue=[]; ["noun","adj","pers","poss","verb"].forEach(k=>st.decl[k].queue=[]);
   renderBand();
   if(st.tab==="log") renderCalendar();
-  if(st.tab==="quiz") updateScore();
+  if(st.tab==="quiz") (isGrid() ? updateDeclScore : updateScore)();
 }
 setInterval(checkDayChange, 30000);
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden){ checkDayChange(); renderBand(); } });
@@ -583,24 +656,28 @@ function renderCalendar(){
   const today=dayKey();
   if(!st.calMonth) st.calMonth = today.slice(0,7);
   const [y,m] = st.calMonth.split("-").map(Number);
-  const { streak, best } = streakInfo();
+  const { streak, best, goal } = streakInfo();
   const first = new Date(y, m-1, 1), lastD = new Date(y, m, 0).getDate();
   let monthStars=0, html=["日","月","火","水","木","金","土"].map((w,i)=>`<div class="wd${i===0?" sun":i===6?" sat":""}">${w}</div>`).join("");
   for(let i=0;i<first.getDay();i++) html+=`<div class="d blank"></div>`;
   for(let d=1; d<=lastD; d++){
     const k=`${y}-${p2(m)}-${p2(d)}`, n=dayCount(k);
-    const cls=["d"]; if(n>=STAR_GOAL){ cls.push("star"); monthStars++; } else if(n>0) cls.push("l1");
+    const cls=["d"]; if(isStar(k)){ cls.push("star"); monthStars++; } else if(n>0) cls.push("l1");
     if(k===today) cls.push("today"); if(k>today) cls.push("fut");
-    html+=`<div class="${cls.join(" ")}" title="${k}：${n}問">${d}${n?`<span class="n">${n}</span>`:""}</div>`;
+    html+=`<div class="${cls.join(" ")}" title="${k}：${n}問（目標${dayGoal(k)}問）">${d}${n?`<span class="n">${n}</span>`:""}</div>`;
   }
   $("#cal").innerHTML=html;
   $("#calTitle").textContent=`${y}年${m}月`;
   $("#cStreak").textContent=streak; $("#cBest").textContent=best; $("#cMonth").textContent=monthStars;
+  $("#goalSel").value=String(goal);
+  if($("#goalSel").value!==String(goal)){ const o=document.createElement("option"); o.value=o.textContent=String(goal); $("#goalSel").appendChild(o); $("#goalSel").value=String(goal); }
+  $("#legendStar").textContent=`目標の${goal}問以上（★）`;
 }
 function moveMonth(n){ const [y,m]=st.calMonth.split("-").map(Number); const d=new Date(y, m-1+n, 1); st.calMonth=`${d.getFullYear()}-${p2(d.getMonth()+1)}`; renderCalendar(); }
 $("#calPrev").onclick=()=>moveMonth(-1);
 $("#calNext").onclick=()=>moveMonth(1);
 $("#calToday").onclick=()=>{ st.calMonth=dayKey().slice(0,7); renderCalendar(); };
+$("#goalSel").onchange=e=>setGoal(+e.target.value);
 document.addEventListener("click", e=>{ const b=e.target.closest(".band"); if(b){ st.tab="log"; showTab(); window.scrollTo({top:0,behavior:"smooth"}); } });
 
 /* ---------- 保存先：この端末（localStorage） ---------- */
@@ -612,8 +689,10 @@ function flushStats(){ try{ localStorage.setItem(KEY_STATS, JSON.stringify(stats
 function useLocal(){
   cards=readLocal();
   stats=readLocalStats() || { days:countsFromHistory(cards) };
+  stats.goalFrom=stats.goalFrom||{}; stats.medals=stats.medals||{};
+  if(!stats.cnt) stats.cnt=cntFromHistory(cards);
   flushStats();
-  backend = { save:async()=>flush(), del:async()=>flush(), bump:()=>flushStats(), cloud:false };
+  backend = { save:async()=>flush(), del:async()=>flush(), bump:()=>flushStats(), patchStats:()=>flushStats(), cloud:false };
   $("#status").textContent = "★ この端末に保存";
 }
 async function initStore(){
@@ -621,7 +700,7 @@ async function initStore(){
   useLocal();
   initFirebase();
 }
-function resetQuiz(){ st.sent.queue=[]; st.word.queue=[]; st.sent.cur=null; st.word.cur=null; ["noun","adj","pers","poss"].forEach(k=>{ st.decl[k].queue=[]; st.decl[k].cur=null; }); }
+function resetQuiz(){ st.sent.queue=[]; st.word.queue=[]; st.sent.cur=null; st.word.cur=null; ["noun","adj","pers","poss","verb"].forEach(k=>{ st.decl[k].queue=[]; st.decl[k].cur=null; }); }
 
 /* ---------- アカウント（Firebase） ---------- */
 const FB_VER="10.12.2";
@@ -651,7 +730,8 @@ function onUser(u){
   backend={
     save:c=>{ const {id,...body}=c; return F.setDoc(F.doc(col,id), JSON.parse(JSON.stringify(body))).catch(fail); },
     del:id=>F.deleteDoc(F.doc(col,id)).catch(fail),
-    bump:k=>F.setDoc(statsRef, { days:{ [k]:F.increment(1) } }, { merge:true }).catch(fail),
+    bump:(k,res,grad,dk)=>F.setDoc(statsRef, { days:{ [k]:F.increment(1) }, cnt:{ o:F.increment(res==="o"?1:0), grad:F.increment(grad?1:0), [dk]:F.increment(1) } }, { merge:true }).catch(fail),
+    patchStats:obj=>F.setDoc(statsRef, obj, { merge:true }).catch(fail),
     cloud:true
   };
   $("#status").textContent="★ 同期中…";
@@ -665,7 +745,15 @@ function onUser(u){
     if(localStats) for(const [k,v] of Object.entries(localStats.days)) src[k]=Math.max(src[k]||0, v);
     const patch={};
     for(const [k,v] of Object.entries(src)) if(v > dayCount(k)) patch[k]=v;
-    if(statsState==="missing" || Object.keys(patch).length) F.setDoc(statsRef, { days:patch }, { merge:true }).catch(fail);
+    const body={ days:patch };
+    if(!stats.cnt || !Object.keys(stats.cnt).length){
+      const c=cntFromHistory(cards), lc=(localStats&&localStats.cnt)||{};
+      for(const [k,v] of Object.entries(lc)) c[k]=Math.max(c[k]||0, v);
+      body.cnt=c;
+    }
+    if(localStats && localStats.goalFrom) for(const [k,v] of Object.entries(localStats.goalFrom)) if(!(stats.goalFrom||{})[k]) (body.goalFrom=body.goalFrom||{})[k]=v;
+    if(localStats && localStats.medals) for(const [k,v] of Object.entries(localStats.medals)) if(!(stats.medals||{})[k]) (body.medals=body.medals||{})[k]=v;
+    F.setDoc(statsRef, body, { merge:true }).catch(fail);
     statsState="done";
   };
   acct.unsubs.push(F.onSnapshot(col, snap=>{
@@ -676,10 +764,12 @@ function onUser(u){
     renderAcct();
   }, e=>{ console.warn(e); toast("同期できませんでした"); $("#status").textContent="同期エラー"; }));
   acct.unsubs.push(F.onSnapshot(statsRef, snap=>{
-    stats = { days: { ...((snap.exists() && snap.data().days) || {}) } };
+    const sd = snap.exists() ? snap.data() : {};
+    stats = { days:{ ...(sd.days||{}) }, goalFrom:{ ...(sd.goalFrom||{}) }, cnt:{ ...(sd.cnt||{}) }, medals:{ ...(sd.medals||{}) } };
     if(statsState===null){ statsState = snap.exists() ? "ok" : "missing"; syncStats(); }
     renderBand();
     if(st.tab==="log") renderCalendar();
+    if(st.tab==="medal") renderMedals();
   }, e=>console.warn(e)));
   renderAcct();
 }
@@ -690,15 +780,17 @@ function refreshAfterData(){
     const s=st[k]; if(!s.cur) continue;
     const n=cards.find(c=>c.id===s.cur.id); s.cur = n || null;
   }
-  ["noun","adj","pers","poss"].forEach(k=>{ const s=st.decl[k]; if(s.cur && !describe(k, s.cur.id, s.cur.key)) s.cur=null; });
-  if(st.tab==="quiz"){ renderRange(); if(!S().cur) nextQ(); else updateScore(); }
-  if(st.tab==="add" && !document.querySelector("#cardList .eRu")) renderList();
-  if(st.tab==="log") renderLog();
-  if(st.tab==="decl"){
-    if(st.decl.view==="practice"){ if(!D().cur) nextDecl(); else updateDeclScore(); }
-    if(st.decl.view==="tables") renderTables();
-    if(st.decl.view==="dlog") renderDeclLog();
+  ["noun","adj","pers","poss","verb"].forEach(k=>{ const s=st.decl[k]; if(s.cur && !describe(k, s.cur.id, s.cur.key)) s.cur=null; });
+  if(isGrid()){
+    if(st.tab==="quiz"){ if(!D().cur) nextDecl(); else updateDeclScore(); }
+    if(st.tab==="add" && !document.querySelector("#dEditor .dtbl")) renderTables();
+    if(st.tab==="log") renderDeclLog();
+  } else {
+    if(st.tab==="quiz"){ renderRange(); if(!S().cur) nextQ(); else updateScore(); }
+    if(st.tab==="add" && !document.querySelector("#cardList .eRu")) renderList();
+    if(st.tab==="log") renderLog();
   }
+  if(st.tab==="medal") renderMedals();
 }
 
 async function offerMigrate(local){
@@ -811,12 +903,13 @@ function seg(id, onPick){ const el=$(id); el.querySelectorAll("button").forEach(
 seg("#dirSeg", v=>{ S().dir=v; S().queue=[]; nextQ(); });
 seg("#modeSeg", v=>{ S().mode=v; S().queue=[]; nextQ(); });
 seg("#logSeg", v=>{ st.logFilter=v; renderLog(); });
-seg("#declSeg", v=>{ st.decl.view=v; showDeclView(); });
 seg("#dModeSeg", v=>{ D().mode=v; D().queue=[]; nextDecl(); });
-seg("#catSeg", v=>{ st.decl.cat=v; if(st.decl.draft && st.decl.draft.cat!==v) st.decl.draft=null; showDeclView(); });
+seg("#catSeg", v=>{ st.decl.cat=v; if(st.decl.draft && st.decl.draft.cat!==v) st.decl.draft=null; showTab(); });
 seg("#dLogSeg", v=>{ st.decl.logFilter=v; renderDeclLog(); });
 
 function applyDeck(){
+  if(st.decl.draft && st.decl.draft.cat!==gridCat()) st.decl.draft=null;
+  if(isGrid()){ showTab(); return; }
   const D = DECK[st.deck], s = S();
   setOn($(".decks"),"deck",st.deck);
   $("#dirRj").textContent=D.rj; $("#dirJr").textContent=D.jr; $("#drillName").textContent=D.drill; $("#sHotL").textContent=D.hot;
@@ -834,12 +927,21 @@ function applyDeck(){
 function showTab(){
   setOn($("nav"),"tab",st.tab);
   $$("main > section").forEach(x=>x.classList.toggle("on",x.id===st.tab));
-  $(".decks").style.display = (st.tab==="acct"||st.tab==="decl") ? "none" : "";
+  const deckTab = ["quiz","add","log"].includes(st.tab), g = isGrid();
+  $(".decks").style.display = deckTab ? "" : "none";
+  setOn($(".decks"),"deck",st.deck);
+  $("#catBar").style.display = deckTab && st.deck==="decl" ? "" : "none";
+  setOn($("#catSeg"),"v",st.decl.cat);
+  [["cardQuiz",!g],["cardAdd",!g],["cardLog",!g],["gridQuiz",g],["gridAdd",g],["gridLog",g]].forEach(([id,on])=>$("#"+id).style.display = on ? "" : "none");
   renderBand();
-  if(st.tab==="quiz"){ renderRange(); if(!S().cur || kindOf(S().cur)!==st.deck || !cards.includes(S().cur) || !eligible(S().cur)) nextQ(); else renderQ(); }
-  if(st.tab==="add") renderList();
-  if(st.tab==="log"){ renderCalendar(); renderLog(); }
-  if(st.tab==="decl") showDeclView();
+  if(st.tab==="log") renderCalendar();
+  if(g){ if(deckTab) showGrid(); }
+  else {
+    if(st.tab==="quiz"){ renderRange(); if(!S().cur || kindOf(S().cur)!==st.deck || !cards.includes(S().cur) || !eligible(S().cur)) nextQ(); else renderQ(); }
+    if(st.tab==="add") renderList();
+    if(st.tab==="log") renderLog();
+  }
+  if(st.tab==="medal") renderMedals();
   if(st.tab==="acct") renderAcct();
 }
 
@@ -863,14 +965,16 @@ const inRange = c => { const s=S(); return !s.tags.length || (c.tags||[]).some(t
 /* ---------- 忘却曲線 ---------- */
 const isNew = (c, dir) => !(c.srs && c.srs[dir]);
 const isDue = (c, dir) => isNew(c,dir) || c.srs[dir].due <= dayKey();
-function updateSrs(c, dir, res){
-  c.srs = c.srs || {};
-  let step = c.srs[dir] ? c.srs[dir].step : -1, days;
+function srsStep(prev, res){
+  let step = prev ? prev.step : -1, days;
   if(res==="o"){ step=Math.min(step+1, INTERVALS.length-1); days=INTERVALS[step]; }
   else if(res==="m"){ step=Math.max(step,0); days=Math.max(1, Math.round(INTERVALS[step]/2)); }
   else { step=0; days=1; }
-  c.srs[dir] = { step, due:addDays(dayKey(), days), last:dayKey() };
-  return days;
+  return { s:{ step, due:addDays(dayKey(), days), last:dayKey() }, days };
+}
+function updateSrs(c, dir, res){
+  c.srs = c.srs || {};
+  const r=srsStep(c.srs[dir], res); c.srs[dir]=r.s; return r.days;
 }
 const dueLabel = days => days===1 ? "明日" : days<7 ? `${days}日後` : days<30 ? `${Math.round(days/7)}週間後` : `${Math.round(days/30)}か月後`;
 
@@ -986,7 +1090,7 @@ function grade(res, mine){
   else { c.wrong=(c.wrong||0)+1; c.streak=0; c.needReview=true; s.ng++; }
   if(s.mode==="review") msg = "次の復習："+dueLabel(updateSrs(c, s.dir, res));
   backend.save(c);
-  bump();
+  bump(res, grad);
   stampOn($("#qbox"), res);
   if(grad) toast("卒業！ Молодец, товарищ!"); else if(msg) toast(msg);
   setTimeout(()=>{ grading=false; nextQ(); }, 650);
@@ -1204,11 +1308,27 @@ const CAT = {
   noun:{ name:"名詞", user:true, rangeLabel:"範囲（名詞の性）", range:[["m","男性名詞"],["n","中性名詞"],["f","女性名詞"]], rangeOf:t=>t.gender },
   adj: { name:"形容詞", user:true, rangeLabel:"範囲（変化のタイプ）", range:[["h1","硬変化Ⅰ"],["h2","硬変化Ⅱ"],["soft","軟変化"]], rangeOf:t=>t.atype },
   pers:{ name:"人称代名詞", user:false, sys:"sys-pers", rangeLabel:"範囲", range:[["12","я・ты・вы（мы）"],["3","он・оно・она（они）"],["q","кто・что・себя"]] },
-  poss:{ name:"所有代名詞", user:false, sys:"sys-poss", rangeLabel:"範囲", range:[["moi","мой・твой・свой"],["nash","наш・ваш"],["chei","чей"]] }
+  poss:{ name:"所有代名詞", user:false, sys:"sys-poss", rangeLabel:"範囲", range:[["moi","мой・твой・свой"],["nash","наш・ваш"],["chei","чей"]] },
+  verb:{ name:"動詞", user:true, rangeLabel:"範囲（体と形）", range:[["i","不完了体"],["p","完了体"],["inf","不定形・ペア"],["pres","現在・未来"],["past","過去形"],["imp","命令形"]] }
 };
 const catOf = c => c.cat || "noun";
-const D = () => st.decl[st.decl.cat];
-const declCards = (cat=st.decl.cat) => cards.filter(c => kindOf(c)==="decl" && catOf(c)===cat && !c.sysTable);
+/* 動詞：不完了体（i）と完了体（p）を並べて登録 */
+const VROWS = [
+  ["不定形","inf"],
+  ["я","pres"],["ты","pres"],["он / она","pres"],["мы","pres"],["вы","pres"],["они","pres"],
+  ["過去・男性","past"],["過去・女性","past"],["過去・中性","past"],["過去・複数","past"],
+  ["命令形・ты","imp"],["命令形・вы","imp"]
+];
+const ASP = { i:"不完了体", p:"完了体" };
+const vKey = (a,r) => a+r;
+const vParse = k => [k[0], +k.slice(1)];
+function vRowName(a, r){
+  const [lab, f] = VROWS[r];
+  if(f==="pres") return `${a==="i"?"現在":"未来"}・${lab}`;
+  return lab;
+}
+const D = () => st.decl[gridCat()];
+const declCards = (cat=gridCat()) => cards.filter(c => kindOf(c)==="decl" && catOf(c)===cat && !c.sysTable);
 const sysCard = cat => cards.find(c=>c.id===CAT[cat].sys);
 function ensureSys(cat){
   let c=sysCard(cat);
@@ -1216,7 +1336,8 @@ function ensureSys(cat){
   return c;
 }
 const filledCells = t => Object.entries(t.cells||{}).filter(([k,v])=>String(v).trim());
-const tableTitle = t => catOf(t)==="adj" ? (t.lemma || "形容詞の表") : (t.name || (t.heads||[]).filter(Boolean).join(" / ") || GENDER[t.gender].name+"の表");
+const verbTitle = t => [t.cells&&t.cells.i0, t.cells&&t.cells.p0].filter(Boolean).join(" / ");
+const tableTitle = t => catOf(t)==="verb" ? (verbTitle(t) || t.meaning || "動詞") : catOf(t)==="adj" ? (t.lemma || "形容詞の表") : (t.name || (t.heads||[]).filter(Boolean).join(" / ") || GENDER[t.gender].name+"の表");
 const cellStat = (tid, key) => { const t=cards.find(c=>c.id===tid); return (t && t.cs && t.cs[key]) || {}; };
 
 /* 出題する1マスの説明（問題文・答え・照合） */
@@ -1231,6 +1352,20 @@ function describe(cat, tid, key){
   }
   const t=cards.find(c=>c.id===tid); if(!t) return null;
   const ans=String((t.cells||{})[key]||"").trim(); if(!ans) return null;
+  if(cat==="verb"){
+    const [a,r]=vParse(key), inf=(t.cells||{})[a+"0"], other=(t.cells||{})[(a==="i"?"p":"i")+"0"];
+    const mean = t.meaning ? `<b>「${esc(t.meaning)}」</b>` : "";
+    if(r===0) return {
+      badge:`<span class="gb">${ASP[a]}</span>${mean}`,
+      prompt:`${ASP[a]}の不定形`, answer:ans, hint: other ? `ペアの${ASP[a==="i"?"p":"i"]}：${other}` : "", check:m=>matches(m, ans),
+      short:`「${t.meaning||""}」の${ASP[a]}の不定形`
+    };
+    return {
+      badge:`<span class="gb">${ASP[a]}</span>${inf?`<b class="ex" lang="ru">${esc(inf)}</b>`:""}${mean}`,
+      prompt:vRowName(a,r), answer:ans, hint:"", check:m=>matches(m, ans),
+      short:`${inf||t.meaning||""}（${ASP[a]}）・${vRowName(a,r)}`
+    };
+  }
   const [r,c]=parseKey(key);
   if(cat==="adj"){
     const sub = r<6 ? GSUB[c] : "";
@@ -1248,19 +1383,15 @@ function describe(cat, tid, key){
   };
 }
 
-function showDeclView(){
-  const v=st.decl.view, cat=st.decl.cat, C=CAT[cat];
-  setOn($("#catSeg"),"v",cat);
-  setOn($("#declSeg"),"v",v);
-  $("#declSeg [data-v=tables]").textContent = C.user ? "表の登録" : "表を見る";
-  ["practice","tables","dlog"].forEach(x=>$("#dv-"+x).style.display = x===v ? "" : "none");
-  if(v==="practice"){ renderGChips(); const s=D(); if(!s.cur || !describe(cat, s.cur.id, s.cur.key)) nextDecl(); else renderDeclQ(); setOn($("#dModeSeg"),"v",s.mode); }
-  if(v==="tables") renderTables();
-  if(v==="dlog"){ setOn($("#dLogSeg"),"v",st.decl.logFilter); renderDeclLog(); }
+function showGrid(){
+  const cat=gridCat(), s=D();
+  if(st.tab==="quiz"){ renderGChips(); setOn($("#dModeSeg"),"v",s.mode); if(!s.cur || !describe(cat, s.cur.id, s.cur.key)) nextDecl(); else renderDeclQ(); }
+  if(st.tab==="add") renderTables();
+  if(st.tab==="log"){ setOn($("#dLogSeg"),"v",st.decl.logFilter); renderDeclLog(); }
 }
 
 function renderGChips(){
-  const s=D(), C=CAT[st.decl.cat], el=$("#gChips");
+  const s=D(), C=CAT[gridCat()], el=$("#gChips");
   $("#rangeLabel").textContent=C.rangeLabel;
   el.innerHTML = `<button class="chip${s.range.length?"":" on"}" data-g="">すべて</button>` +
     C.range.map(([g,name])=>`<button class="chip${s.range.includes(g)?" on":""}" data-g="${g}">${esc(name)}</button>`).join("");
@@ -1271,22 +1402,27 @@ function renderGChips(){
     s.queue=[]; renderGChips(); nextDecl();
   });
 }
-function declItems(cat=st.decl.cat){
-  const s=st.decl[cat], C=CAT[cat], out=[];
-  const need=(tid,key)=>{ const x=cellStat(tid,key); return !!x.need; };
+const cellDue = (tid,key) => { const x=cellStat(tid,key); return !x.srs || x.srs.due<=dayKey(); };
+function declItems(cat=gridCat(), mode){
+  const s=st.decl[cat], C=CAT[cat], out=[]; mode = mode || s.mode;
+  const ok=(tid,key)=> mode==="drill" ? !!cellStat(tid,key).need : mode==="review" ? cellDue(tid,key) : true;
   if(C.user){
     for(const t of declCards(cat)){
-      if(s.range.length && !s.range.includes(C.rangeOf(t))) continue;
+      if(cat!=="verb" && s.range.length && !s.range.includes(C.rangeOf(t))) continue;
       for(const [k] of filledCells(t)){
         if(cat==="adj"){ const [r,c]=parseKey(k); if(r>=6 && c>0) continue; }
-        if(s.mode==="drill" && !need(t.id,k)) continue;
+        if(cat==="verb"){
+          const [a,r]=vParse(k), asp=s.range.filter(x=>x==="i"||x==="p"), frm=s.range.filter(x=>x!=="i"&&x!=="p");
+          if((asp.length && !asp.includes(a)) || (frm.length && !frm.includes(VROWS[r][1]))) continue;
+        }
+        if(!ok(t.id,k)) continue;
         out.push(t.id+"|"+k);
       }
     }
   } else {
     for(const it of BUILTIN[cat]){
       if(s.range.length && !s.range.includes(it.range)) continue;
-      if(s.mode==="drill" && !need(C.sys,it.key)) continue;
+      if(!ok(C.sys,it.key)) continue;
       out.push(C.sys+"|"+it.key);
     }
   }
@@ -1305,34 +1441,37 @@ function nextDecl(){
   }
   s.cur=null; renderDeclQ();
 }
-function hotCount(cat=st.decl.cat){
+function hotCount(cat=gridCat()){
   let n=0;
   const list = CAT[cat].user ? declCards(cat) : [sysCard(cat)].filter(Boolean);
   for(const t of list) for(const x of Object.values(t.cs||{})) if(x.need) n++;
   return n;
 }
 function updateDeclScore(){
-  const s=D(), n=declItems().length;
-  $("#dOk").textContent=s.ok; $("#dNg").textContent=s.ng; $("#dHot").textContent=hotCount();
-  $("#dNote").textContent = s.mode==="random"
-    ? `${CAT[st.decl.cat].user?"登録した表の埋まっているマス":"表のすべてのマス"}（${n}マス）からランダムに出題します。`
-    : `間違えたマスだけを出題します（${n}マス）。${CLEAR_STREAK}回連続で正解すると卒業です。`;
+  const s=D(), n=declItems().length, due=declItems(gridCat(),"review").length, C=CAT[gridCat()];
+  $("#dOk").textContent=s.ok; $("#dNg").textContent=s.ng; $("#dHot").textContent=hotCount(); $("#dDue").textContent=due;
+  const scope = C.user ? "登録した表の埋まっているマス" : "表のすべてのマス";
+  $("#dNote").textContent =
+    s.mode==="random" ? `${scope}（${n}マス）から、忘却曲線と関係なく完全ランダムに出題します。` :
+    s.mode==="drill" ? `間違えたマスだけを出題します（${n}マス）。${CLEAR_STREAK}回連続で正解すると卒業です。` :
+    `今日が復習日のマスを出題します（${n}マス）。正解するほど次の復習までの間隔が延びます（明日→3日→1週間→2週間→1か月→2か月→4か月）。`;
 }
 function renderDeclQ(){
   updateDeclScore();
-  const s=D(), box=$("#dqbox"), cat=st.decl.cat, C=CAT[cat];
+  const s=D(), box=$("#dqbox"), cat=gridCat(), C=CAT[cat];
   const d = s.cur && describe(cat, s.cur.id, s.cur.key);
   if(!d){
     s.cur=null;
     box.innerHTML = C.user && declCards().length===0
-      ? `<div class="empty">まだ${C.name}の表がありません。<br>「表の登録」から作ろう、同志！<span class="ru">ВПЕРЁД!</span></div>`
+      ? `<div class="empty">まだ${C.name}の表がありません。<br>「登録」タブから作ろう、同志！<span class="ru">ВПЕРЁД!</span></div>`
+      : s.mode==="review" && declItems(gridCat(),"random").length ? `<div class="empty">今日の復習はすべて完了！<br>計画は達成された、同志よ。<span class="ru">ПЛАН ВЫПОЛНЕН!</span></div>`
       : s.mode==="drill" ? `<div class="empty">苦手なマスはありません。<br>見事だ、同志！<span class="ru">СЛАВА ТРУДУ!</span></div>`
       : `<div class="empty">選んだ範囲に出題できるマスがありません。<br>範囲を変えてみよう。</div>`;
     return;
   }
   const x=cellStat(s.cur.id, s.cur.key);
   box.innerHTML=`
-    <div class="meta"><span class="dirtag">ПАДЕЖ</span><span><span class="tag">○${x.c||0} △${x.v||0} ×${x.w||0}</span>${x.need?' <span class="tag hot">苦手</span>':""}</span></div>
+    <div class="meta"><span class="dirtag">${gridCat()==="verb"?"ГЛАГОЛ":"ПАДЕЖ"}</span><span><span class="tag">○${x.c||0} △${x.v||0} ×${x.w||0}</span>${x.need?' <span class="tag hot">苦手</span>':""}</span></div>
     <div class="dprompt">${d.badge}</div>
     <div class="q word" style="font-family:var(--disp)">${d.prompt}</div>
     ${d.hint?`<p class="note" style="margin:-8px 0 10px;text-align:center">${esc(d.hint)}</p>`:""}
@@ -1347,7 +1486,7 @@ function renderDeclQ(){
   };
 }
 function gradeDecl(res, mine){
-  const s=D(), cat=st.decl.cat; if(!s.cur || grading) return;
+  const s=D(), cat=gridCat(); if(!s.cur || grading) return;
   const t = CAT[cat].user ? cards.find(c=>c.id===s.cur.id) : ensureSys(cat);
   if(!t) return;
   grading=true;
@@ -1356,17 +1495,21 @@ function gradeDecl(res, mine){
   if(res==="o"){ x.c++; x.s++; if(x.need && s.mode==="drill" && x.s>=CLEAR_STREAK){ x.need=false; grad=true; } s.ok++; }
   else if(res==="m"){ x.v++; x.s=0; }
   else { x.w++; x.s=0; x.need=true; s.ng++; }
+  let msg="";
+  if(s.mode==="review"){ const r=srsStep(x.srs, res); x.srs=r.s; msg="次の復習："+dueLabel(r.days); }
   t.history=(t.history||[]).concat([{ t:Date.now(), key:k, res, ok:res==="o", ans:mine, mode:s.mode }]).slice(-DECL_HIST_MAX);
   backend.save(t);
-  bump();
+  bump(res, grad);
   stampOn($("#dqbox"), res);
-  if(grad) toast("卒業！ Молодец, товарищ!");
+  if(grad) toast("卒業！ Молодец, товарищ!"); else if(msg) toast(msg);
   setTimeout(()=>{ grading=false; nextDecl(); }, 650);
 }
 
 /* 表の登録・編集（名詞・形容詞） */
 $("#newTable").onclick=()=>{
-  st.decl.draft = st.decl.cat==="adj"
+  st.decl.draft = gridCat()==="verb"
+    ? { id:null, cat:"verb", meaning:"", cells:{} }
+    : gridCat()==="adj"
     ? { id:null, cat:"adj", atype:"h1", lemma:"", cells:{} }
     : { id:null, cat:"noun", gender:"m", name:"", heads:["","",""], cells:{} };
   renderEditor(); $("#dEditor").scrollIntoView({behavior:"smooth"});
@@ -1374,19 +1517,31 @@ $("#newTable").onclick=()=>{
 const cellInput = (k, v) => `<td${/r([6-9]|1[01])c0$/.test(k)&&st.decl.draft.cat==="adj"?' colspan="3"':""}><input lang="ru" autocapitalize="off" autocomplete="off" spellcheck="false" data-k="${k}" value="${esc(v||"")}"></td>`;
 function readEditor(){
   const d=st.decl.draft, ed=$("#dEditor"); if(!d || !ed.querySelector(".dtbl")) return;
-  if(d.cat==="adj"){ d.lemma=ed.querySelector("#tLemma").value.trim(); }
+  if(d.cat==="verb"){ d.meaning=ed.querySelector("#tMeaning").value.trim(); }
+  else if(d.cat==="adj"){ d.lemma=ed.querySelector("#tLemma").value.trim(); }
   else { d.name=ed.querySelector("#tName").value.trim(); d.heads=[0,1,2].map(i=>ed.querySelector(`[data-h="${i}"]`).value.trim()); }
   const cells={}; ed.querySelectorAll("[data-k]").forEach(inp=>{ const v=inp.value.trim(); if(v) cells[inp.dataset.k]=v; });
   d.cells=cells;
 }
 function renderEditor(){
   const d=st.decl.draft, ed=$("#dEditor");
-  const mine = d && d.cat===st.decl.cat;
-  $("#newTable").style.display = (!CAT[st.decl.cat].user || mine) ? "none" : "";
-  $("#newTable").textContent = `＋ 新しい${CAT[st.decl.cat].name}の表を作る`;
+  const mine = d && d.cat===gridCat();
+  $("#newTable").style.display = (!CAT[gridCat()].user || mine) ? "none" : "";
+  $("#newTable").textContent = gridCat()==="verb" ? "＋ 新しい動詞を登録する" : `＋ 新しい${CAT[gridCat()].name}の表を作る`;
   if(!mine){ ed.innerHTML=""; return; }
   let head, body="", top;
-  if(d.cat==="adj"){
+  if(d.cat==="verb"){
+    top = `<p class="label">ЗНАЧЕНИЕ <em>意味（日本語）</em></p>
+      <input type="text" id="tMeaning" placeholder="例：読む" value="${esc(d.meaning)}"><div class="gap"></div>`;
+    head = `<thead><tr><th class="rh" style="background:var(--ink);color:var(--gold)">形</th><th>不完了体</th><th>完了体</th></tr></thead>`;
+    const ph={i0:"читать",p0:"прочитать",i1:"читаю",p1:"прочитаю",i7:"читал",p7:"прочитал",i11:"читай",p11:"прочитай"};
+    VROWS.forEach(([lab,f],r)=>{
+      if(r===1) body+=`<tr class="grp"><th colspan="3">人称変化（不完了体＝現在形／完了体＝未来形）</th></tr>`;
+      if(r===7) body+=`<tr class="grp"><th colspan="3">過去形</th></tr>`;
+      if(r===11) body+=`<tr class="grp"><th colspan="3">命令形</th></tr>`;
+      body+=`<tr class="${r===0?"ex":""}"><th class="rh">${lab.replace("・","<br>")}</th>`+["i","p"].map(a=>`<td><input lang="ru" autocapitalize="off" autocomplete="off" spellcheck="false" data-k="${vKey(a,r)}" value="${esc(d.cells[vKey(a,r)]||"")}" placeholder="${ph[vKey(a,r)]||""}"></td>`).join("")+`</tr>`;
+    });
+  } else if(d.cat==="adj"){
     top = `<p class="label">ТИП <em>変化のタイプ</em></p>
       <div class="seg" id="gSeg">${Object.entries(ATYPE).map(([k,X])=>`<button data-v="${k}" class="${k===d.atype?"on":""}">${X.name}</button>`).join("")}</div>`;
     head = `<thead><tr><th class="rh" rowspan="2" style="background:var(--ink);color:var(--gold)">格</th>
@@ -1412,7 +1567,9 @@ function renderEditor(){
   ed.innerHTML=`<div class="box">
     <p class="label">НОВАЯ ТАБЛИЦА <em>${d.id?"表を編集":"新しい表"}（${CAT[d.cat].name}）</em></p>
     ${top}
-    <p class="note" style="margin-bottom:8px">${d.cat==="adj"
+    <p class="note" style="margin-bottom:8px">${d.cat==="verb"
+      ? "不完了体と完了体を並べて登録できます。片方だけでもOK。習った形だけ埋めれば、そのマスから出題します（不定形のマスは「意味からペアを答える」問題になります）。"
+      : d.cat==="adj"
       ? "いちばん上に形容詞の原型を入れてください。複数形は性による区別がないので1マスです。対格は「новый / нового」のように不活動体・活動体を両方書いてもOK。"
       : "黄色の行には例の単語を入れておくと、出題のときにヒントとして表示されます。マスには語尾（-а）でも単語（стола）でも、習った形だけ入れればOKです。"}</p>
     <div class="dtwrap"><table class="dtbl">${head}<tbody>${body}</tbody></table></div>
@@ -1424,9 +1581,10 @@ function renderEditor(){
   $("#tSave").onclick=()=>{
     readEditor();
     if(d.cat==="adj" && !d.lemma){ toast("形容詞の原型を入力してください"); return; }
+    if(d.cat==="verb" && !d.meaning && !d.cells.i0 && !d.cells.p0){ toast("意味か不定形を入力してください"); return; }
     if(!Object.keys(d.cells).length){ toast("少なくとも1マスは入力してください"); return; }
     let t = d.id && cards.find(c=>c.id===d.id);
-    const fields = d.cat==="adj" ? { atype:d.atype, lemma:d.lemma, cells:d.cells } : { gender:d.gender, name:d.name, heads:d.heads, cells:d.cells };
+    const fields = d.cat==="verb" ? { meaning:d.meaning, cells:d.cells } : d.cat==="adj" ? { atype:d.atype, lemma:d.lemma, cells:d.cells } : { gender:d.gender, name:d.name, heads:d.heads, cells:d.cells };
     if(t) Object.assign(t, fields);
     else { t={ id:newId(), kind:"decl", cat:d.cat, ...fields, cs:{}, history:[], createdAt:Date.now() }; cards.push(t); }
     if(t.cs) for(const k of Object.keys(t.cs)) if(!t.cells[k]) delete t.cs[k];
@@ -1436,7 +1594,19 @@ function renderEditor(){
 }
 
 /* 読み取り専用の表 */
+function verbView(t){
+  const td=k=>`<td class="ro${t.cs&&t.cs[k]&&t.cs[k].need?" hot":""}" lang="ru">${esc((t.cells||{})[k]||"")}</td>`;
+  let b="";
+  VROWS.forEach(([lab],r)=>{
+    if(r===1) b+=`<tr class="grp"><th colspan="3">人称変化（不完了体＝現在／完了体＝未来）</th></tr>`;
+    if(r===7) b+=`<tr class="grp"><th colspan="3">過去形</th></tr>`;
+    if(r===11) b+=`<tr class="grp"><th colspan="3">命令形</th></tr>`;
+    b+=`<tr class="${r===0?"ex":""}"><th class="rh">${lab.replace("・","<br>")}</th>${td(vKey("i",r))}${td(vKey("p",r))}</tr>`;
+  });
+  return `<div class="dtwrap"><table class="dtbl"><thead><tr><th class="rh" style="background:var(--ink);color:var(--gold)">形</th><th>不完了体</th><th>完了体</th></tr></thead><tbody>${b}</tbody></table></div>`;
+}
 function tableView(t){
+  if(catOf(t)==="verb") return verbView(t);
   const cat=catOf(t), td=(k)=>`<td class="ro${t.cs&&t.cs[k]&&t.cs[k].need?" hot":""}"${cat==="adj"&&/r([6-9]|1[01])c0$/.test(k)?' colspan="3"':""}>${esc((t.cells||{})[k]||"")}</td>`;
   if(cat==="adj"){
     return `<div class="dtwrap"><table class="dtbl"><thead><tr><th class="rh" rowspan="2" style="background:var(--ink);color:var(--gold)">格</th><th colspan="3">${esc(t.lemma||"")}</th></tr>
@@ -1479,7 +1649,7 @@ function builtinView(cat){
 }
 
 function renderTables(){
-  const cat=st.decl.cat, C=CAT[cat];
+  const cat=gridCat(), C=CAT[cat];
   $("#tListBox").style.display = C.user ? "" : "none";
   $("#builtinView").style.display = C.user ? "none" : "";
   renderEditor();
@@ -1488,12 +1658,12 @@ function renderTables(){
     return;
   }
   const list=declCards().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)), el=$("#tList");
-  $("#tListLabel").textContent=`登録した${C.name}の表（${list.length}）`;
+  $("#tListLabel").textContent= cat==="verb" ? `登録した動詞（${list.length}）` : `登録した${C.name}の表（${list.length}）`;
   if(!list.length){ el.innerHTML=`<div class="empty">まだありません</div>`; return; }
   el.innerHTML=list.map(t=>{
-    const f=filledCells(t).length, total= cat==="adj" ? 24 : 36; let c=0,v=0,w=0,hot=0;
+    const f=filledCells(t).length, total= cat==="verb" ? 26 : cat==="adj" ? 24 : 36; let c=0,v=0,w=0,hot=0;
     for(const x of Object.values(t.cs||{})){ c+=x.c||0; v+=x.v||0; w+=x.w||0; if(x.need) hot++; }
-    const badge = cat==="adj" ? `<span class="gb">${ATYPE[t.atype].name}</span>` : `<span class="gb ${t.gender}">${GENDER[t.gender].name}</span>`;
+    const badge = cat==="verb" ? `<span class="gb">${esc(t.meaning||"動詞")}</span>` : cat==="adj" ? `<span class="gb">${ATYPE[t.atype].name}</span>` : `<span class="gb ${t.gender}">${GENDER[t.gender].name}</span>`;
     return `<div class="item" data-id="${esc(t.id)}">
       <div>${badge} <b lang="ru">${esc(tableTitle(t))}</b></div>
       <div class="ja">${f} / ${total}マス入力済み${hot?`・苦手 ${hot}マス`:""}</div>
@@ -1505,7 +1675,9 @@ function renderTables(){
   el.querySelectorAll(".item").forEach(it=>{
     const t=cards.find(c=>c.id===it.dataset.id);
     it.querySelector('[data-act="edit"]').onclick=()=>{
-      st.decl.draft = cat==="adj"
+      st.decl.draft = cat==="verb"
+        ? { id:t.id, cat:"verb", meaning:t.meaning||"", cells:{...(t.cells||{})} }
+        : cat==="adj"
         ? { id:t.id, cat:"adj", atype:t.atype, lemma:t.lemma||"", cells:{...(t.cells||{})} }
         : { id:t.id, cat:"noun", gender:t.gender, name:t.name||"", heads:[...(t.heads||["","",""])], cells:{...(t.cells||{})} };
       renderEditor(); $("#dEditor").scrollIntoView({behavior:"smooth"});
@@ -1526,9 +1698,9 @@ function renderTables(){
 }
 
 /* 格変化の記録 */
-function logSources(){ const cat=st.decl.cat; return CAT[cat].user ? declCards(cat) : [sysCard(cat)].filter(Boolean); }
+function logSources(){ const cat=gridCat(); return CAT[cat].user ? declCards(cat) : [sysCard(cat)].filter(Boolean); }
 function renderDeclLog(){
-  const cat=st.decl.cat, all=[];
+  const cat=gridCat(), all=[];
   logSources().forEach(t=>(t.history||[]).forEach(h=>all.push({...h, tb:t, ref:h})));
   all.sort((a,b)=>b.t-a.t);
   fillStats(all, ["#dlTotal","#dlRate","#dlToday"]);
@@ -1560,7 +1732,7 @@ function renderDeclLog(){
   });
 }
 $("#dWipe").onclick=async()=>{
-  const cat=st.decl.cat, list=logSources();
+  const cat=gridCat(), list=logSources();
   let n=0, hot=0; for(const t of list){ n+=(t.history||[]).filter(h=>resOf(h)==="x").length; for(const x of Object.values(t.cs||{})) if(x.need) hot++; }
   if(!n && !hot){ toast("消す間違いの記録はありません"); return; }
   if(!await ask(`${CAT[cat].name}の間違いを全削除しますか？`, `×の記録 ${n}件を消し、苦手なマス（${hot}マス）の印をすべて外します。\n\nこの操作は元に戻せません。`, "すべて削除")) return;
@@ -1572,6 +1744,86 @@ $("#dWipe").onclick=async()=>{
   D().queue=[]; if(D().mode==="drill") D().cur=null;
   toast(`${CAT[cat].name}の間違いをすべて削除しました`); renderDeclLog();
 };
+
+
+/* ---------- 勲章（実在したソ連の勲章・称号。絵は簡略化したイメージ） ---------- */
+const MEDALS = [
+  { id:"trud-otl",   ja:"労働功労メダル",     ru:"Медаль «За трудовое отличие»",      cond:"はじめて★を獲得する",            m:"starDays", n:1,    art:{ rib:["#7c8a9e","#c8201b","#7c8a9e"], b:"coin", col:"#cfd3da", mark:"sickle" } },
+  { id:"trud-dobl",  ja:"労働勇敢メダル",     ru:"Медаль «За трудовую доблесть»",     cond:"3日連続で★",                     m:"best",     n:3,    art:{ rib:["#9aa3ad","#c8201b","#9aa3ad","#c8201b","#9aa3ad"], b:"coin", col:"#cfd3da", mark:"star" } },
+  { id:"znak",       ja:"名誉記章勲章",       ru:"Орден «Знак Почёта»",               cond:"累計100問を解く",                m:"total",    n:100,  art:{ rib:["#e9b7b0","#c8201b","#e9b7b0","#c8201b","#e9b7b0"], b:"oval", col:"#e8b923", mark:"flag" } },
+  { id:"druzhba",    ja:"民族友好勲章",       ru:"Орден Дружбы народов",              cond:"翻訳・単語・格変化・動詞のすべてで解答する", m:"decks", n:4, art:{ rib:["#d93a2b","#e8b923","#2a7a3b","#2b4d8c","#d93a2b"], b:"rays", col:"#e8b923", mark:"star" } },
+  { id:"kr-zv",      ja:"赤星勲章",           ru:"Орден Красной Звезды",              cond:"7日連続で★",                     m:"best",     n:7,    art:{ rib:["#7a1210","#c8201b","#cfd3da","#c8201b","#7a1210"], b:"star", col:"#c8201b", mark:"sickle" } },
+  { id:"trud-slava", ja:"労働栄光勲章",       ru:"Орден Трудовой Славы",              cond:"累計300問正解する",              m:"ok",       n:300,  art:{ rib:["#c8201b","#e8b923","#c8201b"], b:"star", col:"#e8b923", mark:"sickle" } },
+  { id:"tkz",        ja:"労働赤旗勲章",       ru:"Орден Трудового Красного Знамени",  cond:"14日連続で★",                    m:"best",     n:14,   art:{ rib:["#2b4d8c","#c8201b","#2b4d8c"], b:"wreath", col:"#e8b923", mark:"flag" } },
+  { id:"kz",         ja:"赤旗勲章",           ru:"Орден Красного Знамени",            cond:"苦手・特訓から30回卒業する",     m:"grad",     n:30,   art:{ rib:["#c8201b","#f3efe6","#c8201b","#f3efe6","#c8201b"], b:"wreath", col:"#e8b923", mark:"star" } },
+  { id:"okt",        ja:"十月革命勲章",       ru:"Орден Октябрьской Революции",       cond:"30日連続で★",                    m:"best",     n:30,   art:{ rib:["#c8201b","#2b4d8c","#c8201b","#2b4d8c","#c8201b"], b:"rays", col:"#cfd3da", mark:"star" } },
+  { id:"lenin",      ja:"レーニン勲章",       ru:"Орден Ленина",                      cond:"★の日が累計100日になる",         m:"starDays", n:100,  art:{ rib:["#c8201b","#e8b923","#c8201b"], b:"wreath", col:"#e8b923", mark:"sickle", big:true } },
+  { id:"gst",        ja:"社会主義労働英雄",   ru:"Герой Социалистического Труда",     cond:"累計3000問を解く",               m:"total",    n:3000, art:{ bar:"#c8201b", b:"gold", mark:"sickle" } },
+  { id:"gss",        ja:"ソ連邦英雄",         ru:"Герой Советского Союза",            cond:"100日連続で★",                   m:"best",     n:100,  art:{ bar:"#c8201b", b:"gold" } },
+  { id:"pobeda",     ja:"勝利勲章",           ru:"Орден «Победа»",                    cond:"365日連続で★",                   m:"best",     n:365,  art:{ rib:["#c8201b","#e8b923","#2b4d8c","#7a3b8c","#2a7a3b","#e86a1e","#151515"], b:"victory" } }
+];
+function starPts(cx, cy, R, r, n=5, rot=-90){
+  const p=[]; for(let i=0;i<n*2;i++){ const a=(rot+i*180/n)*Math.PI/180, rr=i%2?r:R; p.push(`${(cx+rr*Math.cos(a)).toFixed(1)},${(cy+rr*Math.sin(a)).toFixed(1)}`); }
+  return p.join(" ");
+}
+function medalSVG(a){
+  const cx=50, cy=86, sick=(x,y,s,col)=>`<g transform="translate(${x-s/2} ${y-s/2}) scale(${s/100})"><path fill="${col}" d="${SICKLE}"/></g>`;
+  let rib="";
+  if(a.bar){ rib=`<rect x="34" y="6" width="32" height="12" fill="${a.bar}" stroke="#161210" stroke-width="1.5"/><rect x="47" y="18" width="6" height="40" fill="#b8901a"/>`; }
+  else {
+    const w=60/a.rib.length;
+    rib=`<clipPath id="rc${a.rib.join("").replace(/#/g,"")}"><path d="M20 4H80V40L50 56L20 40Z"/></clipPath><g clip-path="url(#rc${a.rib.join("").replace(/#/g,"")})">`+
+      a.rib.map((c,i)=>`<rect x="${20+i*w}" y="0" width="${w+0.5}" height="60" fill="${c}"/>`).join("")+`</g><path d="M20 4H80V40L50 56L20 40Z" fill="none" stroke="#161210" stroke-width="1.5"/>`;
+  }
+  const mark = a.mark==="sickle" ? sick(cx,cy,26,"#e8b923") : a.mark==="flag" ? `<path d="M40 74V100M40 74H62L56 81L62 88H40" fill="#c8201b" stroke="#7a1210" stroke-width="2"/>` : a.mark==="star" ? `<polygon points="${starPts(cx,cy,12,5)}" fill="#c8201b" stroke="#7a1210" stroke-width="1"/>` : "";
+  let badge="";
+  if(a.b==="coin") badge=`<circle cx="${cx}" cy="${cy}" r="25" fill="${a.col}" stroke="#7d828a" stroke-width="2.5"/><circle cx="${cx}" cy="${cy}" r="20" fill="none" stroke="#9aa0a8" stroke-width="1"/>${mark.replace('fill="#e8b923"','fill="#c8201b"')}`;
+  if(a.b==="oval") badge=`<ellipse cx="${cx}" cy="${cy}" rx="21" ry="27" fill="${a.col}" stroke="#a07800" stroke-width="2.5"/><ellipse cx="${cx}" cy="${cy}" rx="15" ry="21" fill="#f3efe6"/>${mark}`;
+  if(a.b==="star") badge=`<polygon points="${starPts(cx,cy,30,13)}" fill="${a.col}" stroke="#7a1210" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="11" fill="#f3efe6" stroke="#a07800" stroke-width="1.5"/>${a.mark==="sickle"?sick(cx,cy,16,"#c8201b"):""}`;
+  if(a.b==="rays") badge=`<polygon points="${starPts(cx,cy,30,20,8,-90)}" fill="${a.col}" stroke="#7d828a" stroke-width="1.5"/><polygon points="${starPts(cx,cy,30,20,8,-67.5)}" fill="${a.col}" stroke="#7d828a" stroke-width="1" opacity=".85"/><polygon points="${starPts(cx,cy,17,7)}" fill="#c8201b" stroke="#7a1210" stroke-width="1.5"/>`;
+  if(a.b==="wreath") badge=`<circle cx="${cx}" cy="${cy}" r="${a.big?28:25}" fill="${a.col}" stroke="#a07800" stroke-width="2.5"/>`+
+      Array.from({length:14},(_,i)=>{ const t=(200+i*10)*Math.PI/180, t2=(-20-i*10)*Math.PI/180; return `<ellipse cx="${(cx+21*Math.cos(t)).toFixed(1)}" cy="${(cy-21*Math.sin(t)).toFixed(1)}" rx="3" ry="1.5" fill="#a07800"/><ellipse cx="${(cx+21*Math.cos(t2)).toFixed(1)}" cy="${(cy-21*Math.sin(t2)).toFixed(1)}" rx="3" ry="1.5" fill="#a07800"/>`; }).join("")+
+      `<circle cx="${cx}" cy="${cy}" r="15" fill="#c8201b"/>${a.mark==="sickle"?sick(cx,cy,20,"#e8b923"):a.mark==="flag"?`<path d="M44 76V97M44 76H60L55 81L60 86H44" fill="#f3efe6" stroke="#f3efe6" stroke-width="1.5"/>`:`<polygon points="${starPts(cx,cy,10,4)}" fill="#e8b923"/>`}`;
+  if(a.b==="gold") badge=`<polygon points="${starPts(cx,cy+2,30,12)}" fill="#e8b923" stroke="#a07800" stroke-width="2"/><polyline points="${starPts(cx,cy+2,30,12).split(" ").filter((_,i)=>i%2===0).join(" ")}" fill="none"/>${a.mark==="sickle"?sick(cx,cy+3,18,"#a07800"):""}`;
+  if(a.b==="victory") badge=`<polygon points="${starPts(cx,cy,32,14)}" fill="#e9eef2" stroke="#9aa0a8" stroke-width="2"/><polygon points="${starPts(cx,cy,26,11,5,-54)}" fill="#c8201b" opacity=".9"/><circle cx="${cx}" cy="${cy}" r="12" fill="#2b4d8c" stroke="#e8b923" stroke-width="2"/><text x="${cx}" y="${cy+4}" font-size="7" text-anchor="middle" fill="#e8b923" font-family="Russo One, sans-serif">ПОБЕДА</text>`;
+  return `<svg viewBox="0 0 100 124" aria-hidden="true">${rib}${badge}</svg>`;
+}
+function medalMetrics(){
+  const { best, starDays } = streakInfo(), days=stats.days||{}, c=stats.cnt||{};
+  return {
+    best, starDays,
+    total: Object.values(days).reduce((a,b)=>a+(+b||0),0),
+    ok: c.o||0, grad: c.grad||0,
+    decks: ["sent","word","decl","verb"].filter(d=>(c["d_"+d]||0)>0).length
+  };
+}
+const UNIT = { best:"日", starDays:"日", total:"問", ok:"問", grad:"回", decks:"種類" };
+function checkMedals(silent){
+  const mt=medalMetrics(); stats.medals=stats.medals||{};
+  const won=[];
+  for(const m of MEDALS) if(!stats.medals[m.id] && mt[m.m]>=m.n){ stats.medals[m.id]=dayKey(); won.push(m); }
+  if(!won.length) return;
+  backend.patchStats({ medals:Object.fromEntries(won.map(m=>[m.id, stats.medals[m.id]])) });
+  if(!silent) won.forEach((m,i)=>setTimeout(()=>toast(`勲章授与：${m.ja}！ Ура!`), 300+i*2200));
+  st.newMedals = new Set([...(st.newMedals||[]), ...won.map(m=>m.id)]);
+  if(st.tab==="medal") renderMedals();
+}
+function renderMedals(){
+  checkMedals(true);
+  const mt=medalMetrics(), got=stats.medals||{};
+  $("#mGot").textContent=MEDALS.filter(m=>got[m.id]).length; $("#mAll").textContent=MEDALS.length; $("#mTotal").textContent=mt.total;
+  $("#medalList").innerHTML=MEDALS.map(m=>{
+    const v=Math.min(mt[m.m], m.n), on=!!got[m.id], isNew=st.newMedals && st.newMedals.has(m.id);
+    return `<div class="medal${on?"":" locked"}${isNew?" new":""}">
+      ${on?`<span class="got">${got[m.id].slice(5).replace("-","/")} 授与</span>`:""}
+      ${medalSVG(m.art)}
+      <div class="mj">${m.ja}</div><div class="mr">${m.ru}</div>
+      <div class="mc">${m.cond}</div>
+      ${on?"":`<div class="bar"><i style="width:${Math.round(v/m.n*100)}%"></i></div><div class="pg">${v} / ${m.n}${UNIT[m.m]}</div>`}
+    </div>`;
+  }).join("");
+  st.newMedals=new Set();
+}
 
 $("#expBtn").onclick=exportData;
 $("#impBtn").onclick=()=>$("#impFile").click();
