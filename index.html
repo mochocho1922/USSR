@@ -350,6 +350,75 @@ details.thr .btn{font-size:14px;padding:10px}
 .pst-grid div.stk{background:#f3efe6;border-color:var(--ink);color:var(--ink)}
 .pst-grid div.stk b{color:var(--red);font-size:28px}
 .pst-grid div.stk small{display:block;font-size:10px;color:var(--sub);margin-top:1px}
+
+/* 計画 */
+.seg.logview button{font-size:14px}
+.plhead .pst-head{font-size:17px;padding-right:56px}
+.plnote{position:relative;font-size:12px;line-height:1.7;margin:10px 0 0;color:#fff3d6;font-weight:700;padding-right:40px}
+.plcalc{border:2.5px dashed var(--ink);background:#fff3c9;padding:10px;margin:4px 0 12px;font-size:14px;line-height:1.6}
+.plcalc b{color:var(--red)}.plcalc b.big{font-family:var(--disp);font-weight:400;font-size:24px}
+.plcalc .warn{color:var(--red);font-weight:700}
+.plan .plt b{display:block;font-family:var(--disp);font-weight:400;font-size:19px;line-height:1.3}
+.plan .plt span{font-size:12px;color:var(--sub);font-weight:700}
+.gauge{position:relative;height:30px;border:2.5px solid var(--ink);background:repeating-linear-gradient(-45deg,#efe2c4 0 6px,#f8f0dc 6px 12px);margin:10px 0 6px;overflow:hidden}
+.gauge i{position:absolute;left:0;top:0;bottom:0;background:repeating-linear-gradient(-45deg,var(--red) 0 10px,#a51a16 10px 20px);border-right:3px solid var(--gold);transition:width .6s ease}
+.gauge span{position:relative;display:block;text-align:center;line-height:25px;font-weight:900;font-size:13px;color:var(--ink);text-shadow:0 0 3px #fff,0 0 3px #fff}
+.gauge.time{height:16px;border-width:2px;margin-top:0}
+.gauge.time i{background:var(--ink);border-right-color:var(--gold)}
+.gauge.time span{line-height:12px;font-size:10px}
+.plstat{font-size:14px;font-weight:700;margin-top:8px;line-height:1.6}
+.plstat b{color:var(--red)}.plstat b.big{font-family:var(--disp);font-weight:400;font-size:24px}
+.plpace{font-size:12px;font-weight:700;margin-top:2px;color:var(--sub)}
+.plpace .ahead{color:var(--green)}.plpace .behind{color:var(--red)}
+.plan.done{border-color:var(--gold);box-shadow:6px 6px 0 var(--gold)}
+.plan.done .gauge i{background:repeating-linear-gradient(-45deg,var(--gold) 0 10px,#d4a417 10px 20px);border-right-color:var(--ink)}
+.plan.done .plstat{color:#8a6400}
+.plan.late .plstat{color:var(--red)}
+.plan.ok .plstat{color:var(--green)}
+.pladd{display:flex;gap:6px;margin-top:12px}
+.pladd input{border:2.5px solid var(--ink);border-radius:0;padding:8px 6px;font:inherit;font-size:15px;background:#fffdf6;color:var(--ink);min-width:0}
+.pladd .lgDate{flex:1.3}.pladd .lgPages{flex:1;text-align:center;font-weight:700}
+.pladd .btn{flex:0 0 76px;font-size:15px;padding:8px 2px}
+.pllog{margin-top:10px}
+.pllog summary{font-size:13px}
+.lgrow{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1.5px dashed rgba(22,18,16,.3);font-size:13px}
+.lgrow span{flex:1}.lgrow b{color:var(--red)}
+.plan .acts{margin-top:8px}
+/* 復習 */
+.rvchk{display:flex;align-items:center;gap:10px;border:2.5px solid var(--ink);background:#fffdf6;padding:10px;margin-bottom:8px;cursor:pointer}
+.rvchk input{position:absolute;opacity:0;pointer-events:none}
+.rvchk .bx{flex:none;width:28px;height:28px;border:3px solid var(--ink);background:#fff;position:relative}
+.rvchk.done .bx{background:var(--red)}
+.rvchk.done .bx::after{content:"✓";position:absolute;inset:0;color:#fff;font-weight:900;font-size:20px;text-align:center;line-height:22px}
+.rvchk .tx b{display:block;font-size:15px}
+.rvchk .tx small{display:block;font-size:11px;color:var(--sub);font-weight:700;margin-top:2px}
+.rvchk .tx em{font-style:normal;color:var(--red)}
+.rvchk.done{background:#efe2c4}.rvchk.done .tx b{text-decoration:line-through;opacity:.6}
+.rmat{border:2.5px solid var(--ink);margin-top:12px;background:#fffdf6}
+.rmh{display:flex;align-items:center;gap:8px;padding:10px;background:var(--ink);color:#fff}
+.rmh b{flex:1;font-size:15px}
+.rmh span{font-size:11px;font-weight:700;color:#d9cbb0}.rmh em{font-style:normal;color:var(--gold)}
+.rmh .mini{background:var(--gold);border-color:var(--gold)}
+.rmb{padding:10px}
+.unitadd{border:2px dashed var(--ink);padding:8px;margin-bottom:8px;background:var(--card)}
+.unitadd .row{margin-top:6px;align-items:flex-end}
+.unitadd .sf input[type=date]{min-height:40px;padding:6px}
+.unitadd .uAdd{flex:0 0 76px;font-size:15px;padding:9px 2px}
+.unit{border-bottom:1.5px dashed rgba(22,18,16,.3)}
+.unit .ur{display:flex;justify-content:space-between;gap:8px;padding:9px 2px;cursor:pointer;align-items:baseline}
+.unit .ur b{font-size:14px}
+.unit .ur span{font-size:12px;font-weight:700;color:var(--sub);white-space:nowrap}
+.unit .ur span.now{color:var(--red)}.unit .ur span.late{color:#fff;background:var(--red);padding:0 5px}
+.unit.sel .ur{background:#fff3c9}
+.usch{padding:6px 4px 10px}
+.ush{display:flex;gap:10px;font-size:13px;padding:2px 0}.ush span{flex:0 0 80px;color:var(--sub);font-weight:700}
+.proj{list-style:none;margin:0;padding:0;border:2px solid var(--ink)}
+.proj li{display:flex;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid rgba(22,18,16,.2);font-size:13px}
+.proj li:last-child{border-bottom:0}
+.proj li span{flex:0 0 58px;font-size:11px;font-weight:700;color:var(--sub)}
+.proj li b{flex:1}.proj li small{font-size:11px;font-weight:700;color:var(--sub)}
+.proj li:first-child{background:#fff3c9}
+.proj li.now small,.proj li.late small{color:var(--red)}
 </style>
 </head>
 <body>
@@ -490,6 +559,7 @@ details.thr .btn{font-size:14px;padding:10px}
   <div class="seg logview" id="logViewSeg">
     <button data-v="app" class="on">アプリの記録</button>
     <button data-v="self">自習</button>
+    <button data-v="plan">計画</button>
   </div>
   <div id="logApp">
   <div class="box">
@@ -640,6 +710,37 @@ details.thr .btn{font-size:14px;padding:10px}
       <div class="list" id="sList"></div>
     </div>
   </div>
+  <div id="logPlan">
+    <div class="seg" id="planSeg" style="background:var(--card)">
+      <button data-v="five" class="on">五ヵ年計画</button>
+      <button data-v="rev">復習</button>
+    </div>
+
+    <div id="planFive">
+      <div class="poster plhead">
+        <svg class="pstar" viewBox="0 0 24 24" aria-hidden="true"><path fill="#e8b923" d="M12 1.5l3 6.8 7.3.6-5.6 4.8 1.7 7.2L12 17.1l-6.4 3.8 1.7-7.2L1.7 8.9 9 8.3z"/></svg>
+        <div class="pst-head">ПЯТИЛЕТКУ — В ЧЕТЫРЕ ГОДА!<small>五ヵ年計画を四年で！ ── 教材ごとの計画</small></div>
+        <p class="plnote">教材のページ数と期限を決めると、1日のノルマを自動で計算します。多く進んだ日があれば、残りのページを残りの日数で割り直します。</p>
+      </div>
+      <div id="planEditor"></div>
+      <button class="btn red" id="newPlan">＋ 新しい計画を立てる</button>
+      <div class="gap"></div><div class="gap"></div>
+      <div id="planList"></div>
+    </div>
+
+    <div id="planRev" style="display:none">
+      <div class="box">
+        <p class="label">СЕГОДНЯ <em>今日の復習（<span id="rvCount">0</span>）</em></p>
+        <div id="rvToday"></div>
+        <p class="note">チェックを入れると、忘却曲線にそって次の復習日が決まります（1日後→3日後→1週間後→2週間後→1か月後→2か月後→4か月後）。間違えてチェックしたら、もう一度押すと戻せます（今日のうち）。</p>
+      </div>
+      <div class="box">
+        <p class="label">МАТЕРИАЛЫ <em>教材・資料</em></p>
+        <div class="row"><input type="text" id="rmTitle" placeholder="例：教科書『ロシア語入門』 / 授業プリント"><button class="btn red" id="rmAdd" style="flex:0 0 80px;font-size:15px;padding:10px">追加</button></div>
+        <div id="rmList"></div>
+      </div>
+    </div>
+  </div>
 </section>
 
 
@@ -713,7 +814,7 @@ const GENDER = {
 };
 const CASES = ["主格","生格","与格","対格","造格","前置格"];
 const ROWS = [...CASES.map(c=>["単数",c]), ...CASES.map(c=>["複数",c])];
-const kindOf = c => c.kind==="word" ? "word" : c.kind==="decl" ? "decl" : c.kind==="study" ? "study" : "sent";
+const kindOf = c => ["word","decl","study","plan","rmat"].includes(c.kind) ? c.kind : "sent";
 const resOf = h => h.res || (h.ok ? "o" : "x");
 const RES = { o:{mark:"○", name:"正解", stamp:"ВЕРНО!"}, m:{mark:"△", name:"あやふや", stamp:"ПОЧТИ"}, x:{mark:"×", name:"不正解", stamp:"ОШИБКА"} };
 
@@ -832,7 +933,7 @@ function checkDayChange(){
   lastDay = dayKey();
   st.sent.queue=[]; st.word.queue=[]; ["noun","adj","pers","poss","verb"].forEach(k=>st.decl[k].queue=[]);
   renderBand();
-  if(st.tab==="log") (st.logView==="self" ? renderSelf : renderCalendar)();
+  if(st.tab==="log") (st.logView==="self" ? renderSelf : st.logView==="plan" ? renderPlan : renderCalendar)();
   if(st.tab==="quiz") (isGrid() ? updateDeclScore : updateScore)();
 }
 setInterval(checkDayChange, 30000);
@@ -1002,6 +1103,7 @@ function refreshAfterData(){
   }
   if(st.tab==="log" && st.logView==="app") renderMedals();
   if(st.tab==="log" && st.logView==="self") renderSelf();
+  if(st.tab==="log" && st.logView==="plan" && !document.querySelector("#planEditor .box") && !(document.activeElement && document.activeElement.closest && document.activeElement.closest("#logPlan input"))) renderPlan();
 }
 
 async function offerMigrate(local){
@@ -1089,7 +1191,7 @@ function importData(file){
       const j=JSON.parse(r.result); const list=Array.isArray(j)?j:j.cards;
       if(!Array.isArray(list)) throw 0;
       const have=new Map(cards.map(c=>[c.id,c])), got=[];
-      for(const c of list){ if(c && c.id && ((c.ru && c.ja) || c.kind==="decl" || c.kind==="study")){ have.set(c.id,c); got.push(c); } }
+      for(const c of list){ if(c && c.id && ((c.ru && c.ja) || ["decl","study","plan","rmat"].includes(c.kind))){ have.set(c.id,c); got.push(c); } }
       cards=[...have.values()];
       if(backend.cloud) got.forEach(c=>backend.save(c)); else flush();
       if(j.stats && j.stats.days){
@@ -1142,6 +1244,7 @@ function showTab(){
   setOn($("#logViewSeg"),"v",st.logView);
   $("#logApp").style.display = st.logView==="app" ? "" : "none";
   $("#logSelf").style.display = st.logView==="self" ? "" : "none";
+  $("#logPlan").style.display = st.logView==="plan" ? "" : "none";
   $(".decks").style.display = deckTab ? "" : "none";
   setOn($(".decks"),"deck",st.deck);
   $("#catBar").style.display = deckTab && st.deck==="decl" ? "" : "none";
@@ -1149,6 +1252,7 @@ function showTab(){
   [["cardQuiz",!g],["cardAdd",!g],["cardLog",!g],["gridQuiz",g],["gridAdd",g],["gridLog",g]].forEach(([id,on])=>$("#"+id).style.display = on ? "" : "none");
   renderBand();
   if(st.tab==="log" && st.logView==="self"){ renderSelf(); }
+  else if(st.tab==="log" && st.logView==="plan"){ renderPlan(); }
   else if(st.tab==="log") renderCalendar();
   if(g){ if(deckTab) showGrid(); }
   else {
@@ -2113,7 +2217,6 @@ function redStars(){
   const goals=stats.studyGoals||{};
   return Object.keys(goals).filter(ym=>+goals[ym]>0 && monthMin(ym)>=+goals[ym]).sort().reverse();
 }
-seg("#logViewSeg", v=>{ st.logView=v; showTab(); });
 const selfTh = () => { const c=stats.selfColor||{}; const t1=+c.t1||60, t2=+c.t2||120; return t2>t1 ? [t1,t2] : [60,120]; };
 $("#thSave").onclick=()=>{
   const t1=Math.round((+$("#th1").value)*60), t2=Math.round((+$("#th2").value)*60);
@@ -2263,6 +2366,248 @@ $("#sToday").onclick=()=>{ st.selfMonth=dayKey().slice(0,7); renderSelf(); };
 $("#sDate").onchange=()=>{ const v=$("#sDate").value; if(v) st.selfMonth=v.slice(0,7); renderSelf(); };
 $("#sFilter").onchange=e=>{ st.selfFilter=e.target.value; renderSelfList(); };
 $("#sOrder").onchange=e=>{ st.selfOrder=e.target.value; renderSelfList(); };
+
+
+/* ---------- 計画：五ヵ年計画（教材のページ計画）と 復習（忘却曲線のチェックリスト） ---------- */
+st.planView = "five"; st.planDraft = null; st.rvOpen = {};
+const plans = () => cards.filter(c=>c.kind==="plan").sort((a,b)=>(a.end||"").localeCompare(b.end||"") || (a.createdAt||0)-(b.createdAt||0));
+const rmats = () => cards.filter(c=>c.kind==="rmat").sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
+const spanDays = (a,b) => daysBetween(a,b)+1;              // a〜b の日数（両端を含む）
+const mdj = d => `${+d.slice(5,7)}/${+d.slice(8)}`;
+const wdj = d => "日月火水木金土"[new Date(d+"T00:00:00").getDay()];
+seg("#logViewSeg", v=>{ st.logView=v; showTab(); });
+seg("#planSeg", v=>{ st.planView=v; renderPlan(); });
+
+function planStat(p){
+  const today=dayKey(), log=p.log||{}, total=+p.total||0, days=spanDays(p.start,p.end);
+  const done=Object.values(log).reduce((a,b)=>a+(+b||0),0);
+  const doneToday=+log[today]||0, doneBefore=done-doneToday;
+  const finished = done>=total;
+  let daysLeft, quota=0, todayLeft=0, phase;
+  if(today<p.start){ phase="before"; daysLeft=days; quota=Math.ceil(total/days); }
+  else if(today>p.end){ phase="after"; daysLeft=0; }
+  else { phase="now"; daysLeft=spanDays(today,p.end); quota=Math.ceil(Math.max(0,total-doneBefore)/daysLeft); todayLeft=Math.max(0, quota-doneToday); }
+  const elapsed = today<p.start ? 0 : Math.min(days, spanDays(p.start,today));
+  const past = today<p.start ? 0 : Math.min(days, daysBetween(p.start,today));   // 昨日までの日数
+  const ideal = Math.round(total*past/days);
+  return { total, days, done, doneToday, finished, phase, daysLeft, quota, todayLeft, elapsed, past, ideal, diff:doneBefore-ideal };
+}
+
+function renderPlan(){
+  setOn($("#planSeg"),"v",st.planView);
+  $("#planFive").style.display = st.planView==="five" ? "" : "none";
+  $("#planRev").style.display = st.planView==="rev" ? "" : "none";
+  if(st.planView==="five") renderFive(); else renderRev();
+}
+
+/* 五ヵ年計画 */
+$("#newPlan").onclick=()=>{ const t=dayKey(); st.planDraft={ id:null, title:"", total:"", start:t, end:addDays(t,9) }; renderPlanEditor(); $("#planEditor").scrollIntoView({behavior:"smooth"}); };
+function renderPlanEditor(){
+  const d=st.planDraft, ed=$("#planEditor");
+  $("#newPlan").style.display = d ? "none" : "";
+  if(!d){ ed.innerHTML=""; return; }
+  ed.innerHTML=`<div class="box">
+    <p class="label">НОВЫЙ ПЛАН <em>${d.id?"計画を編集":"新しい計画"}</em></p>
+    <p class="label">УЧЕБНИК <em>教材名</em></p>
+    <input type="text" id="pTitle" placeholder="例：文法の教科書 / 単語帳" value="${esc(d.title)}">
+    <div class="gap"></div>
+    <div class="sform">
+      <label class="sf"><span>全部で</span><span class="hm"><input type="number" id="pTotal" min="1" inputmode="numeric" placeholder="100" value="${esc(d.total)}"><em>ページ</em></span></label>
+    </div>
+    <div class="sform">
+      <label class="sf"><span>開始日</span><input type="date" id="pStart" value="${d.start}"></label>
+      <label class="sf"><span>期限（この日までに終える）</span><input type="date" id="pEnd" value="${d.end}"></label>
+    </div>
+    <div class="sform">
+      <label class="sf"><span>期間</span><span class="hm"><input type="number" id="pDays" min="1" inputmode="numeric"><em>日間（入れると期限を自動で計算）</em></span></label>
+    </div>
+    <div class="plcalc" id="pCalc"></div>
+    <div class="row"><button class="btn ghost" id="pCancel">やめる</button><button class="btn red" id="pSave">計画を決定</button></div>
+  </div>`;
+  const calc=()=>{
+    const s=$("#pStart").value, e=$("#pEnd").value, t=+$("#pTotal").value;
+    if(!s||!e||e<s){ $("#pCalc").innerHTML=`<span class="warn">期限は開始日より後にしてください</span>`; return; }
+    const n=spanDays(s,e); if(document.activeElement!==$("#pDays")) $("#pDays").value=n;
+    $("#pCalc").innerHTML = t>0 ? `<b>${n}日間</b>で<b>${t}ページ</b> → 1日あたり <b class="big">${Math.ceil(t/n)}</b> ページ` : `<b>${n}日間</b>の計画（ページ数を入れるとノルマを計算します）`;
+  };
+  ["#pTotal","#pStart","#pEnd"].forEach(q=>$(q).addEventListener("input",calc));
+  $("#pDays").addEventListener("input",()=>{ const n=+$("#pDays").value, s=$("#pStart").value; if(n>=1 && s){ $("#pEnd").value=addDays(s,n-1); calc(); } });
+  calc();
+  $("#pCancel").onclick=()=>{ st.planDraft=null; renderPlanEditor(); };
+  $("#pSave").onclick=()=>{
+    const title=$("#pTitle").value.trim(), total=Math.round(+$("#pTotal").value), start=$("#pStart").value, end=$("#pEnd").value;
+    if(!title){ toast("教材名を入力してください"); return; }
+    if(!(total>0)){ toast("ページ数を入力してください"); return; }
+    if(!start||!end||end<start){ toast("期限は開始日より後にしてください"); return; }
+    let p = d.id && cards.find(c=>c.id===d.id);
+    if(p){ Object.assign(p,{ title, total, start, end }); }
+    else { p={ id:newId(), kind:"plan", title, total, start, end, log:{}, createdAt:Date.now() }; cards.push(p); }
+    backend.save(p); st.planDraft=null;
+    toast(`計画を決定！ 1日 ${Math.ceil(total/spanDays(start,end))} ページ`); renderFive();
+  };
+}
+function renderFive(){
+  renderPlanEditor();
+  const list=plans(), el=$("#planList");
+  if(!list.length){ el.innerHTML=`<div class="box"><div class="empty">まだ計画がありません。<br>「新しい計画を立てる」から始めよう、同志！<span class="ru">ВПЕРЁД!</span></div></div>`; return; }
+  const active=list.filter(p=>!planStat(p).finished), done=list.filter(p=>planStat(p).finished);
+  el.innerHTML=[...active, ...done].map(p=>{
+    const s=planStat(p), pct=Math.min(100, Math.round(s.done/s.total*100)), tp=Math.round(s.elapsed/s.days*100);
+    let status, cls="";
+    if(s.finished){ status=`★ 計画達成！ 全${s.total}ページ完了`; cls="done"; }
+    else if(s.phase==="before"){ status=`${mdj(p.start)}から開始・1日 <b>${s.quota}</b> ページの予定`; }
+    else if(s.phase==="after"){ status=`期限を過ぎました・残り <b>${s.total-s.done}</b> ページ`; cls="late"; }
+    else if(s.todayLeft===0){ status=`今日のノルマ達成！（今日 ${s.doneToday}ページ）・明日からは1日 <b>${Math.ceil(Math.max(0,s.total-s.done)/Math.max(1,s.daysLeft-1))||0}</b> ページ`; cls="ok"; }
+    else status=`今日のノルマ <b class="big">${s.quota}</b> ページ・あと <b>${s.todayLeft}</b> ページ`;
+    const pace = s.finished||s.phase==="before"||s.past===0 ? "" : `昨日までで ` + (s.diff>0 ? `<span class="ahead">計画より ${s.diff}ページ先行 ★</span>` : s.diff<0 ? `<span class="behind">計画より ${-s.diff}ページ遅れ</span>` : `<span class="ahead">計画どおり</span>`);
+    const logs=Object.entries(p.log||{}).filter(([,v])=>+v>0).sort((a,b)=>b[0].localeCompare(a[0]));
+    return `<div class="box plan ${cls}" data-id="${esc(p.id)}">
+      <div class="plt"><b>${esc(p.title)}</b><span>${mdj(p.start)}〜${mdj(p.end)}（${s.days}日間）・全${s.total}ページ</span></div>
+      <div class="gauge"><i style="width:${pct}%"></i><span>${s.done} / ${s.total} ページ（${pct}%）</span></div>
+      <div class="gauge time"><i style="width:${tp}%"></i><span>日数 ${s.elapsed} / ${s.days}日</span></div>
+      <div class="plstat">${status}</div>
+      ${pace?`<div class="plpace">${pace}${s.phase==="now"&&!s.finished?`・残り${s.daysLeft}日`:""}</div>`:""}
+      ${s.finished?"":`<div class="pladd">
+        <input type="date" class="lgDate" value="${dayKey()<p.start?p.start:dayKey()>p.end?p.end:dayKey()}" max="${dayKey()}">
+        <input type="number" class="lgPages" min="1" inputmode="numeric" placeholder="ページ数">
+        <button class="btn red lgAdd">進んだ</button>
+      </div>`}
+      <details class="pllog"><summary>進捗の記録（${logs.length}日）</summary>
+        ${logs.length?logs.map(([d,v])=>`<div class="lgrow"><span>${d.slice(0,4)}/${mdj(d)}（${wdj(d)}）</span><b>${v}ページ</b><button class="mini danger" data-d="${d}">削除</button></div>`).join(""):`<p class="note">まだ記録がありません</p>`}
+      </details>
+      <div class="acts"><span style="flex:1"></span><button class="mini" data-act="edit">編集</button><button class="mini danger" data-act="del">計画を削除</button></div>
+    </div>`;
+  }).join("");
+  el.querySelectorAll(".plan").forEach(box=>{
+    const p=cards.find(c=>c.id===box.dataset.id);
+    const add=box.querySelector(".lgAdd");
+    if(add) add.onclick=()=>{
+      const d=box.querySelector(".lgDate").value, n=Math.round(+box.querySelector(".lgPages").value);
+      if(!d){ toast("日付を選んでください"); return; }
+      if(d>dayKey()){ toast("未来の日付には記録できません"); return; }
+      if(!(n>0)){ toast("進んだページ数を入力してください"); return; }
+      const before=planStat(p);
+      p.log=p.log||{}; p.log[d]=(+p.log[d]||0)+n; backend.save(p);
+      const after=planStat(p);
+      toast(after.finished && !before.finished ? `「${p.title}」計画達成！ Ура, товарищ!` : after.phase==="now" && after.todayLeft===0 && before.todayLeft>0 ? "今日のノルマ達成！ ★" : `${n}ページ進みました`);
+      renderFive();
+    };
+    const pg=box.querySelector(".lgPages"); if(pg) pg.addEventListener("keydown",e=>{ if(e.key==="Enter") add.click(); });
+    box.querySelectorAll(".lgrow button").forEach(b=>b.onclick=async()=>{
+      const d=b.dataset.d;
+      if(!await ask("この進捗の記録を削除しますか？", `${p.title}\n${d.replace(/-/g,"/")}　${p.log[d]}ページ\n\n残りのノルマは自動で計算し直されます。`)) return;
+      delete p.log[d]; backend.save(p); toast("記録を削除しました"); renderFive();
+    });
+    box.querySelector('[data-act="edit"]').onclick=()=>{ st.planDraft={ id:p.id, title:p.title, total:p.total, start:p.start, end:p.end }; renderPlanEditor(); $("#planEditor").scrollIntoView({behavior:"smooth"}); };
+    box.querySelector('[data-act="del"]').onclick=async()=>{
+      if(!await ask("この計画を削除しますか？", `${p.title}（全${p.total}ページ）\n\n進捗の記録もいっしょに消えます。元に戻せません。`)) return;
+      cards=cards.filter(c=>c.id!==p.id); backend.del(p.id); toast("計画を削除しました"); renderFive();
+    };
+  });
+}
+
+/* 復習（忘却曲線） */
+const RV_INT = [1, 3, 7, 14, 30, 60, 120];   // 学習→1日後、その後の復習ごとに 3日→1週→2週→1か月→2か月→4か月
+const rvNextGap = step => RV_INT[Math.min(step, RV_INT.length-1)];
+function rvProjection(u, n=5){
+  const out=[]; let d=u.due, step=u.step;
+  for(let i=0;i<n;i++){ out.push(d); step++; d=addDays(d, rvNextGap(step)); }
+  return out;
+}
+const rvLabel = d => { const n=daysBetween(dayKey(), d); return n<0 ? `${-n}日遅れ` : n===0 ? "今日" : n===1 ? "明日" : `${n}日後`; };
+function rvTodayItems(){
+  const today=dayKey(), out=[];
+  for(const m of rmats()) for(const u of (m.units||[])) if(u.due<=today || u.last===today) out.push({ m, u });
+  return out.sort((a,b)=> (a.u.last===today) - (b.u.last===today) || a.u.due.localeCompare(b.u.due));
+}
+function renderRev(){
+  const today=dayKey(), items=rvTodayItems(), todo=items.filter(x=>x.u.last!==today).length;
+  $("#rvCount").textContent = items.length ? `${todo}件${items.length-todo?`・済み${items.length-todo}件`:""}` : "0件";
+  $("#rvToday").innerHTML = items.length ? items.map(({m,u})=>{
+    const done=u.last===today;
+    return `<label class="rvchk${done?" done":""}" data-m="${esc(m.id)}" data-u="${esc(u.id)}">
+      <input type="checkbox" ${done?"checked":""}>
+      <span class="bx"></span>
+      <span class="tx"><b>${esc(u.name)}</b><small>${esc(m.title)}・${done?`済み → 次は ${mdj(u.due)}（${rvLabel(u.due)}）`:`${u.step+1}回目の復習${u.due<today?`・<em>${rvLabel(u.due)}</em>`:""}`}</small></span>
+    </label>`;
+  }).join("") : `<div class="empty" style="padding:12px">今日の復習はありません。<br>計画は達成された、同志よ。<span class="ru">ПЛАН ВЫПОЛНЕН!</span></div>`;
+  $("#rvToday").querySelectorAll(".rvchk input").forEach(cb=>cb.onchange=()=>{
+    const lab=cb.closest(".rvchk"), m=cards.find(c=>c.id===lab.dataset.m), u=m && (m.units||[]).find(x=>x.id===lab.dataset.u);
+    if(!u) return;
+    if(cb.checked && u.last!==today){
+      u.prev={ step:u.step, due:u.due, last:u.last||"" };
+      u.step++; u.due=addDays(today, rvNextGap(u.step)); u.last=today; u.hist=[...(u.hist||[]), today];
+      toast(`復習完了！ 次は ${mdj(u.due)}（${rvLabel(u.due)}）`);
+    } else if(!cb.checked && u.last===today && u.prev){
+      u.step=u.prev.step; u.due=u.prev.due; u.last=u.prev.last||""; u.hist=(u.hist||[]).slice(0,-1); delete u.prev;
+      toast("チェックを外しました");
+    }
+    backend.save(m); renderRev();
+  });
+  renderRmats();
+}
+$("#rmAdd").onclick=()=>{
+  const t=$("#rmTitle").value.trim(); if(!t){ toast("教材・資料の名前を入力してください"); return; }
+  const m={ id:newId(), kind:"rmat", title:t, units:[], createdAt:Date.now() }; cards.push(m); backend.save(m);
+  st.rvOpen[m.id]=true; $("#rmTitle").value=""; toast("教材を追加しました"); renderRev();
+};
+$("#rmTitle").addEventListener("keydown",e=>{ if(e.key==="Enter") $("#rmAdd").click(); });
+function renderRmats(){
+  const list=rmats(), el=$("#rmList"), today=dayKey();
+  if(!list.length){ el.innerHTML=`<div class="empty">教材を追加して、やった課やページを登録しよう</div>`; return; }
+  el.innerHTML=list.map(m=>{
+    const units=[...(m.units||[])].sort((a,b)=>a.due.localeCompare(b.due)), due=units.filter(u=>u.due<=today && u.last!==today).length, open=!!st.rvOpen[m.id];
+    return `<div class="rmat${open?" open":""}" data-id="${esc(m.id)}">
+      <div class="rmh"><b>${esc(m.title)}</b><span>${units.length}件${due?`・<em>今日 ${due}件</em>`:""}</span><button class="mini tog">${open?"閉じる":"開く"}</button></div>
+      ${open?`<div class="rmb">
+        <div class="unitadd">
+          <input type="text" class="uName" placeholder="やった課・ページ（例：第3課 / p.20-25）">
+          <div class="row"><label class="sf"><span>勉強した日</span><input type="date" class="uDate" value="${today}" max="${today}"></label><button class="btn red uAdd" style="align-self:flex-end">登録</button></div>
+        </div>
+        ${units.length?units.map(u=>`<div class="unit${st.rvOpen[u.id]?" sel":""}" data-u="${esc(u.id)}">
+          <div class="ur"><b>${esc(u.name)}</b><span class="${u.due<today?"late":u.due===today?"now":""}">次 ${mdj(u.due)}（${rvLabel(u.due)}）</span></div>
+          ${st.rvOpen[u.id]?`<div class="usch">
+            <div class="ush"><span>勉強した日</span><b>${u.learned.replace(/-/g,"/")}</b></div>
+            <div class="ush"><span>復習した日</span><b>${(u.hist||[]).length?(u.hist||[]).map(mdj).join("・"):"まだなし"}</b></div>
+            <p class="label" style="margin-top:8px">ПЛАН <em>これからの復習予定（予定どおり復習した場合）</em></p>
+            <ol class="proj">${rvProjection(u).map((d,i)=>`<li class="${d<today?"late":d===today?"now":""}"><span>${u.step+1+i}回目</span><b>${d.slice(0,4)}/${mdj(d)}（${wdj(d)}）</b><small>${rvLabel(d)}</small></li>`).join("")}</ol>
+            <div class="acts"><span style="flex:1"></span><button class="mini danger udel">この記録を削除</button></div>
+          </div>`:""}
+        </div>`).join(""):`<p class="note">まだ登録がありません</p>`}
+        <div class="acts" style="margin-top:10px"><span style="flex:1"></span><button class="mini danger mdel">教材を削除</button></div>
+      </div>`:""}
+    </div>`;
+  }).join("");
+  el.querySelectorAll(".rmat").forEach(box=>{
+    const m=cards.find(c=>c.id===box.dataset.id);
+    box.querySelector(".tog").onclick=()=>{ st.rvOpen[m.id]=!st.rvOpen[m.id]; renderRmats(); };
+    const add=box.querySelector(".uAdd");
+    if(add){
+      add.onclick=()=>{
+        const name=box.querySelector(".uName").value.trim(), d=box.querySelector(".uDate").value;
+        if(!name){ toast("課やページを入力してください"); return; }
+        if(!d || d>today){ toast("勉強した日を選んでください"); return; }
+        const u={ id:newId(), name, learned:d, step:0, due:addDays(d, RV_INT[0]), last:"", hist:[] };
+        m.units=[...(m.units||[]), u]; backend.save(m);
+        toast(`登録しました。最初の復習は ${mdj(u.due)}（${rvLabel(u.due)}）`); renderRev();
+      };
+      box.querySelector(".uName").addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.isComposing) add.click(); });
+      box.querySelector(".mdel").onclick=async()=>{
+        if(!await ask("この教材を削除しますか？", `${m.title}\n\n登録した課・ページ（${(m.units||[]).length}件）と復習の予定もいっしょに消えます。元に戻せません。`)) return;
+        cards=cards.filter(c=>c.id!==m.id); backend.del(m.id); toast("教材を削除しました"); renderRev();
+      };
+    }
+    box.querySelectorAll(".unit").forEach(row=>{
+      const u=(m.units||[]).find(x=>x.id===row.dataset.u);
+      row.querySelector(".ur").onclick=()=>{ st.rvOpen[u.id]=!st.rvOpen[u.id]; renderRmats(); };
+      const del=row.querySelector(".udel");
+      if(del) del.onclick=async()=>{
+        if(!await ask("この記録を削除しますか？", `${m.title}：${u.name}\n\n復習の予定も消えます。元に戻せません。`)) return;
+        m.units=(m.units||[]).filter(x=>x.id!==u.id); backend.save(m); toast("削除しました"); renderRev();
+      };
+    });
+  });
+}
 
 $("#expBtn").onclick=exportData;
 $("#impBtn").onclick=()=>$("#impFile").click();
