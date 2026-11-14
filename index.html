@@ -151,6 +151,68 @@ details summary{cursor:pointer;font-weight:700;font-size:14px}
   font-size:14px;font-weight:700;opacity:0;transition:opacity .25s;pointer-events:none;z-index:9;white-space:nowrap}
 .toast.show{opacity:1}
 footer{text-align:center;font-family:var(--ru);font-size:10px;letter-spacing:.2em;color:var(--sub);padding:0 0 30px}
+nav button{font-size:13px;padding:9px 2px}
+/* 連続記録の帯 */
+.band{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--ink);color:#fff;border:3px solid var(--ink);
+  box-shadow:6px 6px 0 var(--red);padding:10px 12px;margin-bottom:18px;cursor:pointer}
+.band .sk{font-family:var(--disp);font-size:22px;color:var(--gold);line-height:1.1}
+.band .sk small{display:block;font-family:var(--ru);font-size:9px;letter-spacing:.16em;color:#d9cbb0;margin-bottom:2px}
+.band .td{text-align:right;font-size:12px;font-weight:700;color:#d9cbb0}
+.band .td b{font-family:var(--disp);font-weight:400;font-size:18px;color:#fff}
+.band .pips{font-size:15px;letter-spacing:2px;color:var(--gold)}
+.band .pips i{font-style:normal;color:#5a4a40}
+.band.done{box-shadow:6px 6px 0 var(--gold)}
+/* タグ */
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.chip{border:2px solid var(--ink);background:#fffdf6;padding:5px 11px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--ink)}
+.chip.on{background:var(--ink);color:var(--gold)}
+.tagc{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;background:#efe2c4;border:1.5px solid #c9b78f;margin:3px 4px 0 0;cursor:pointer;color:var(--ink)}
+.qtags{margin:-8px 0 12px}
+/* 3段階の自己採点 */
+.grade3{display:flex;gap:8px}.grade3 .btn{font-size:15px;padding:12px 2px;letter-spacing:0}
+.btn.mid{background:var(--gold);color:var(--ink)}
+.log .mark.m{color:#a07800}
+.stamp.m{color:#a07800}
+.score.four div{padding:8px 2px 7px}.score.four b{font-size:22px}.score.four span{font-size:10px}
+.nextinfo{font-size:12px;color:var(--sub);margin:-4px 0 12px;font-weight:700}
+/* カレンダー */
+.calsum{display:flex;gap:8px;margin-bottom:12px}
+.calsum div{flex:1;text-align:center;border:2px solid var(--ink);padding:6px 2px;background:#fffdf6}
+.calsum b{display:block;font-family:var(--disp);font-weight:400;font-size:22px;color:var(--red);line-height:1.2}
+.calsum span{font-size:10px;font-weight:700}
+.calhead{display:flex;align-items:center;justify-content:space-between;margin:4px 0 8px;gap:6px}
+.calhead b{font-family:var(--disp);font-weight:400;font-size:18px;flex:1;text-align:center}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal .wd{text-align:center;font-size:11px;font-weight:700;color:var(--sub);padding-bottom:2px}
+.cal .wd.sun{color:var(--red)}.cal .wd.sat{color:#2b4d8c}
+.cal .d{aspect-ratio:1;border:1.5px solid rgba(22,18,16,.25);background:#fffdf6;position:relative;font-size:11px;font-weight:700;padding:2px 3px;overflow:hidden}
+.cal .d.l1{background:#f3d9b0}
+.cal .d.star{background:var(--red);color:#fff;border-color:var(--ink)}
+.cal .d.star::after{content:"★";position:absolute;left:0;right:0;bottom:1px;text-align:center;color:var(--gold);font-size:16px;line-height:1}
+.cal .d .n{position:absolute;right:3px;top:2px;font-size:9px;opacity:.75}
+.cal .d.today{outline:3px solid var(--gold);outline-offset:-1px}
+.cal .d.fut{opacity:.35}
+.cal .d.blank{border:0;background:none}
+.legend{display:flex;gap:12px;font-size:11px;color:var(--sub);margin-top:10px;flex-wrap:wrap;align-items:center}
+.legend i{display:inline-block;width:12px;height:12px;border:1.5px solid rgba(22,18,16,.3);vertical-align:-2px;margin-right:4px}
+/* 格変化の表 */
+.dtwrap{overflow-x:auto;margin:0 -4px}
+.dtbl{width:100%;border-collapse:collapse;table-layout:fixed;min-width:300px}
+.dtbl th,.dtbl td{border:1.5px solid var(--ink);padding:0}
+.dtbl thead th{background:var(--ink);color:var(--gold);font-family:var(--ru);font-size:14px;padding:6px 2px}
+.dtbl th.rh{background:#efe2c4;color:var(--ink);font-family:"Noto Sans JP";font-size:11px;width:56px;line-height:1.25;padding:3px 2px;font-weight:700}
+.dtbl tr.pl th.rh{background:#f3d9b0}
+.dtbl tr.split > *{border-top-width:3.5px}
+.dtbl td input{width:100%;border:0;padding:8px 3px;font-size:15px;background:#fffdf6;text-align:center;border-radius:0;font-family:"PT Sans",sans-serif}
+.dtbl td input:focus{outline:2px solid var(--gold);outline-offset:-2px}
+.dtbl tr.ex td input{background:#fff3c9;font-weight:700}
+.dtbl td.ro{text-align:center;font-size:14px;padding:7px 2px;background:#fffdf6;word-break:break-word}
+.dtbl td.ro.hot{background:#f6d6d3}
+.gb{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;color:#fff;background:var(--red);border:1.5px solid var(--ink)}
+.gb.n{background:var(--ink);color:var(--gold)}.gb.f{background:var(--gold);color:var(--ink)}
+.dprompt{font-size:14px;font-weight:700;margin:6px 0 2px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.dprompt .ex{font-family:"PT Sans";font-size:16px}
+.soon{border-style:dashed;box-shadow:none;text-align:center;color:var(--sub);font-size:13px;line-height:1.7}
 </style>
 </head>
 <body>
@@ -175,29 +237,35 @@ footer{text-align:center;font-family:var(--ru);font-size:10px;letter-spacing:.2e
   <button data-tab="quiz" class="on">出題</button>
   <button data-tab="add">登録</button>
   <button data-tab="log">記録</button>
-  <button data-tab="acct" id="acctTab">同志証</button>
+  <button data-tab="decl">格変化</button>
+  <button data-tab="acct">同志証</button>
 </nav>
 
 <main>
 <!-- 出題 -->
 <section id="quiz" class="on">
+  <div class="band" data-go="log"></div>
   <div class="box">
     <p class="label">НАПРАВЛЕНИЕ <em>方向</em></p>
     <div class="seg" id="dirSeg">
       <button data-v="rj" class="on" id="dirRj"></button>
       <button data-v="jr" id="dirJr"></button>
     </div>
+    <p class="label">ОБЛАСТЬ <em>範囲（タグ）</em></p>
+    <div class="chips" id="rangeChips"></div>
     <p class="label">РЕЖИМ <em>モード</em></p>
     <div class="seg" id="modeSeg">
       <button data-v="random" class="on">ランダム</button>
       <button data-v="drill" id="drillName"></button>
+      <button data-v="review">今日の復習</button>
     </div>
     <p class="note" id="modeNote"></p>
   </div>
-  <div class="score">
+  <div class="score four">
     <div><b id="sOk">0</b><span>今回の正解</span></div>
     <div><b id="sNg">0</b><span>今回の不正解</span></div>
     <div><b id="sHot">0</b><span id="sHotL">特訓対象</span></div>
+    <div><b id="sDue">0</b><span>今日の復習</span></div>
   </div>
   <div class="box" id="qbox"></div>
 </section>
@@ -216,6 +284,9 @@ footer{text-align:center;font-family:var(--ru);font-size:10px;letter-spacing:.2e
       <input type="text" id="inMemo" placeholder="例：女性名詞 / 複数 книги">
     </div>
     <div class="gap"></div>
+    <p class="label">ТЕГИ <em>タグ（任意・スペース区切りで複数）</em></p>
+    <input type="text" id="inTags" placeholder="例：第5課 動詞">
+    <div class="gap"></div>
     <button class="btn red" id="addBtn">登録する</button>
     <div class="gap"></div>
     <details>
@@ -228,12 +299,12 @@ footer{text-align:center;font-family:var(--ru);font-size:10px;letter-spacing:.2e
   </div>
   <div class="box">
     <p class="label">АРХИВ <em>登録済み（<span id="cnt">0</span>）</em></p>
-    <input type="text" id="search" placeholder="検索 / поиск">
+    <input type="text" id="search" placeholder="検索（ロシア語・日本語・タグ）">
     <div class="list" id="cardList"></div>
   </div>
   <div class="box">
     <p class="label">РЕЗЕРВ <em>バックアップ</em></p>
-    <p class="note">データはこの端末のブラウザにだけ保存されます。機種変更やブラウザのデータ削除に備えて、ときどきバックアップを保存してください。読み込むと、例文・単語・記録が復元されます。</p>
+    <p class="note">例文・単語・格変化の表・記録・学習カレンダーをファイルに保存して、あとで読み込めます。ログインしていない場合はとくに、ときどき保存しておくと安心です。</p>
     <div class="gap"></div>
     <div class="row">
       <button class="btn ghost" id="expBtn">保存する</button>
@@ -245,6 +316,26 @@ footer{text-align:center;font-family:var(--ru);font-size:10px;letter-spacing:.2e
 
 <!-- 記録 -->
 <section id="log">
+  <div class="box">
+    <p class="label">ПЯТИЛЕТКА <em>学習カレンダー（1日5問で★）</em></p>
+    <div class="calsum">
+      <div><b id="cStreak">0</b><span>連続日数</span></div>
+      <div><b id="cBest">0</b><span>最長連続</span></div>
+      <div><b id="cMonth">0</b><span>今月の★</span></div>
+    </div>
+    <div class="calhead">
+      <button class="mini" id="calPrev">‹ 前月</button>
+      <b id="calTitle"></b>
+      <button class="mini" id="calNext">次月 ›</button>
+    </div>
+    <div class="cal" id="cal"></div>
+    <div class="legend">
+      <span><i style="background:#f3d9b0"></i>1〜4問</span>
+      <span><i style="background:var(--red)"></i>5問以上（★）</span>
+      <span><i style="outline:2px solid var(--gold);background:#fffdf6"></i>今日</span>
+      <button class="mini" id="calToday" style="margin-left:auto">今月へ</button>
+    </div>
+  </div>
   <div class="score">
     <div><b id="lTotal">0</b><span>解答数</span></div>
     <div><b id="lRate">–</b><span>正答率</span></div>
@@ -254,25 +345,91 @@ footer{text-align:center;font-family:var(--ru);font-size:10px;letter-spacing:.2e
     <p class="label">ЖУРНАЛ <em>解答記録</em></p>
     <div class="seg" id="logSeg">
       <button data-v="all" class="on">すべて</button>
-      <button data-v="ng">間違いのみ</button>
+      <button data-v="x">× 不正解</button>
+      <button data-v="m">△ あやふや</button>
     </div>
     <div class="list log" id="logList"></div>
   </div>
   <div class="box dangerzone">
     <p class="label">ЧИСТКА <em>間違いの記録を整理</em></p>
-    <p class="note">×の記録をすべて消します。不正解の回数と「<span id="hotName">特訓対象</span>」の印もリセットされます（○の記録と登録した<span id="unitName">例文</span>は残ります）。</p>
+    <p class="note">×の記録をすべて消します。不正解の回数と「<span id="hotName">特訓対象</span>」の印もリセットされます（○と△の記録、登録した<span id="unitName">例文</span>、学習カレンダーは残ります）。</p>
     <div class="gap"></div>
     <button class="btn danger" id="wipeNg">間違いの記録をすべて削除</button>
   </div>
 </section>
+
+<!-- 格変化 -->
+<section id="decl">
+  <div class="seg" id="declSeg" style="background:var(--card)">
+    <button data-v="practice" class="on">練習</button>
+    <button data-v="tables">表の登録</button>
+    <button data-v="dlog">記録</button>
+  </div>
+
+  <div id="dv-practice">
+    <div class="band" data-go="log"></div>
+    <div class="box">
+      <p class="label">РОД <em>範囲（名詞の性）</em></p>
+      <div class="chips" id="gChips"></div>
+      <p class="label">РЕЖИМ <em>モード</em></p>
+      <div class="seg" id="dModeSeg">
+        <button data-v="random" class="on">ランダム</button>
+        <button data-v="drill">苦手</button>
+      </div>
+      <p class="note" id="dNote"></p>
+    </div>
+    <div class="score">
+      <div><b id="dOk">0</b><span>今回の正解</span></div>
+      <div><b id="dNg">0</b><span>今回の不正解</span></div>
+      <div><b id="dHot">0</b><span>苦手なマス</span></div>
+    </div>
+    <div class="box" id="dqbox"></div>
+  </div>
+
+  <div id="dv-tables" style="display:none">
+    <div id="dEditor"></div>
+    <button class="btn red" id="newTable">＋ 新しい表を作る</button>
+    <div class="gap"></div><div class="gap"></div>
+    <div class="box">
+      <p class="label">ТАБЛИЦЫ <em>登録した表（<span id="tCnt">0</span>）</em></p>
+      <div class="list" id="tList"></div>
+    </div>
+  </div>
+
+  <div id="dv-dlog" style="display:none">
+    <div class="score">
+      <div><b id="dlTotal">0</b><span>解答数</span></div>
+      <div><b id="dlRate">–</b><span>正答率</span></div>
+      <div><b id="dlToday">0</b><span>今日の解答</span></div>
+    </div>
+    <div class="box">
+      <p class="label">ЖУРНАЛ <em>格変化の解答記録</em></p>
+      <div class="seg" id="dLogSeg">
+        <button data-v="all" class="on">すべて</button>
+        <button data-v="x">× 不正解</button>
+        <button data-v="m">△ あやふや</button>
+      </div>
+      <div class="list log" id="dLogList"></div>
+    </div>
+    <div class="box dangerzone">
+      <p class="label">ЧИСТКА <em>間違いの記録を整理</em></p>
+      <p class="note">格変化の×の記録をすべて消し、「苦手なマス」の印をリセットします（表と○△の記録は残ります）。</p>
+      <div class="gap"></div>
+      <button class="btn danger" id="dWipe">格変化の間違いをすべて削除</button>
+    </div>
+  </div>
+  <div class="box soon">★ 格変化タブには、これから新しい教材を追加していく予定 ★<br><span style="font-family:var(--ru);letter-spacing:.1em">СКОРО БУДЕТ БОЛЬШЕ</span></div>
+</section>
+
 <!-- アカウント -->
 <section id="acct">
   <div class="box idcard" id="acctBox"></div>
   <div class="box">
     <p class="label">ИНФО <em>アカウントについて</em></p>
-    <p class="note">ログインすると、例文・単語・記録がクラウドに保存され、パソコンとスマホなど同じアカウントの端末どうしで自動的に共有されます。ログインしていないあいだは、この端末だけに保存されます。</p>
+    <p class="note">ログインすると、例文・単語・格変化の表・記録・学習カレンダーがクラウドに保存され、パソコンとスマホなど同じアカウントの端末どうしで自動的に共有されます。ログインしていないあいだは、この端末だけに保存されます。</p>
   </div>
 </section>
+
 <div class="modal" id="modal" role="dialog" aria-modal="true">
   <div class="dlg">
     <div class="bar"><svg viewBox="0 0 100 100"><path fill="#e8b923" d="M53.7,14.0 L56.1,14.2 L58.6,14.5 L61.0,15.0 L63.3,15.8 L65.6,16.7 L67.8,17.8 L69.9,19.0 L72.0,20.5 L73.8,22.1 L75.6,23.8 L77.2,25.6 L78.7,27.6 L80.0,29.7 L81.1,31.9 L82.1,34.2 L82.8,36.5 L83.4,38.9 L83.8,41.4 L84.0,43.8 L84.0,46.3 L83.8,48.7 L83.4,51.2 L82.8,53.6 L82.0,55.9 L81.1,58.2 L79.9,60.4 L78.6,62.5 L77.1,64.4 L75.5,66.3 L73.8,68.0 L71.9,69.6 L69.8,71.0 L67.7,72.3 L65.5,73.4 L63.2,74.3 L60.9,75.0 L58.5,75.5 L56.0,75.9 L53.6,76.0 L51.1,75.9 L48.6,75.7 L46.2,75.2 L43.8,74.6 L41.5,73.8 L39.3,72.8 L37.1,71.6 L35.0,70.3 L33.1,68.7 L27.2,56.4 L28.6,57.8 L30.1,59.2 L31.7,60.4 L33.4,61.4 L35.1,62.4 L37.0,63.2 L38.9,63.9 L40.8,64.4 L42.8,64.7 L44.8,64.9 L46.8,65.0 L48.8,64.9 L50.8,64.6 L52.7,64.2 L54.6,63.7 L56.5,63.0 L58.3,62.1 L60.1,61.2 L61.8,60.1 L63.3,58.8 L64.8,57.5 L66.2,56.0 L67.4,54.4 L68.5,52.8 L69.5,51.0 L70.4,49.2 L71.1,47.4 L71.7,45.4 L72.1,43.5 L72.4,41.5 L72.5,39.5 L72.5,37.5 L72.3,35.5 L71.9,33.5 L71.4,31.6 L70.8,29.7 L70.0,27.8 L69.1,26.1 L68.0,24.4 L66.8,22.8 L65.5,21.2 L64.1,19.8 L62.5,18.5 L60.9,17.4 L59.2,16.3 L57.4,15.4 L55.6,14.6 L53.7,14.0Z M30.8,55.2 L14.8,71.2 L21.5,77.9 L37.5,61.9Z M82.9,83.2 L38.9,37.2 L33.1,42.8 L77.1,88.8Z M28.3,53.6 L45.6,37.0 L36.6,27.6 L19.3,44.2Z"/></svg>ВНИМАНИЕ! 警告</div>
@@ -288,61 +445,158 @@ footer{text-align:center;font-family:var(--ru);font-size:10px;letter-spacing:.2e
 <script src="firebase-config.js"></script>
 <script>
 const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const SICKLE = "M53.7,14.0 L56.1,14.2 L58.6,14.5 L61.0,15.0 L63.3,15.8 L65.6,16.7 L67.8,17.8 L69.9,19.0 L72.0,20.5 L73.8,22.1 L75.6,23.8 L77.2,25.6 L78.7,27.6 L80.0,29.7 L81.1,31.9 L82.1,34.2 L82.8,36.5 L83.4,38.9 L83.8,41.4 L84.0,43.8 L84.0,46.3 L83.8,48.7 L83.4,51.2 L82.8,53.6 L82.0,55.9 L81.1,58.2 L79.9,60.4 L78.6,62.5 L77.1,64.4 L75.5,66.3 L73.8,68.0 L71.9,69.6 L69.8,71.0 L67.7,72.3 L65.5,73.4 L63.2,74.3 L60.9,75.0 L58.5,75.5 L56.0,75.9 L53.6,76.0 L51.1,75.9 L48.6,75.7 L46.2,75.2 L43.8,74.6 L41.5,73.8 L39.3,72.8 L37.1,71.6 L35.0,70.3 L33.1,68.7 L27.2,56.4 L28.6,57.8 L30.1,59.2 L31.7,60.4 L33.4,61.4 L35.1,62.4 L37.0,63.2 L38.9,63.9 L40.8,64.4 L42.8,64.7 L44.8,64.9 L46.8,65.0 L48.8,64.9 L50.8,64.6 L52.7,64.2 L54.6,63.7 L56.5,63.0 L58.3,62.1 L60.1,61.2 L61.8,60.1 L63.3,58.8 L64.8,57.5 L66.2,56.0 L67.4,54.4 L68.5,52.8 L69.5,51.0 L70.4,49.2 L71.1,47.4 L71.7,45.4 L72.1,43.5 L72.4,41.5 L72.5,39.5 L72.5,37.5 L72.3,35.5 L71.9,33.5 L71.4,31.6 L70.8,29.7 L70.0,27.8 L69.1,26.1 L68.0,24.4 L66.8,22.8 L65.5,21.2 L64.1,19.8 L62.5,18.5 L60.9,17.4 L59.2,16.3 L57.4,15.4 L55.6,14.6 L53.7,14.0Z M30.8,55.2 L14.8,71.2 L21.5,77.9 L37.5,61.9Z M82.9,83.2 L38.9,37.2 L33.1,42.8 L77.1,88.8Z M28.3,53.6 L45.6,37.0 L36.6,27.6 L19.3,44.2Z";
-const HIST_MAX = 30;      // 1件ごとに残す解答履歴
-const CLEAR_STREAK = 2;   // 特訓・苦手モードで連続この回数正解すると卒業
+const HIST_MAX = 40;          // 例文・単語1件ごとに残す解答履歴
+const DECL_HIST_MAX = 150;    // 格変化の表1つごとに残す解答履歴
+const CLEAR_STREAK = 2;       // 苦手・特訓モードで連続この回数正解すると卒業
+const STAR_GOAL = 5;          // 1日に何問解くと★
+const INTERVALS = [1, 3, 7, 14, 30, 60, 120]; // 忘却曲線：正解するたびに延びる復習の間隔（日）
 
 const DECK = {
   sent:{ ruL:"ロシア語の例文", ruPh:"Я учусь в университете.", jaPh:"私は大学で学んでいる。",
-         rj:"露文和訳 RU→JA", jr:"和文露訳 JA→RU", drill:"間違い特訓", hot:"特訓対象",
-         bulkPh:"Привет! | こんにちは！\nКак дела? | 元気？" },
+         rj:"露文和訳 RU→JA", jr:"和文露訳 JA→RU", drill:"間違い特訓", hot:"特訓対象", unit:"例文" },
   word:{ ruL:"ロシア語の単語", ruPh:"книга", jaPh:"本",
-         rj:"露→日 RU→JA", jr:"日→露 JA→RU", drill:"苦手", hot:"苦手な単語",
-         bulkPh:"книга | 本 | 女性名詞\nстол | 机" }
+         rj:"露→日 RU→JA", jr:"日→露 JA→RU", drill:"苦手", hot:"苦手", unit:"単語" }
 };
-const kindOf = c => c.kind === "word" ? "word" : "sent";
+const GENDER = {
+  m:{ name:"男性名詞", cols:["子音","-й","-ь"] },
+  n:{ name:"中性名詞", cols:["-о","-е","-мя"] },
+  f:{ name:"女性名詞", cols:["-а","-я","-ь"] }
+};
+const CASES = ["主格","生格","与格","対格","造格","前置格"];
+const ROWS = [...CASES.map(c=>["単数",c]), ...CASES.map(c=>["複数",c])];
+const kindOf = c => c.kind==="word" ? "word" : c.kind==="decl" ? "decl" : "sent";
+const resOf = h => h.res || (h.ok ? "o" : "x");
+const RES = { o:{mark:"○", name:"正解", stamp:"ВЕРНО!"}, m:{mark:"△", name:"あやふや", stamp:"ПОЧТИ"}, x:{mark:"×", name:"不正解", stamp:"ОШИБКА"} };
 
 let cards = [];
 let backend = null;
-const mk = () => ({ dir:"rj", mode:"random", queue:[], cur:null, lastId:null, ok:0, ng:0 });
-const st = { deck:"sent", tab:"quiz", logFilter:"all", sent:mk(), word:mk() };
+let stats = { days:{} };
+const mk = () => ({ dir:"rj", mode:"random", tags:[], queue:[], cur:null, lastId:null, ok:0, ng:0 });
+const st = {
+  deck:"sent", tab:"quiz", logFilter:"all", calMonth:null,
+  sent:mk(), word:mk(),
+  decl:{ mode:"random", genders:[], queue:[], cur:null, last:null, ok:0, ng:0, view:"practice", logFilter:"all", draft:null }
+};
 const S = () => st[st.deck];
 const deckCards = () => cards.filter(c => kindOf(c) === st.deck);
+const declCards = () => cards.filter(c => kindOf(c) === "decl");
 
-function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),1800); }
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),2000); }
 function newId(){ return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,8); }
-function fmt(t){ const d=new Date(t), p=n=>String(n).padStart(2,"0"); return `${d.getFullYear()}/${p(d.getMonth()+1)}/${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; }
-const sameDay = (a,b) => new Date(a).toDateString() === new Date(b).toDateString();
+const p2 = n => String(n).padStart(2,"0");
+function fmt(t){ const d=new Date(t); return `${d.getFullYear()}/${p2(d.getMonth()+1)}/${p2(d.getDate())} ${p2(d.getHours())}:${p2(d.getMinutes())}`; }
 
-/* 単語の自動照合（ё=е、アクセント記号・記号・空白を無視） */
+/* ---------- 日付（端末の現在の日付・時刻に合わせる） ---------- */
+const dayKey = (d=new Date()) => `${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;
+function addDays(k, n){ const [y,m,d]=k.split("-").map(Number); return dayKey(new Date(y, m-1, d+n)); }
+function daysBetween(a, b){ const [y1,m1,d1]=a.split("-").map(Number), [y2,m2,d2]=b.split("-").map(Number); return Math.round((Date.UTC(y2,m2-1,d2)-Date.UTC(y1,m1-1,d1))/864e5); }
+const tKey = t => dayKey(new Date(t));
+
+/* ---------- 文字の照合（ё=е、アクセント記号・記号・空白を無視） ---------- */
 function norm(s){ return String(s||"").toLowerCase().normalize("NFD").replace(/́/g,"").normalize("NFC").replace(/ё/g,"е")
   .replace(/[\s。、，,.!?！？「」『』()（）〜~・…\-—]/g,""); }
 function matches(mine, answer){
   const m = norm(mine); if(!m) return false;
   return String(answer).split(/[、,;；／\/]/).map(norm).filter(Boolean).some(a => a === m) || norm(answer) === m;
 }
+const parseTags = s => [...new Set(String(s||"").split(/[\s,、，#＃]+/).map(t=>t.trim()).filter(Boolean))];
 
 /* ---------- 確認ダイアログ ---------- */
 function ask(title, body, yes="削除する"){
   return new Promise(res=>{
     const m=$("#modal"); $("#mTitle").textContent=title; $("#mBody").textContent=body; $("#mYes").textContent=yes;
-    const done=v=>{ m.classList.remove("show"); $("#mYes").onclick=$("#mNo").onclick=m.onclick=null; document.removeEventListener("keydown",esc_); res(v); };
-    const esc_=e=>{ if(e.key==="Escape") done(false); };
+    const done=v=>{ m.classList.remove("show"); $("#mYes").onclick=$("#mNo").onclick=m.onclick=null; document.removeEventListener("keydown",onKey); res(v); };
+    const onKey=e=>{ if(e.key==="Escape") done(false); };
     $("#mYes").onclick=()=>done(true); $("#mNo").onclick=()=>done(false);
     m.onclick=e=>{ if(e.target===m) done(false); };
-    document.addEventListener("keydown",esc_);
+    document.addEventListener("keydown",onKey);
     m.classList.add("show"); setTimeout(()=>$("#mNo").focus(),50);
   });
 }
 
+/* ---------- 学習カレンダーの集計 ---------- */
+const dayCount = k => (stats.days && stats.days[k]) || 0;
+function countsFromHistory(list){
+  const days={};
+  for(const c of list) for(const h of (c.history||[])){ const k=tKey(h.t); days[k]=(days[k]||0)+1; }
+  return days;
+}
+function streakInfo(){
+  const today=dayKey(); let k=today, n=0;
+  if(dayCount(k) < STAR_GOAL) k=addDays(k,-1);
+  while(dayCount(k) >= STAR_GOAL){ n++; k=addDays(k,-1); }
+  const starDays=Object.keys(stats.days||{}).filter(d=>dayCount(d)>=STAR_GOAL).sort();
+  let best=0, run=0, prev=null;
+  for(const d of starDays){ run = (prev && addDays(prev,1)===d) ? run+1 : 1; best=Math.max(best,run); prev=d; }
+  return { streak:n, best, today:dayCount(today) };
+}
+function bump(){
+  const k=dayKey(); stats.days = stats.days || {};
+  stats.days[k] = dayCount(k) + 1;
+  backend.bump(k);
+  if(stats.days[k] === STAR_GOAL) setTimeout(()=>toast("今日の★を獲得！ Ура, товарищ!"), 700);
+  renderBand();
+}
+function renderBand(){
+  const { streak, today } = streakInfo();
+  const done = today >= STAR_GOAL;
+  const pips = "★".repeat(Math.min(today,STAR_GOAL)) + `<i>${"★".repeat(Math.max(0,STAR_GOAL-today))}</i>`;
+  $$(".band").forEach(b=>{
+    b.classList.toggle("done", done);
+    b.innerHTML = `<div class="sk"><small>СТРИК · 連続学習</small>${streak}日</div>
+      <div class="td"><div class="pips">${pips}</div>${done ? `今日 <b>${today}</b>問・★達成！` : `今日 <b>${today}</b>問・★まであと${STAR_GOAL-today}問`}</div>`;
+  });
+}
+let lastDay = dayKey();
+function checkDayChange(){
+  if(dayKey() === lastDay) return;
+  lastDay = dayKey();
+  st.sent.queue=[]; st.word.queue=[];
+  renderBand();
+  if(st.tab==="log") renderCalendar();
+  if(st.tab==="quiz") updateScore();
+}
+setInterval(checkDayChange, 30000);
+document.addEventListener("visibilitychange", ()=>{ if(!document.hidden){ checkDayChange(); renderBand(); } });
+
+function renderCalendar(){
+  const today=dayKey();
+  if(!st.calMonth) st.calMonth = today.slice(0,7);
+  const [y,m] = st.calMonth.split("-").map(Number);
+  const { streak, best } = streakInfo();
+  const first = new Date(y, m-1, 1), lastD = new Date(y, m, 0).getDate();
+  let monthStars=0, html=["日","月","火","水","木","金","土"].map((w,i)=>`<div class="wd${i===0?" sun":i===6?" sat":""}">${w}</div>`).join("");
+  for(let i=0;i<first.getDay();i++) html+=`<div class="d blank"></div>`;
+  for(let d=1; d<=lastD; d++){
+    const k=`${y}-${p2(m)}-${p2(d)}`, n=dayCount(k);
+    const cls=["d"]; if(n>=STAR_GOAL){ cls.push("star"); monthStars++; } else if(n>0) cls.push("l1");
+    if(k===today) cls.push("today"); if(k>today) cls.push("fut");
+    html+=`<div class="${cls.join(" ")}" title="${k}：${n}問">${d}${n?`<span class="n">${n}</span>`:""}</div>`;
+  }
+  $("#cal").innerHTML=html;
+  $("#calTitle").textContent=`${y}年${m}月`;
+  $("#cStreak").textContent=streak; $("#cBest").textContent=best; $("#cMonth").textContent=monthStars;
+}
+function moveMonth(n){ const [y,m]=st.calMonth.split("-").map(Number); const d=new Date(y, m-1+n, 1); st.calMonth=`${d.getFullYear()}-${p2(d.getMonth()+1)}`; renderCalendar(); }
+$("#calPrev").onclick=()=>moveMonth(-1);
+$("#calNext").onclick=()=>moveMonth(1);
+$("#calToday").onclick=()=>{ st.calMonth=dayKey().slice(0,7); renderCalendar(); };
+document.addEventListener("click", e=>{ const b=e.target.closest(".band"); if(b){ st.tab="log"; showTab(); window.scrollTo({top:0,behavior:"smooth"}); } });
+
 /* ---------- 保存先：この端末（localStorage） ---------- */
-const KEY="ru-ja-drill-cards";
+const KEY="ru-ja-drill-cards", KEY_STATS="ru-ja-drill-stats";
 function readLocal(){ try{ const v=JSON.parse(localStorage.getItem(KEY)||"[]"); return Array.isArray(v)?v:[]; }catch(e){ return []; } }
+function readLocalStats(){ try{ const v=JSON.parse(localStorage.getItem(KEY_STATS)||"null"); return v && v.days ? v : null; }catch(e){ return null; } }
 function flush(){ try{ localStorage.setItem(KEY, JSON.stringify(cards)); return true; }catch(e){ toast("保存できませんでした"); return false; } }
+function flushStats(){ try{ localStorage.setItem(KEY_STATS, JSON.stringify(stats)); }catch(e){} }
 function useLocal(){
   cards=readLocal();
-  backend = { save:async()=>flush(), del:async()=>flush(), cloud:false };
+  stats=readLocalStats() || { days:countsFromHistory(cards) };
+  flushStats();
+  backend = { save:async()=>flush(), del:async()=>flush(), bump:()=>flushStats(), cloud:false };
   $("#status").textContent = "★ この端末に保存";
 }
 async function initStore(){
@@ -350,11 +604,11 @@ async function initStore(){
   useLocal();
   initFirebase();
 }
-function resetQuiz(){ st.sent.queue=[]; st.word.queue=[]; st.sent.cur=null; st.word.cur=null; }
+function resetQuiz(){ st.sent.queue=[]; st.word.queue=[]; st.sent.cur=null; st.word.cur=null; st.decl.queue=[]; st.decl.cur=null; }
 
 /* ---------- アカウント（Firebase） ---------- */
 const FB_VER="10.12.2";
-const acct={ A:null, F:null, auth:null, db:null, user:null, unsub:null, state:"off", msg:"" };
+const acct={ A:null, F:null, auth:null, db:null, user:null, unsubs:[], state:"off", msg:"" };
 async function initFirebase(){
   const cfg=window.FIREBASE_CONFIG;
   if(!cfg || !cfg.apiKey){ acct.state="nocfg"; renderAcct(); return; }
@@ -371,26 +625,45 @@ async function initFirebase(){
 }
 
 function onUser(u){
-  if(acct.unsub){ acct.unsub(); acct.unsub=null; }
+  acct.unsubs.forEach(f=>f()); acct.unsubs=[];
   acct.user=u;
-  if(!u){ acct.state="out"; useLocal(); resetQuiz(); showTab(); renderAcct(); return; }
+  if(!u){ acct.state="out"; useLocal(); resetQuiz(); showTab(); renderAcct(); renderBand(); return; }
   acct.state="in";
-  const F=acct.F, col=F.collection(acct.db,"users",u.uid,"cards");
+  const F=acct.F, col=F.collection(acct.db,"users",u.uid,"cards"), statsRef=F.doc(acct.db,"users",u.uid,"meta","stats");
   const fail=e=>{ console.warn(e); toast("クラウドに保存できませんでした"); };
   backend={
     save:c=>{ const {id,...body}=c; return F.setDoc(F.doc(col,id), JSON.parse(JSON.stringify(body))).catch(fail); },
     del:id=>F.deleteDoc(F.doc(col,id)).catch(fail),
+    bump:k=>F.setDoc(statsRef, { days:{ [k]:F.increment(1) } }, { merge:true }).catch(fail),
     cloud:true
   };
   $("#status").textContent="★ 同期中…";
-  const local=readLocal(); let first=true;
-  acct.unsub=F.onSnapshot(col, snap=>{
+  const local=readLocal(), localStats=readLocalStats();
+  let firstCards=true, cardsReady=false, statsState=null; // null=未受信, "missing", "ok"
+  const syncStats=()=>{
+    if(!cardsReady || !statsState) return;
+    // クラウドにまだ無い日・少ない日は、この端末の記録や解答履歴から補う
+    const base = statsState==="missing" ? countsFromHistory(cards) : {};
+    const src = { ...base };
+    if(localStats) for(const [k,v] of Object.entries(localStats.days)) src[k]=Math.max(src[k]||0, v);
+    const patch={};
+    for(const [k,v] of Object.entries(src)) if(v > dayCount(k)) patch[k]=v;
+    if(statsState==="missing" || Object.keys(patch).length) F.setDoc(statsRef, { days:patch }, { merge:true }).catch(fail);
+    statsState="done";
+  };
+  acct.unsubs.push(F.onSnapshot(col, snap=>{
     cards=snap.docs.map(d=>({ id:d.id, ...d.data() }));
     $("#status").textContent = snap.metadata.fromCache ? "★ オフライン（あとで同期）" : "★ クラウド同期中";
-    if(first){ first=false; resetQuiz(); showTab(); offerMigrate(local); }
+    if(firstCards){ firstCards=false; cardsReady=true; resetQuiz(); showTab(); offerMigrate(local); syncStats(); }
     else refreshAfterData();
     renderAcct();
-  }, e=>{ console.warn(e); toast("同期できませんでした"); $("#status").textContent="同期エラー"; });
+  }, e=>{ console.warn(e); toast("同期できませんでした"); $("#status").textContent="同期エラー"; }));
+  acct.unsubs.push(F.onSnapshot(statsRef, snap=>{
+    stats = { days: { ...((snap.exists() && snap.data().days) || {}) } };
+    if(statsState===null){ statsState = snap.exists() ? "ok" : "missing"; syncStats(); }
+    renderBand();
+    if(st.tab==="log") renderCalendar();
+  }, e=>console.warn(e)));
   renderAcct();
 }
 
@@ -398,12 +671,17 @@ function onUser(u){
 function refreshAfterData(){
   for(const k of ["sent","word"]){
     const s=st[k]; if(!s.cur) continue;
-    const n=cards.find(c=>c.id===s.cur.id);
-    if(n) s.cur=n; else s.cur=null;
+    const n=cards.find(c=>c.id===s.cur.id); s.cur = n || null;
   }
-  if(st.tab==="quiz"){ if(!S().cur) nextQ(); else updateScore(); }
+  if(st.decl.cur && !cards.find(c=>c.id===st.decl.cur.id)) st.decl.cur=null;
+  if(st.tab==="quiz"){ renderRange(); if(!S().cur) nextQ(); else updateScore(); }
   if(st.tab==="add" && !document.querySelector("#cardList .eRu")) renderList();
   if(st.tab==="log") renderLog();
+  if(st.tab==="decl"){
+    if(st.decl.view==="practice"){ if(!st.decl.cur) nextDecl(); else updateDeclScore(); }
+    if(st.decl.view==="tables") renderTables();
+    if(st.decl.view==="dlog") renderDeclLog();
+  }
 }
 
 async function offerMigrate(local){
@@ -411,7 +689,7 @@ async function offerMigrate(local){
   const todo=local.filter(c=>c && c.id && !have.has(c.id));
   if(!todo.length) return;
   if(!await ask(`この端末のデータ${todo.length}件をアカウントに移しますか？`,
-    "ログイン前にこの端末に保存していた例文・単語・記録を、アカウントにコピーします。ほかの端末からも使えるようになります。", "移す")) return;
+    "ログイン前にこの端末に保存していた例文・単語・格変化の表・記録を、アカウントにコピーします。ほかの端末からも使えるようになります。", "移す")) return;
   const F=acct.F, col=F.collection(acct.db,"users",acct.user.uid,"cards");
   try{
     for(let i=0;i<todo.length;i+=400){
@@ -438,18 +716,15 @@ const authMsg=e=>AUTH_ERR[e&&e.code]||"うまくいきませんでした（"+(e&
 
 function renderAcct(){
   const box=$("#acctBox"); if(!box) return;
+  const head=`<p class="label">УДОСТОВЕРЕНИЕ <em>同志証</em></p>`;
   const photo=`<div class="photo"><svg viewBox="0 0 100 100"><path fill="#e8b923" d="${SICKLE}"/></svg></div>`;
-  if(acct.state==="nocfg"){
-    box.innerHTML=`<p class="label">УДОСТОВЕРЕНИЕ <em>同志証</em></p>
-      <div class="empty" style="padding:10px 0">アカウント機能はまだ準備されていません。<br>いまはこの端末だけに保存しています。<span class="ru">firebase-config.js を設定してください</span></div>`;
-    return;
-  }
-  if(acct.state==="loading"||acct.state==="off"){ box.innerHTML=`<p class="label">УДОСТОВЕРЕНИЕ <em>同志証</em></p><div class="empty">読み込み中…</div>`; return; }
-  if(acct.state==="error"){ box.innerHTML=`<p class="label">УДОСТОВЕРЕНИЕ <em>同志証</em></p><div class="empty">アカウント機能を読み込めませんでした。<br>ネットにつないで開き直してください。</div>`; return; }
+  if(acct.state==="nocfg"){ box.innerHTML=head+`<div class="empty" style="padding:10px 0">アカウント機能はまだ準備されていません。<br>いまはこの端末だけに保存しています。</div>`; return; }
+  if(acct.state==="loading"||acct.state==="off"){ box.innerHTML=head+`<div class="empty">読み込み中…</div>`; return; }
+  if(acct.state==="error"){ box.innerHTML=head+`<div class="empty">アカウント機能を読み込めませんでした。<br>ネットにつないで開き直してください。</div>`; return; }
   if(acct.state==="in"){
-    const n=cards.length;
-    box.innerHTML=`<p class="label">УДОСТОВЕРЕНИЕ <em>同志証</em></p>
-      <div class="who">${photo}<div><div class="nm">${esc(acct.user.email)}</div><div class="sub">ログイン中・データ${n}件をクラウドで同期</div></div></div>
+    const { streak } = streakInfo();
+    box.innerHTML=head+`<div class="who">${photo}<div><div class="nm">${esc(acct.user.email)}</div>
+      <div class="sub">ログイン中・データ${cards.length}件をクラウドで同期<br>連続学習 ${streak}日</div></div></div>
       <button class="btn ghost" id="outBtn">ログアウト</button>`;
     $("#outBtn").onclick=async()=>{
       if(!await ask("ログアウトしますか？","クラウドのデータは消えません。もう一度ログインすれば、そのまま使えます。","ログアウト")) return;
@@ -457,8 +732,7 @@ function renderAcct(){
     };
     return;
   }
-  // ログアウト中
-  box.innerHTML=`<p class="label">УДОСТОВЕРЕНИЕ <em>同志証</em></p>
+  box.innerHTML=head+`
     <div class="who">${photo}<div><div class="nm">未登録の同志</div><div class="sub">ログインすると端末どうしでデータを共有できます</div></div></div>
     <p class="label">E-MAIL <em>メールアドレス</em></p>
     <input type="text" id="aMail" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false">
@@ -469,24 +743,22 @@ function renderAcct(){
     <div class="gap"></div>
     <div class="row"><button class="btn red" id="inBtn">ログイン</button><button class="btn ghost" id="upBtn">新規登録</button></div>
     <button class="linkbtn" id="resetBtn">パスワードを忘れた</button>`;
-  const pass=$("#aPass");
-  const val=()=>[$("#aMail").value.trim(), $("#aPass").value];
   const run=async(fn, okMsg)=>{
     $("#aErr").textContent=""; acct.msg="";
-    const [m,p]=val();
+    const m=$("#aMail").value.trim(), p=$("#aPass").value;
     try{ await fn(m,p); if(okMsg) toast(okMsg); }catch(e){ acct.msg=authMsg(e); const el=$("#aErr"); if(el) el.textContent=acct.msg; }
   };
   $("#inBtn").onclick=()=>run((m,p)=>acct.A.signInWithEmailAndPassword(acct.auth,m,p),"ようこそ、同志！");
   $("#upBtn").onclick=()=>run((m,p)=>acct.A.createUserWithEmailAndPassword(acct.auth,m,p),"同志証を発行しました！");
   $("#resetBtn").onclick=()=>run(async m=>{ if(!m) throw {code:"auth/invalid-email"}; await acct.A.sendPasswordResetEmail(acct.auth,m); }, "パスワード再設定のメールを送りました");
-  pass.addEventListener("keydown",e=>{ if(e.key==="Enter") $("#inBtn").click(); });
+  $("#aPass").addEventListener("keydown",e=>{ if(e.key==="Enter") $("#inBtn").click(); });
 }
 
 /* ---------- バックアップ ---------- */
 function exportData(){
-  const blob=new Blob([JSON.stringify({app:"ru-ja-drill", v:1, exportedAt:new Date().toISOString(), cards}, null, 1)], {type:"application/json"});
-  const a=document.createElement("a"), d=new Date(), p=n=>String(n).padStart(2,"0");
-  a.href=URL.createObjectURL(blob); a.download=`gakushu-sensen-${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}.json`;
+  const blob=new Blob([JSON.stringify({app:"ru-ja-drill", v:2, exportedAt:new Date().toISOString(), cards, stats}, null, 1)], {type:"application/json"});
+  const a=document.createElement("a"), d=new Date();
+  a.href=URL.createObjectURL(blob); a.download=`gakushu-sensen-${d.getFullYear()}${p2(d.getMonth()+1)}${p2(d.getDate())}.json`;
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
   toast("バックアップを保存しました");
 }
@@ -496,13 +768,19 @@ function importData(file){
     try{
       const j=JSON.parse(r.result); const list=Array.isArray(j)?j:j.cards;
       if(!Array.isArray(list)) throw 0;
-      const have=new Map(cards.map(c=>[c.id,c])); const got=[];
-      for(const c of list){ if(c && c.id && c.ru && c.ja){ have.set(c.id,c); got.push(c); } }
-      const n=got.length;
+      const have=new Map(cards.map(c=>[c.id,c])), got=[];
+      for(const c of list){ if(c && c.id && ((c.ru && c.ja) || c.kind==="decl")){ have.set(c.id,c); got.push(c); } }
       cards=[...have.values()];
       if(backend.cloud) got.forEach(c=>backend.save(c)); else flush();
-      resetQuiz();
-      toast(`${n}件を読み込みました`); showTab();
+      if(j.stats && j.stats.days){
+        const patch={};
+        for(const [k,v] of Object.entries(j.stats.days)) if(v>dayCount(k)) patch[k]=v;
+        Object.assign(stats.days, patch);
+        if(backend.cloud && Object.keys(patch).length) acct.F.setDoc(acct.F.doc(acct.db,"users",acct.user.uid,"meta","stats"), {days:patch}, {merge:true});
+        else flushStats();
+      }
+      resetQuiz(); renderBand();
+      toast(`${got.length}件を読み込みました`); showTab();
     }catch(e){ toast("このファイルは読み込めません"); }
   };
   r.readAsText(file);
@@ -510,14 +788,15 @@ function importData(file){
 
 /* ---------- 切替 ---------- */
 function setOn(container, attr, val){ container.querySelectorAll("button").forEach(b=>b.classList.toggle("on", b.dataset[attr]===val)); }
-
-document.querySelectorAll(".decks button").forEach(b=>b.onclick=()=>{ st.deck=b.dataset.deck; applyDeck(); });
-document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{ st.tab=b.dataset.tab; showTab(); });
-
+$$(".decks button").forEach(b=>b.onclick=()=>{ st.deck=b.dataset.deck; applyDeck(); });
+$$("nav button").forEach(b=>b.onclick=()=>{ st.tab=b.dataset.tab; showTab(); });
 function seg(id, onPick){ const el=$(id); el.querySelectorAll("button").forEach(b=>b.onclick=()=>{ setOn(el,"v",b.dataset.v); onPick(b.dataset.v); }); }
 seg("#dirSeg", v=>{ S().dir=v; S().queue=[]; nextQ(); });
-seg("#modeSeg", v=>{ S().mode=v; S().queue=[]; modeNote(); nextQ(); });
+seg("#modeSeg", v=>{ S().mode=v; S().queue=[]; nextQ(); });
 seg("#logSeg", v=>{ st.logFilter=v; renderLog(); });
+seg("#declSeg", v=>{ st.decl.view=v; showDeclView(); });
+seg("#dModeSeg", v=>{ st.decl.mode=v; st.decl.queue=[]; nextDecl(); });
+seg("#dLogSeg", v=>{ st.decl.logFilter=v; renderDeclLog(); });
 
 function applyDeck(){
   const D = DECK[st.deck], s = S();
@@ -527,31 +806,64 @@ function applyDeck(){
   $("#ruL").textContent=D.ruL; $("#inRu").placeholder=D.ruPh; $("#inJa").placeholder=D.jaPh;
   $("#inRu").rows = $("#inJa").rows = st.deck==="word" ? 1 : 2;
   $("#memoWrap").style.display = st.deck==="word" ? "" : "none";
-  $("#bulk").placeholder=D.bulkPh;
-  $("#hotName").textContent=D.hot; $("#unitName").textContent=st.deck==="word"?"単語":"例文";
+  $("#hotName").textContent=D.hot; $("#unitName").textContent=D.unit;
+  $("#bulk").placeholder = st.deck==="word" ? "книга | 本 | 女性名詞 | 第3課 名詞\nстол | 机 |  | 第3課" : "Привет! | こんにちは！ | 挨拶\nКак дела? | 元気？ | 挨拶 第1課";
   $("#bulkNote").textContent = st.deck==="word"
-    ? "1行に1語、「ロシア語 | 日本語 | メモ」の形で（メモは省略可、区切りは | かタブ）。"
-    : "1行に1文、「ロシア語 | 日本語」の形で（区切りは | かタブ）。";
-  modeNote(); showTab();
+    ? "1行に1語、「ロシア語 | 日本語 | メモ | タグ」の形で。メモとタグは省略可、タグはスペース区切りで複数つけられます。"
+    : "1行に1文、「ロシア語 | 日本語 | タグ」の形で。タグは省略可、スペース区切りで複数つけられます。";
+  showTab();
 }
 function showTab(){
   setOn($("nav"),"tab",st.tab);
-  document.querySelectorAll("section").forEach(x=>x.classList.toggle("on",x.id===st.tab));
-  $(".decks").style.display = st.tab==="acct" ? "none" : "";
-  if(st.tab==="acct") renderAcct();
-  if(st.tab==="quiz"){ if(!S().cur || kindOf(S().cur)!==st.deck || !cards.includes(S().cur)) nextQ(); else renderQ(); }
+  $$("main > section").forEach(x=>x.classList.toggle("on",x.id===st.tab));
+  $(".decks").style.display = (st.tab==="acct"||st.tab==="decl") ? "none" : "";
+  renderBand();
+  if(st.tab==="quiz"){ renderRange(); if(!S().cur || kindOf(S().cur)!==st.deck || !cards.includes(S().cur) || !eligible(S().cur)) nextQ(); else renderQ(); }
   if(st.tab==="add") renderList();
-  if(st.tab==="log") renderLog();
-}
-function modeNote(){
-  const D=DECK[st.deck];
-  $("#modeNote").textContent = S().mode==="random"
-    ? `登録した${st.deck==="word"?"単語":"例文"}すべてからランダムに出題します。`
-    : `間違えた${st.deck==="word"?"単語":"例文"}だけを出題します。${D.drill}モードで${CLEAR_STREAK}回連続正解すると卒業です。`;
+  if(st.tab==="log"){ renderCalendar(); renderLog(); }
+  if(st.tab==="decl") showDeclView();
+  if(st.tab==="acct") renderAcct();
 }
 
+/* ---------- 範囲（タグ） ---------- */
+const deckTags = () => [...new Set(deckCards().flatMap(c=>c.tags||[]))].sort((a,b)=>a.localeCompare(b,"ja"));
+function renderRange(){
+  const s=S(), tags=deckTags();
+  s.tags = s.tags.filter(t=>tags.includes(t));
+  const el=$("#rangeChips");
+  el.innerHTML = `<button class="chip${s.tags.length?"":" on"}" data-t="">全範囲</button>` +
+    tags.map(t=>`<button class="chip${s.tags.includes(t)?" on":""}" data-t="${esc(t)}">#${esc(t)}</button>`).join("") +
+    (tags.length ? "" : `<span class="note" style="align-self:center">タグは「登録」でつけられます</span>`);
+  el.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
+    const t=b.dataset.t;
+    if(!t) s.tags=[]; else s.tags = s.tags.includes(t) ? s.tags.filter(x=>x!==t) : [...s.tags, t];
+    s.queue=[]; renderRange(); nextQ();
+  });
+}
+const inRange = c => { const s=S(); return !s.tags.length || (c.tags||[]).some(t=>s.tags.includes(t)); };
+
+/* ---------- 忘却曲線 ---------- */
+const isNew = (c, dir) => !(c.srs && c.srs[dir]);
+const isDue = (c, dir) => isNew(c,dir) || c.srs[dir].due <= dayKey();
+function updateSrs(c, dir, res){
+  c.srs = c.srs || {};
+  let step = c.srs[dir] ? c.srs[dir].step : -1, days;
+  if(res==="o"){ step=Math.min(step+1, INTERVALS.length-1); days=INTERVALS[step]; }
+  else if(res==="m"){ step=Math.max(step,0); days=Math.max(1, Math.round(INTERVALS[step]/2)); }
+  else { step=0; days=1; }
+  c.srs[dir] = { step, due:addDays(dayKey(), days), last:dayKey() };
+  return days;
+}
+const dueLabel = days => days===1 ? "明日" : days<7 ? `${days}日後` : days<30 ? `${Math.round(days/7)}週間後` : `${Math.round(days/30)}か月後`;
+
 /* ---------- 出題 ---------- */
-const eligible = c => kindOf(c)===st.deck && (S().mode==="random" || !!c.needReview);
+function modeOk(c){
+  const s=S();
+  if(s.mode==="drill") return !!c.needReview;
+  if(s.mode==="review") return isDue(c, s.dir);
+  return true;
+}
+const eligible = c => kindOf(c)===st.deck && inRange(c) && modeOk(c);
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 
 function nextQ(){
@@ -559,7 +871,10 @@ function nextQ(){
   if(!pool.length){ s.cur=null; renderQ(); return; }
   for(let tries=0; tries<3; tries++){
     if(!s.queue.length){
-      s.queue = shuffle(pool.map(c=>c.id));
+      if(s.mode==="review"){ // 復習が必要なもの → はじめてのもの の順に
+        const old=shuffle(pool.filter(c=>!isNew(c,s.dir))), fresh=shuffle(pool.filter(c=>isNew(c,s.dir)));
+        s.queue=[...fresh, ...old].map(c=>c.id);
+      } else s.queue = shuffle(pool.map(c=>c.id));
       if(s.queue.length>1 && s.queue[s.queue.length-1]===s.lastId) s.queue.unshift(s.queue.pop());
     }
     while(s.queue.length){
@@ -570,82 +885,105 @@ function nextQ(){
   s.cur=null; renderQ();
 }
 
+function updateScore(){
+  const s=S(), dc=deckCards().filter(inRange), D=DECK[st.deck];
+  const due=dc.filter(c=>isDue(c,s.dir)), fresh=due.filter(c=>isNew(c,s.dir)).length;
+  const hot=dc.filter(c=>c.needReview).length;
+  $("#sOk").textContent=s.ok; $("#sNg").textContent=s.ng; $("#sHot").textContent=hot; $("#sDue").textContent=due.length;
+  const scope = s.tags.length ? `（範囲：${s.tags.map(t=>"#"+t).join(" ")}）` : "";
+  $("#modeNote").textContent =
+    s.mode==="random" ? `範囲内の${dc.length}件から、忘却曲線と関係なく完全ランダムに出題します。${scope}` :
+    s.mode==="drill"  ? `間違えた${D.unit}だけを出題します（${hot}件）。${CLEAR_STREAK}回連続で正解すると卒業です。${scope}` :
+    `今日が復習日の${D.unit}を出題します（${due.length}件、うち初めて${fresh}件）。正解するほど次の復習までの間隔が延びます（明日→3日→1週間→2週間→1か月→2か月→4か月）。${scope}`;
+}
+
 function renderQ(){
   updateScore();
-  const s=S(), box=$("#qbox"), c=s.cur, isWord=st.deck==="word";
+  const s=S(), box=$("#qbox"), c=s.cur, isWord=st.deck==="word", D=DECK[st.deck];
   if(!c){
-    box.innerHTML = deckCards().length===0
-      ? `<div class="empty">まだ${isWord?"単語":"例文"}がありません。<br>「登録」から最初の一${isWord?"語":"文"}を登録しよう、同志！<span class="ru">ВПЕРЁД!</span></div>`
-      : `<div class="empty">${DECK[st.deck].hot}はありません。<br>見事だ、同志！ ランダムで鍛錬を続けよう。<span class="ru">СЛАВА ТРУДУ!</span></div>`;
+    const none = deckCards().length===0;
+    const inScope = deckCards().filter(inRange).length===0;
+    box.innerHTML =
+      none ? `<div class="empty">まだ${D.unit}がありません。<br>「登録」から最初の一つを登録しよう、同志！<span class="ru">ВПЕРЁД!</span></div>` :
+      inScope ? `<div class="empty">選んだタグの${D.unit}がありません。<br>範囲を変えてみよう。</div>` :
+      s.mode==="review" ? `<div class="empty">今日の復習はすべて完了！<br>計画は達成された、同志よ。<span class="ru">ПЛАН ВЫПОЛНЕН!</span></div>` :
+      `<div class="empty">${D.hot}の${D.unit}はありません。<br>見事だ、同志！<span class="ru">СЛАВА ТРУДУ!</span></div>`;
     return;
   }
   const rj = s.dir==="rj", q = rj?c.ru:c.ja, a = rj?c.ja:c.ru, aLang = rj?"ja":"ru";
-  const tags = `<span><span class="tag">○${c.correct||0} ×${c.wrong||0}</span>${c.needReview?` <span class="tag hot">${DECK[st.deck].hot}</span>`:""}</span>`;
+  const badges = `<span><span class="tag">○${c.correct||0} △${c.vague||0} ×${c.wrong||0}</span>${c.needReview?` <span class="tag hot">${D.hot}</span>`:""}${s.mode==="review"&&isNew(c,s.dir)?` <span class="tag">NEW</span>`:""}</span>`;
   const input = isWord
     ? `<input type="text" id="myAns" lang="${aLang}" autocomplete="off" autocapitalize="off" placeholder="${rj?"日本語で答える":"Ответьте по-русски"}">`
     : `<textarea id="myAns" rows="3" lang="${aLang}" placeholder="${rj?"日本語訳を書こう":"Переведите на русский"}"></textarea>`;
   box.innerHTML = `
-    <div class="meta"><span class="dirtag">${rj?"RU → JA":"JA → RU"}</span>${tags}</div>
+    <div class="meta"><span class="dirtag">${rj?"RU → JA":"JA → RU"}</span>${badges}</div>
     <div class="q${isWord?" word":""}" lang="${rj?"ru":"ja"}">${esc(q)}</div>
+    ${(c.tags||[]).length?`<div class="qtags">${c.tags.map(t=>`<span class="tagc">#${esc(t)}</span>`).join("")}</div>`:""}
     ${input}
     <div class="gap"></div>
     <div id="ansArea"><button class="btn red" id="answer">回答する</button></div>`;
   const inp=$("#myAns");
   if(isWord) inp.addEventListener("keydown", e=>{ if(e.key==="Enter" && !e.isComposing){ e.preventDefault(); $("#answer")?.click(); }});
   $("#answer").onclick = () => {
-    const mine = inp.value.trim();
-    inp.disabled = true;
-    const hit = matches(mine, a);
-    $("#ansArea").innerHTML = `
-      <div class="ans">
-        ${hit?'<div class="match">★ 一致 СОВПАДАЕТ</div>':""}
-        <p class="label">ВАШ ОТВЕТ <em>あなたの答え</em></p><div class="yours">${mine?esc(mine):"（未入力）"}</div>
-        <p class="label">ПРАВИЛЬНО <em>正解</em></p><div class="right" lang="${aLang}">${esc(a)}</div>
-        ${c.memo?`<div class="memo">${esc(c.memo)}</div>`:""}
-        <div class="row"><button class="btn ok${hit?" hint":""}" id="gOk">○ 正解</button><button class="btn ng" id="gNg">× 不正解</button></div>
-        <div class="gap"></div><button class="btn ghost" id="skip">記録せず次へ</button>
-      </div>`;
-    $("#gOk").onclick=()=>grade(true, mine);
-    $("#gNg").onclick=()=>grade(false, mine);
-    $("#skip").onclick=()=>nextQ();
+    const mine = inp.value.trim(); inp.disabled = true;
+    revealAnswer($("#ansArea"), mine, a, aLang, c.memo, res=>grade(res, mine), ()=>nextQ());
   };
 }
 
+function revealAnswer(area, mine, a, aLang, memo, onGrade, onSkip){
+  const hit = matches(mine, a);
+  area.innerHTML = `
+    <div class="ans">
+      ${hit?'<div class="match">★ 一致 СОВПАДАЕТ</div>':""}
+      <p class="label">ВАШ ОТВЕТ <em>あなたの答え</em></p><div class="yours">${mine?esc(mine):"（未入力）"}</div>
+      <p class="label">ПРАВИЛЬНО <em>正解</em></p><div class="right" lang="${aLang}">${esc(a)}</div>
+      ${memo?`<div class="memo">${esc(memo)}</div>`:""}
+      <div class="grade3">
+        <button class="btn ok${hit?" hint":""}" data-r="o">○ 正解</button>
+        <button class="btn mid" data-r="m">△ あやふや</button>
+        <button class="btn ng" data-r="x">× 不正解</button>
+      </div>
+      <div class="gap"></div><button class="btn ghost" data-skip>記録せず次へ</button>
+    </div>`;
+  area.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>onGrade(b.dataset.r));
+  area.querySelector("[data-skip]").onclick=onSkip;
+}
+
+function stampOn(box, res){
+  const el=document.createElement("div");
+  el.className="stamp "+res; el.textContent=RES[res].stamp; box.appendChild(el);
+}
+
 let grading=false;
-function grade(ok, mine){
+function grade(res, mine){
   const s=S(), c=s.cur; if(!c || grading) return;
   grading=true;
-  c.history = (c.history||[]).concat([{ t:Date.now(), dir:s.dir, ok, ans:mine, mode:s.mode }]).slice(-HIST_MAX);
-  let grad=false;
-  if(ok){
+  c.history = (c.history||[]).concat([{ t:Date.now(), dir:s.dir, res, ok:res==="o", ans:mine, mode:s.mode }]).slice(-HIST_MAX);
+  let grad=false, msg="";
+  if(res==="o"){
     c.correct=(c.correct||0)+1; c.streak=(c.streak||0)+1;
     if(c.needReview && s.mode==="drill" && c.streak>=CLEAR_STREAK){ c.needReview=false; grad=true; }
     s.ok++;
-  }else{ c.wrong=(c.wrong||0)+1; c.streak=0; c.needReview=true; s.ng++; }
+  } else if(res==="m"){ c.vague=(c.vague||0)+1; c.streak=0; }
+  else { c.wrong=(c.wrong||0)+1; c.streak=0; c.needReview=true; s.ng++; }
+  if(s.mode==="review") msg = "次の復習："+dueLabel(updateSrs(c, s.dir, res));
   backend.save(c);
-  updateScore();
-  const stamp=document.createElement("div");
-  stamp.className="stamp "+(ok?"o":"x"); stamp.textContent= ok?"ВЕРНО!":"ОШИБКА";
-  $("#qbox").appendChild(stamp);
-  if(grad) toast("卒業！ Молодец, товарищ!");
+  bump();
+  stampOn($("#qbox"), res);
+  if(grad) toast("卒業！ Молодец, товарищ!"); else if(msg) toast(msg);
   setTimeout(()=>{ grading=false; nextQ(); }, 650);
 }
 
-function updateScore(){
-  const s=S(); $("#sOk").textContent=s.ok; $("#sNg").textContent=s.ng;
-  $("#sHot").textContent=deckCards().filter(c=>c.needReview).length;
-}
-
 /* ---------- 登録 ---------- */
-function addCard(ru, ja, memo){
-  const c={ id:newId(), kind:st.deck, ru, ja, createdAt:Date.now(), correct:0, wrong:0, streak:0, needReview:false, history:[] };
+function addCard(ru, ja, memo, tags){
+  const c={ id:newId(), kind:st.deck, ru, ja, tags, createdAt:Date.now(), correct:0, vague:0, wrong:0, streak:0, needReview:false, history:[] };
   if(st.deck==="word" && memo) c.memo=memo;
   cards.push(c); backend.save(c); return c;
 }
 $("#addBtn").onclick=()=>{
-  const ru=$("#inRu").value.trim(), ja=$("#inJa").value.trim(), memo=$("#inMemo").value.trim();
+  const ru=$("#inRu").value.trim(), ja=$("#inJa").value.trim(), memo=$("#inMemo").value.trim(), tags=parseTags($("#inTags").value);
   if(!ru||!ja){ toast("ロシア語と日本語の両方を入力してください"); return; }
-  addCard(ru,ja,memo); $("#inRu").value=""; $("#inJa").value=""; $("#inMemo").value=""; $("#inRu").focus();
+  addCard(ru,ja,memo,tags); $("#inRu").value=""; $("#inJa").value=""; $("#inMemo").value=""; $("#inRu").focus();
   toast("登録しました ★"); S().queue=[]; renderList();
 };
 $("#bulkBtn").onclick=()=>{
@@ -654,8 +992,8 @@ $("#bulkBtn").onclick=()=>{
   for(const l of lines){
     const p=l.split(/\s*[|\t｜]\s*/);
     if(p.length>=2 && p[0] && p[1]){
-      if(st.deck==="word") addCard(p[0], p[1], p.slice(2).join(" / "));
-      else addCard(p[0], p.slice(1).join(" "));
+      if(st.deck==="word") addCard(p[0], p[1], (p[2]||"").trim(), parseTags(p.slice(3).join(" ")));
+      else addCard(p[0], p[1], "", parseTags(p.slice(2).join(" ")));
       n++;
     } else bad++;
   }
@@ -665,24 +1003,25 @@ $("#bulkBtn").onclick=()=>{
 $("#search").oninput=renderList;
 
 function renderList(){
-  const mine=deckCards();
+  const mine=deckCards(), D=DECK[st.deck];
   $("#cnt").textContent=mine.length + (st.deck==="word"?"語":"文");
-  const q=$("#search").value.trim().toLowerCase();
+  const q=$("#search").value.trim().toLowerCase().replace(/^#/,"");
   const list=[...mine].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0))
-    .filter(c=>!q || c.ru.toLowerCase().includes(q) || c.ja.toLowerCase().includes(q) || (c.memo||"").toLowerCase().includes(q));
+    .filter(c=>!q || c.ru.toLowerCase().includes(q) || c.ja.toLowerCase().includes(q) || (c.memo||"").toLowerCase().includes(q) || (c.tags||[]).some(t=>t.toLowerCase().includes(q)));
   const el=$("#cardList");
   if(!list.length){ el.innerHTML=`<div class="empty">${mine.length?"該当なし":"まだありません"}</div>`; return; }
   el.innerHTML=list.map(c=>`
     <div class="item" data-id="${esc(c.id)}">
       <div class="ru" lang="ru">${esc(c.ru)}</div><div class="ja">${esc(c.ja)}</div>${c.memo?`<div class="mm">メモ：${esc(c.memo)}</div>`:""}
-      <div class="acts"><span class="tag">○${c.correct||0} ×${c.wrong||0}</span>${c.needReview?`<span class="tag hot">${DECK[st.deck].hot}</span>`:""}
+      ${(c.tags||[]).length?`<div>${c.tags.map(t=>`<span class="tagc" data-tag="${esc(t)}">#${esc(t)}</span>`).join("")}</div>`:""}
+      <div class="acts"><span class="tag">○${c.correct||0} △${c.vague||0} ×${c.wrong||0}</span>${c.needReview?`<span class="tag hot">${D.hot}</span>`:""}
         <span style="flex:1"></span><button class="mini" data-act="edit">編集</button><button class="mini danger" data-act="del">削除</button></div>
     </div>`).join("");
+  el.querySelectorAll(".tagc").forEach(t=>t.onclick=()=>{ $("#search").value="#"+t.dataset.tag; renderList(); });
   el.querySelectorAll(".item").forEach(it=>{
     const id=it.dataset.id, c=cards.find(x=>x.id===id);
     it.querySelector('[data-act="del"]').onclick=async()=>{
-      const unit=kindOf(c)==="word"?"単語":"例文";
-      if(!await ask(`この${unit}を削除しますか？`, `${c.ru}\n${c.ja}\n\nこの${unit}の解答記録もいっしょに消えます。元に戻せません。`)) return;
+      if(!await ask(`この${D.unit}を削除しますか？`, `${c.ru}\n${c.ja}\n\nこの${D.unit}の解答記録もいっしょに消えます（学習カレンダーは残ります）。元に戻せません。`)) return;
       cards=cards.filter(x=>x.id!==id); backend.del(id);
       if(S().cur && S().cur.id===id) S().cur=null;
       toast("削除しました"); renderList();
@@ -692,12 +1031,13 @@ function renderList(){
       it.innerHTML=`<textarea rows="${isWord?1:2}" lang="ru" class="eRu">${esc(c.ru)}</textarea><div class="gap"></div>
         <textarea rows="${isWord?1:2}" lang="ja" class="eJa">${esc(c.ja)}</textarea><div class="gap"></div>
         ${isWord?`<input type="text" class="eMemo" placeholder="メモ" value="${esc(c.memo||"")}"><div class="gap"></div>`:""}
+        <input type="text" class="eTags" placeholder="タグ（スペース区切り）" value="${esc((c.tags||[]).join(" "))}"><div class="gap"></div>
         <div class="row"><button class="mini" data-act="cancel">やめる</button><button class="mini save" data-act="save">保存</button></div>`;
       it.querySelector('[data-act="cancel"]').onclick=renderList;
       it.querySelector('[data-act="save"]').onclick=()=>{
         const ru=it.querySelector(".eRu").value.trim(), ja=it.querySelector(".eJa").value.trim();
         if(!ru||!ja){ toast("両方入力してください"); return; }
-        c.ru=ru; c.ja=ja;
+        c.ru=ru; c.ja=ja; c.tags=parseTags(it.querySelector(".eTags").value);
         if(isWord){ const m=it.querySelector(".eMemo").value.trim(); if(m) c.memo=m; else delete c.memo; }
         backend.save(c); toast("保存しました"); renderList();
       };
@@ -706,23 +1046,27 @@ function renderList(){
 }
 
 /* ---------- 記録 ---------- */
+function filterRows(all, f){ return f==="all" ? all : all.filter(h=>resOf(h)===f); }
+function fillStats(all, ids){
+  const total=all.length, okN=all.filter(h=>resOf(h)==="o").length, today=dayKey();
+  $(ids[0]).textContent=total;
+  $(ids[1]).textContent= total ? Math.round(okN/total*100)+"%" : "–";
+  $(ids[2]).textContent=all.filter(h=>tKey(h.t)===today).length;
+}
 function renderLog(){
   const all=[];
-  deckCards().forEach(c=>(c.history||[]).forEach(h=>all.push({...h, c})));
+  deckCards().forEach(c=>(c.history||[]).forEach(h=>all.push({...h, c, ref:h})));
   all.sort((a,b)=>b.t-a.t);
-  const total=all.length, okN=all.filter(h=>h.ok).length, now=Date.now();
-  $("#lTotal").textContent=total;
-  $("#lRate").textContent= total ? Math.round(okN/total*100)+"%" : "–";
-  $("#lToday").textContent=all.filter(h=>sameDay(h.t,now)).length;
-  const rows=(st.logFilter==="ng"? all.filter(h=>!h.ok) : all).slice(0,150);
+  fillStats(all, ["#lTotal","#lRate","#lToday"]);
+  const rows=filterRows(all, st.logFilter).slice(0,150);
   const el=$("#logList");
   if(!rows.length){ el.innerHTML=`<div class="empty">まだ記録がありません</div>`; return; }
-  const drillName=DECK[st.deck].drill;
-  el.innerHTML=rows.map(h=>{
-    const rj=h.dir==="rj", q=rj?h.c.ru:h.c.ja, a=rj?h.c.ja:h.c.ru;
-    return `<div class="item" data-id="${esc(h.c.id)}" data-t="${h.t}">
+  const D=DECK[st.deck], modeName={drill:D.drill, review:"復習"};
+  el.innerHTML=rows.map((h,i)=>{
+    const r=resOf(h), rj=h.dir==="rj", q=rj?h.c.ru:h.c.ja, a=rj?h.c.ja:h.c.ru;
+    return `<div class="item" data-i="${i}">
       <button class="mini danger del">削除</button>
-      <div class="d"><span class="mark ${h.ok?"o":"x"}">${h.ok?"○":"×"}</span>${fmt(h.t)}・${rj?"露→日":"日→露"}${h.mode==="drill"?"・"+drillName:""}</div>
+      <div class="d"><span class="mark ${r}">${RES[r].mark}</span>${fmt(h.t)}・${rj?"露→日":"日→露"}${modeName[h.mode]?"・"+modeName[h.mode]:""}</div>
       <div class="line"><i>問題</i>${esc(q)}</div>
       <div class="line"><i>あなた</i>${h.ans?esc(h.ans):"（未入力）"}</div>
       <div class="line"><i>正解</i>${esc(a)}</div>
@@ -730,36 +1074,270 @@ function renderLog(){
   }).join("");
   el.querySelectorAll(".item").forEach(it=>{
     it.querySelector(".del").onclick=async()=>{
-      const c=cards.find(x=>x.id===it.dataset.id), t=+it.dataset.t; if(!c) return;
-      const h=(c.history||[]).find(x=>x.t===t); if(!h) return;
-      if(!await ask("この記録を削除しますか？", `${h.ok?"○ 正解":"× 不正解"}　${fmt(t)}\n${h.dir==="rj"?c.ru:c.ja}\n\n元に戻せません。`)) return;
-      removeEntry(c,h); backend.save(c); toast("記録を削除しました"); renderLog(); updateScore();
+      const row=rows[+it.dataset.i], c=row.c, h=row.ref, r=resOf(h);
+      if(!await ask("この記録を削除しますか？", `${RES[r].mark} ${RES[r].name}　${fmt(h.t)}\n${h.dir==="rj"?c.ru:c.ja}\n\n元に戻せません（学習カレンダーの問題数は残ります）。`)) return;
+      removeEntry(c,h); backend.save(c); toast("記録を削除しました"); renderLog();
+    };
+  });
+}
+function removeEntry(c,h){
+  c.history=(c.history||[]).filter(x=>x!==h);
+  const r=resOf(h);
+  if(r==="o") c.correct=Math.max(0,(c.correct||0)-1);
+  else if(r==="m") c.vague=Math.max(0,(c.vague||0)-1);
+  else{ c.wrong=Math.max(0,(c.wrong||0)-1); if(!c.history.some(x=>resOf(x)==="x")){ c.needReview=false; c.streak=0; } }
+}
+$("#wipeNg").onclick=async()=>{
+  const list=deckCards(), D=DECK[st.deck];
+  const n=list.reduce((s,c)=>s+(c.history||[]).filter(h=>resOf(h)==="x").length,0), hot=list.filter(c=>c.needReview).length;
+  if(!n && !hot && !list.some(c=>c.wrong)){ toast("消す間違いの記録はありません"); return; }
+  if(!await ask(`${st.deck==="word"?"単語":"翻訳"}の間違いを全削除しますか？`,
+     `×の記録 ${n}件を消し、${D.hot}（${hot}件）の印をすべて外します。\n\nこの操作は元に戻せません。`, "すべて削除")) return;
+  for(const c of list){
+    const before=JSON.stringify([c.history,c.wrong,c.needReview]);
+    c.history=(c.history||[]).filter(h=>resOf(h)!=="x"); c.wrong=0; c.needReview=false; c.streak=0;
+    if(JSON.stringify([c.history,c.wrong,c.needReview])!==before) backend.save(c);
+  }
+  S().queue=[]; if(S().mode==="drill") S().cur=null;
+  toast("間違いの記録をすべて削除しました"); renderLog();
+};
+
+/* ---------- 格変化 ---------- */
+const cellKey = (r,c) => `r${r}c${c}`;
+const parseKey = k => { const m=/^r(\d+)c(\d+)$/.exec(k); return m ? [+m[1], +m[2]] : [0,0]; };
+const rowName = r => `${ROWS[r][0]}・${ROWS[r][1]}`;
+const filledCells = t => Object.entries(t.cells||{}).filter(([k,v])=>String(v).trim());
+const tableTitle = t => t.name || (t.heads||[]).filter(Boolean).join(" / ") || GENDER[t.gender].name+"の表";
+
+function showDeclView(){
+  const v=st.decl.view;
+  setOn($("#declSeg"),"v",v);
+  ["practice","tables","dlog"].forEach(x=>$("#dv-"+x).style.display = x===v ? "" : "none");
+  if(v==="practice"){ renderGChips(); if(!st.decl.cur || !cards.find(c=>c.id===st.decl.cur.id)) nextDecl(); else renderDeclQ(); }
+  if(v==="tables") renderTables();
+  if(v==="dlog") renderDeclLog();
+}
+
+function renderGChips(){
+  const s=st.decl, el=$("#gChips");
+  el.innerHTML = `<button class="chip${s.genders.length?"":" on"}" data-g="">すべて</button>` +
+    Object.entries(GENDER).map(([g,G])=>`<button class="chip${s.genders.includes(g)?" on":""}" data-g="${g}">${G.name}</button>`).join("");
+  el.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
+    const g=b.dataset.g;
+    if(!g) s.genders=[]; else s.genders = s.genders.includes(g) ? s.genders.filter(x=>x!==g) : [...s.genders, g];
+    if(s.genders.length===3) s.genders=[];
+    s.queue=[]; renderGChips(); nextDecl();
+  });
+}
+function declItems(){
+  const s=st.decl, out=[];
+  for(const t of declCards()){
+    if(s.genders.length && !s.genders.includes(t.gender)) continue;
+    for(const [k] of filledCells(t)){
+      if(s.mode==="drill" && !(t.cs && t.cs[k] && t.cs[k].need)) continue;
+      out.push(t.id+"|"+k);
+    }
+  }
+  return out;
+}
+function nextDecl(){
+  const s=st.decl, pool=declItems();
+  if(!pool.length){ s.cur=null; renderDeclQ(); return; }
+  const ok=new Set(pool);
+  for(let tries=0; tries<3; tries++){
+    if(!s.queue.length){ s.queue=shuffle(pool.slice()); if(s.queue.length>1 && s.queue[s.queue.length-1]===s.last) s.queue.unshift(s.queue.pop()); }
+    while(s.queue.length){
+      const item=s.queue.pop();
+      if(ok.has(item)){ const [id,key]=item.split("|"); s.cur={id,key}; s.last=item; renderDeclQ(); return; }
+    }
+  }
+  s.cur=null; renderDeclQ();
+}
+function updateDeclScore(){
+  const s=st.decl;
+  let hot=0; for(const t of declCards()) for(const [k] of filledCells(t)) if(t.cs&&t.cs[k]&&t.cs[k].need) hot++;
+  $("#dOk").textContent=s.ok; $("#dNg").textContent=s.ng; $("#dHot").textContent=hot;
+  const n=declItems().length;
+  $("#dNote").textContent = s.mode==="random"
+    ? `登録した表の埋まっているマス（${n}マス）からランダムに出題します。`
+    : `間違えたマスだけを出題します（${n}マス）。${CLEAR_STREAK}回連続で正解すると卒業です。`;
+}
+function renderDeclQ(){
+  updateDeclScore();
+  const s=st.decl, box=$("#dqbox");
+  const t = s.cur && cards.find(c=>c.id===s.cur.id);
+  if(!t || !String((t.cells||{})[s.cur.key]||"").trim()){
+    s.cur=null;
+    box.innerHTML = declCards().length===0
+      ? `<div class="empty">まだ格変化の表がありません。<br>「表の登録」から作ろう、同志！<span class="ru">ВПЕРЁД!</span></div>`
+      : s.mode==="drill" ? `<div class="empty">苦手なマスはありません。<br>見事だ、同志！<span class="ru">СЛАВА ТРУДУ!</span></div>`
+      : `<div class="empty">選んだ性の表がありません。<br>範囲を変えてみよう。</div>`;
+    return;
+  }
+  const [r,col]=parseKey(s.cur.key), G=GENDER[t.gender], head=(t.heads||[])[col], st_=(t.cs||{})[s.cur.key]||{};
+  const answer=t.cells[s.cur.key];
+  box.innerHTML=`
+    <div class="meta"><span class="dirtag">ПАДЕЖ</span><span><span class="tag">○${st_.c||0} △${st_.v||0} ×${st_.w||0}</span>${st_.need?' <span class="tag hot">苦手</span>':""}</span></div>
+    <div class="dprompt"><span class="gb ${t.gender}">${G.name}</span><b>${esc(G.cols[col])} 型</b>${head?`<span class="ex" lang="ru">例：${esc(head)}</span>`:""}</div>
+    ${t.name?`<div class="note" style="margin:0">${esc(t.name)}</div>`:""}
+    <div class="q word" style="font-family:var(--disp)">${rowName(r)}</div>
+    <input type="text" id="dAns" lang="ru" autocomplete="off" autocapitalize="off" placeholder="Ответьте по-русски">
+    <div class="gap"></div>
+    <div id="dAnsArea"><button class="btn red" id="dAnswer">回答する</button></div>`;
+  const inp=$("#dAns");
+  inp.addEventListener("keydown", e=>{ if(e.key==="Enter" && !e.isComposing){ e.preventDefault(); $("#dAnswer")?.click(); }});
+  $("#dAnswer").onclick=()=>{
+    const mine=inp.value.trim(); inp.disabled=true;
+    revealAnswer($("#dAnsArea"), mine, answer, "ru", "", res=>gradeDecl(res, mine), ()=>nextDecl());
+  };
+}
+function gradeDecl(res, mine){
+  const s=st.decl, t=s.cur && cards.find(c=>c.id===s.cur.id); if(!t || grading) return;
+  grading=true;
+  const k=s.cur.key; t.cs=t.cs||{}; const x=t.cs[k]={ c:0, v:0, w:0, s:0, need:false, ...(t.cs[k]||{}) };
+  let grad=false;
+  if(res==="o"){ x.c++; x.s++; if(x.need && s.mode==="drill" && x.s>=CLEAR_STREAK){ x.need=false; grad=true; } s.ok++; }
+  else if(res==="m"){ x.v++; x.s=0; }
+  else { x.w++; x.s=0; x.need=true; s.ng++; }
+  t.history=(t.history||[]).concat([{ t:Date.now(), key:k, res, ok:res==="o", ans:mine, mode:s.mode }]).slice(-DECL_HIST_MAX);
+  backend.save(t);
+  bump();
+  stampOn($("#dqbox"), res);
+  if(grad) toast("卒業！ Молодец, товарищ!");
+  setTimeout(()=>{ grading=false; nextDecl(); }, 650);
+}
+
+/* 表の登録・編集 */
+$("#newTable").onclick=()=>{ st.decl.draft={ id:null, gender:"m", name:"", heads:["","",""], cells:{} }; renderEditor(); $("#dEditor").scrollIntoView({behavior:"smooth"}); };
+function readEditor(){
+  const d=st.decl.draft; if(!d) return;
+  const ed=$("#dEditor"); if(!ed.querySelector(".dtbl")) return;
+  d.name=ed.querySelector("#tName").value.trim();
+  d.heads=[0,1,2].map(i=>ed.querySelector(`[data-h="${i}"]`).value.trim());
+  const cells={}; ed.querySelectorAll("[data-k]").forEach(inp=>{ const v=inp.value.trim(); if(v) cells[inp.dataset.k]=v; });
+  d.cells=cells;
+}
+function renderEditor(){
+  const d=st.decl.draft, ed=$("#dEditor");
+  $("#newTable").style.display = d ? "none" : "";
+  if(!d){ ed.innerHTML=""; return; }
+  const G=GENDER[d.gender];
+  let rows="";
+  ROWS.forEach(([num,cs],r)=>{
+    rows+=`<tr class="${r>=6?"pl":""}${r===6?" split":""}"><th class="rh">${num}<br>${cs}</th>`+
+      [0,1,2].map(c=>`<td><input lang="ru" autocapitalize="off" autocomplete="off" spellcheck="false" data-k="${cellKey(r,c)}" value="${esc(d.cells[cellKey(r,c)]||"")}"></td>`).join("")+`</tr>`;
+  });
+  ed.innerHTML=`<div class="box">
+    <p class="label">НОВАЯ ТАБЛИЦА <em>${d.id?"表を編集":"新しい表"}</em></p>
+    <p class="label">РОД <em>名詞の性</em></p>
+    <div class="seg" id="gSeg">${Object.entries(GENDER).map(([g,X])=>`<button data-v="${g}" class="${g===d.gender?"on":""}">${X.name}</button>`).join("")}</div>
+    <p class="label">НАЗВАНИЕ <em>表の名前（任意）</em></p>
+    <input type="text" id="tName" placeholder="例：語尾の表 / 教科書p.32" value="${esc(d.name)}">
+    <div class="gap"></div>
+    <p class="note" style="margin-bottom:8px">黄色の行には例の単語を入れておくと、出題のときにヒントとして表示されます。マスには語尾（-а）でも単語（стола）でも、習った形だけ入れればOKです。</p>
+    <div class="dtwrap"><table class="dtbl">
+      <thead><tr><th class="rh" style="background:var(--ink);color:var(--gold)">格</th>${G.cols.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead>
+      <tbody><tr class="ex"><th class="rh">例の<br>単語</th>${[0,1,2].map(i=>`<td><input lang="ru" autocapitalize="off" autocomplete="off" spellcheck="false" data-h="${i}" value="${esc(d.heads[i]||"")}" placeholder="${["стол","музей","словарь","окно","поле","имя","мама","неделя","ночь"][Object.keys(GENDER).indexOf(d.gender)*3+i]}"></td>`).join("")}</tr>${rows}</tbody>
+    </table></div>
+    <div class="gap"></div>
+    <div class="row"><button class="btn ghost" id="tCancel">やめる</button><button class="btn red" id="tSave">保存する</button></div>
+  </div>`;
+  ed.querySelectorAll("#gSeg button").forEach(b=>b.onclick=()=>{ readEditor(); d.gender=b.dataset.v; renderEditor(); });
+  $("#tCancel").onclick=()=>{ st.decl.draft=null; renderEditor(); };
+  $("#tSave").onclick=()=>{
+    readEditor();
+    if(!Object.keys(d.cells).length){ toast("少なくとも1マスは入力してください"); return; }
+    let t = d.id && cards.find(c=>c.id===d.id);
+    if(t){ t.gender=d.gender; t.name=d.name; t.heads=d.heads; t.cells=d.cells; }
+    else { t={ id:newId(), kind:"decl", gender:d.gender, name:d.name, heads:d.heads, cells:d.cells, cs:{}, history:[], createdAt:Date.now() }; cards.push(t); }
+    if(t.cs) for(const k of Object.keys(t.cs)) if(!t.cells[k]) delete t.cs[k];
+    backend.save(t); st.decl.draft=null; st.decl.queue=[];
+    toast("表を保存しました ★"); renderEditor(); renderTables();
+  };
+}
+function renderTables(){
+  renderEditor();
+  const list=declCards().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)), el=$("#tList");
+  $("#tCnt").textContent=list.length;
+  if(!list.length){ el.innerHTML=`<div class="empty">まだありません</div>`; return; }
+  el.innerHTML=list.map(t=>{
+    const f=filledCells(t).length; let c=0,v=0,w=0,hot=0;
+    for(const x of Object.values(t.cs||{})){ c+=x.c||0; v+=x.v||0; w+=x.w||0; if(x.need) hot++; }
+    return `<div class="item" data-id="${esc(t.id)}">
+      <div><span class="gb ${t.gender}">${GENDER[t.gender].name}</span> <b>${esc(tableTitle(t))}</b></div>
+      <div class="ja">${f} / 36マス入力済み${hot?`・苦手 ${hot}マス`:""}</div>
+      <div class="acts"><span class="tag">○${c} △${v} ×${w}</span><span style="flex:1"></span>
+        <button class="mini" data-act="view">表を見る</button><button class="mini" data-act="edit">編集</button><button class="mini danger" data-act="del">削除</button></div>
+      <div class="tview"></div>
+    </div>`;
+  }).join("");
+  el.querySelectorAll(".item").forEach(it=>{
+    const t=cards.find(c=>c.id===it.dataset.id);
+    it.querySelector('[data-act="edit"]').onclick=()=>{ st.decl.draft={ id:t.id, gender:t.gender, name:t.name||"", heads:[...(t.heads||["","",""])], cells:{...(t.cells||{})} }; renderEditor(); $("#dEditor").scrollIntoView({behavior:"smooth"}); };
+    it.querySelector('[data-act="del"]').onclick=async()=>{
+      if(!await ask("この表を削除しますか？", `${GENDER[t.gender].name}：${tableTitle(t)}\n\nこの表の解答記録もいっしょに消えます（学習カレンダーは残ります）。元に戻せません。`)) return;
+      cards=cards.filter(x=>x.id!==t.id); backend.del(t.id);
+      if(st.decl.cur && st.decl.cur.id===t.id) st.decl.cur=null;
+      toast("削除しました"); renderTables();
+    };
+    it.querySelector('[data-act="view"]').onclick=e=>{
+      const v=it.querySelector(".tview");
+      if(v.innerHTML){ v.innerHTML=""; e.target.textContent="表を見る"; return; }
+      e.target.textContent="閉じる";
+      const G=GENDER[t.gender];
+      v.innerHTML=`<div class="gap"></div><div class="dtwrap"><table class="dtbl">
+        <thead><tr><th class="rh" style="background:var(--ink);color:var(--gold)">格</th>${G.cols.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead>
+        <tbody><tr class="ex"><th class="rh">例の<br>単語</th>${[0,1,2].map(i=>`<td class="ro" style="background:#fff3c9;font-weight:700">${esc((t.heads||[])[i]||"")}</td>`).join("")}</tr>
+        ${ROWS.map(([num,cs],r)=>`<tr class="${r>=6?"pl":""}${r===6?" split":""}"><th class="rh">${num}<br>${cs}</th>${[0,1,2].map(c=>{const k=cellKey(r,c);return `<td class="ro${t.cs&&t.cs[k]&&t.cs[k].need?" hot":""}">${esc((t.cells||{})[k]||"")}</td>`;}).join("")}</tr>`).join("")}
+        </tbody></table></div><p class="note">赤いマスは苦手なマスです。</p>`;
     };
   });
 }
 
-function removeEntry(c,h){
-  c.history=(c.history||[]).filter(x=>x!==h);
-  if(h.ok) c.correct=Math.max(0,(c.correct||0)-1);
-  else{
-    c.wrong=Math.max(0,(c.wrong||0)-1);
-    if(!c.history.some(x=>!x.ok)){ c.needReview=false; c.streak=0; }
-  }
+/* 格変化の記録 */
+function renderDeclLog(){
+  const all=[];
+  declCards().forEach(t=>(t.history||[]).forEach(h=>all.push({...h, t, ref:h})));
+  all.sort((a,b)=>b.t-a.t);
+  fillStats(all, ["#dlTotal","#dlRate","#dlToday"]);
+  const rows=filterRows(all, st.decl.logFilter).slice(0,150), el=$("#dLogList");
+  if(!rows.length){ el.innerHTML=`<div class="empty">まだ記録がありません</div>`; return; }
+  el.innerHTML=rows.map((h,i)=>{
+    const r=resOf(h), [row,col]=parseKey(h.key), G=GENDER[h.t.gender], head=(h.t.heads||[])[col];
+    return `<div class="item" data-i="${i}">
+      <button class="mini danger del">削除</button>
+      <div class="d"><span class="mark ${r}">${RES[r].mark}</span>${fmt(h.t)}${h.mode==="drill"?"・苦手":""}</div>
+      <div class="line"><i>問題</i>${G.name}・${esc(G.cols[col])}型${head?`（${esc(head)}）`:""}・${rowName(row)}</div>
+      <div class="line"><i>あなた</i>${h.ans?esc(h.ans):"（未入力）"}</div>
+      <div class="line"><i>正解</i>${esc((h.t.cells||{})[h.key]||"（マスが空になっています）")}</div>
+    </div>`;
+  }).join("");
+  el.querySelectorAll(".item").forEach(it=>{
+    it.querySelector(".del").onclick=async()=>{
+      const row=rows[+it.dataset.i], t=row.t, h=row.ref, r=resOf(h);
+      if(!await ask("この記録を削除しますか？", `${RES[r].mark} ${RES[r].name}　${fmt(h.t)}\n${GENDER[t.gender].name}・${rowName(parseKey(h.key)[0])}\n\n元に戻せません（学習カレンダーの問題数は残ります）。`)) return;
+      t.history=(t.history||[]).filter(x=>x!==h);
+      const x=(t.cs||{})[h.key];
+      if(x){
+        if(r==="o") x.c=Math.max(0,(x.c||0)-1); else if(r==="m") x.v=Math.max(0,(x.v||0)-1);
+        else { x.w=Math.max(0,(x.w||0)-1); if(!t.history.some(y=>y.key===h.key && resOf(y)==="x")){ x.need=false; x.s=0; } }
+      }
+      backend.save(t); toast("記録を削除しました"); renderDeclLog();
+    };
+  });
 }
-
-$("#wipeNg").onclick=async()=>{
-  const list=deckCards(); const n=list.reduce((s,c)=>s+(c.history||[]).filter(h=>!h.ok).length,0);
-  const hot=list.filter(c=>c.needReview).length;
-  if(!n && !hot && !list.some(c=>c.wrong)){ toast("消す間違いの記録はありません"); return; }
-  if(!await ask(`${st.deck==="word"?"単語":"翻訳"}の間違いを全削除しますか？`,
-     `×の記録 ${n}件を消し、${DECK[st.deck].hot}（${hot}件）の印をすべて外します。\n\nこの操作は元に戻せません。`, "すべて削除")) return;
-  for(const c of list){
-    const before=JSON.stringify([c.history,c.wrong,c.needReview]);
-    c.history=(c.history||[]).filter(h=>h.ok); c.wrong=0; c.needReview=false; c.streak=0;
-    if(JSON.stringify([c.history,c.wrong,c.needReview])!==before) backend.save(c);
+$("#dWipe").onclick=async()=>{
+  const list=declCards();
+  let n=0, hot=0; for(const t of list){ n+=(t.history||[]).filter(h=>resOf(h)==="x").length; for(const x of Object.values(t.cs||{})) if(x.need) hot++; }
+  if(!n && !hot){ toast("消す間違いの記録はありません"); return; }
+  if(!await ask("格変化の間違いを全削除しますか？", `×の記録 ${n}件を消し、苦手なマス（${hot}マス）の印をすべて外します。\n\nこの操作は元に戻せません。`, "すべて削除")) return;
+  for(const t of list){
+    t.history=(t.history||[]).filter(h=>resOf(h)!=="x");
+    for(const x of Object.values(t.cs||{})){ x.w=0; x.need=false; x.s=0; }
+    backend.save(t);
   }
-  S().queue=[]; if(S().mode==="drill") S().cur=null;
-  toast("間違いの記録をすべて削除しました"); renderLog(); updateScore();
+  st.decl.queue=[]; if(st.decl.mode==="drill") st.decl.cur=null;
+  toast("格変化の間違いをすべて削除しました"); renderDeclLog();
 };
 
 $("#expBtn").onclick=exportData;
@@ -767,9 +1345,8 @@ $("#impBtn").onclick=()=>$("#impFile").click();
 $("#impFile").onchange=e=>{ const f=e.target.files[0]; if(f) importData(f); e.target.value=""; };
 
 /* ---------- 起動 ---------- */
-if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }
-applyDeck();
-initStore().then(()=>{ resetQuiz(); showTab(); });
+if("serviceWorker" in navigator && location.protocol.startsWith("http")){ window.addEventListener("load", ()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }
+initStore().then(()=>{ resetQuiz(); applyDeck(); });
 </script>
 </body>
 </html>
