@@ -249,6 +249,26 @@ nav button{font-size:13px;padding:9px 2px}
 .medal .got{position:absolute;top:6px;right:6px;font-size:10px;font-weight:700;background:var(--gold);color:var(--ink);border:1.5px solid var(--ink);padding:1px 5px;transform:rotate(6deg)}
 .medal.new{animation:medalIn 1s ease-out}
 @keyframes medalIn{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08)}100%{transform:none;opacity:1}}
+
+/* タグの管理 */
+.tagnew{gap:8px}.tagnew input{flex:1}.tagnew .btn{flex:none;width:auto;padding:8px 16px;font-size:15px;box-shadow:3px 3px 0 var(--ink)}
+.chip.tagm{display:inline-flex;align-items:center;gap:5px;cursor:default;padding-right:4px}
+.chip.tagm small{font-size:10px;color:var(--sub)}
+.chip.tagm .tx{border:0;background:var(--red);color:#fff;font-weight:900;width:20px;height:20px;line-height:18px;padding:0;cursor:pointer;font-size:13px}
+
+/* ログイン状態の表示 */
+#status{cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:"Noto Sans JP",sans-serif;letter-spacing:0;font-size:11px;padding:4px 10px 4px 8px;border:2px solid var(--ink);user-select:none}
+#status i{font-style:normal;font-size:12px;line-height:1}
+#status b{font-weight:900;font-size:12px}
+#status span{opacity:.8;font-size:10px}
+#status.st-local{background:#f8f0dc;color:var(--ink)}
+#status.st-local i{color:#8a7a6a}
+#status.st-cloud,#status.st-sync,#status.st-offline,#status.st-error{background:var(--ink);color:#fff}
+#status.st-cloud i,#status.st-sync i{color:#5fd36b}
+#status.st-offline i{color:var(--gold)}
+#status.st-error i{color:#ff6b5e}
+#status.st-sync i{animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.25}}
 </style>
 </head>
 <body>
@@ -340,6 +360,12 @@ nav button{font-size:13px;padding:9px 2px}
 <section id="add">
   <div id="cardAdd" class="pane">
   <div class="box">
+    <p class="label">ТЕГИ <em>タグの管理（先に作っておこう）</em></p>
+    <div class="row tagnew"><input type="text" id="newTag" placeholder="例：第5課 / 動詞 / 試験範囲"><button class="btn red" id="newTagBtn">作成</button></div>
+    <div class="chips" id="tagMgr" style="margin:10px 0 0"></div>
+    <p class="note">作ったタグは翻訳と単語で共通です。×でタグを削除できます（登録した単語・例文は消えません）。</p>
+  </div>
+  <div class="box">
     <p class="label">ПО-РУССКИ <em id="ruL">ロシア語の例文</em></p>
     <textarea id="inRu" rows="2" lang="ru"></textarea>
     <div class="gap"></div>
@@ -351,8 +377,8 @@ nav button{font-size:13px;padding:9px 2px}
       <input type="text" id="inMemo" placeholder="例：女性名詞 / 複数 книги">
     </div>
     <div class="gap"></div>
-    <p class="label">ТЕГИ <em>タグ（任意・スペース区切りで複数）</em></p>
-    <input type="text" id="inTags" placeholder="例：第5課 動詞">
+    <p class="label">ТЕГИ <em>タグ（タップで選択・複数OK）</em></p>
+    <div class="chips" id="addTagChips"></div>
     <div class="gap"></div>
     <button class="btn red" id="addBtn">登録する</button>
     <div class="gap"></div>
@@ -535,6 +561,7 @@ const RES = { o:{mark:"○", name:"正解", stamp:"ВЕРНО!"}, m:{mark:"△",
 let cards = [];
 let backend = null;
 let stats = { days:{} };
+let statsReady = false;
 const mk = () => ({ dir:"rj", mode:"random", tags:[], queue:[], cur:null, lastId:null, ok:0, ng:0 });
 const st = {
   deck:"sent", tab:"quiz", logFilter:"all", calMonth:null,
@@ -680,6 +707,22 @@ $("#calToday").onclick=()=>{ st.calMonth=dayKey().slice(0,7); renderCalendar(); 
 $("#goalSel").onchange=e=>setGoal(+e.target.value);
 document.addEventListener("click", e=>{ const b=e.target.closest(".band"); if(b){ st.tab="log"; showTab(); window.scrollTo({top:0,behavior:"smooth"}); } });
 
+/* ---------- ログイン状態の表示（メールアドレスは出さない） ---------- */
+const STATUS = {
+  local:  ["○", "ログインなし", "この端末だけに保存"],
+  sync:   ["●", "ログイン中", "同期中…"],
+  cloud:  ["●", "ログイン中", "クラウドと同期済み"],
+  offline:["●", "ログイン中", "オフライン（あとで同期）"],
+  error:  ["●", "ログイン中", "同期エラー"]
+};
+function setStatus(k){
+  const [dot, a, b] = STATUS[k], el=$("#status");
+  el.className = "st-"+k;
+  el.innerHTML = `<i>${dot}</i><b>${a}</b><span>${b}</span>`;
+  el.title = "タップで同志証（アカウント）へ";
+}
+$("#status").onclick=()=>{ st.tab="acct"; showTab(); window.scrollTo({top:0,behavior:"smooth"}); };
+
 /* ---------- 保存先：この端末（localStorage） ---------- */
 const KEY="ru-ja-drill-cards", KEY_STATS="ru-ja-drill-stats";
 function readLocal(){ try{ const v=JSON.parse(localStorage.getItem(KEY)||"[]"); return Array.isArray(v)?v:[]; }catch(e){ return []; } }
@@ -691,9 +734,10 @@ function useLocal(){
   stats=readLocalStats() || { days:countsFromHistory(cards) };
   stats.goalFrom=stats.goalFrom||{}; stats.medals=stats.medals||{};
   if(!stats.cnt) stats.cnt=cntFromHistory(cards);
+  statsReady=true;
   flushStats();
   backend = { save:async()=>flush(), del:async()=>flush(), bump:()=>flushStats(), patchStats:()=>flushStats(), cloud:false };
-  $("#status").textContent = "★ この端末に保存";
+  setStatus("local");
 }
 async function initStore(){
   try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
@@ -724,7 +768,7 @@ function onUser(u){
   acct.unsubs.forEach(f=>f()); acct.unsubs=[];
   acct.user=u;
   if(!u){ acct.state="out"; useLocal(); resetQuiz(); showTab(); renderAcct(); renderBand(); return; }
-  acct.state="in";
+  acct.state="in"; statsReady=false;
   const F=acct.F, col=F.collection(acct.db,"users",u.uid,"cards"), statsRef=F.doc(acct.db,"users",u.uid,"meta","stats");
   const fail=e=>{ console.warn(e); toast("クラウドに保存できませんでした"); };
   backend={
@@ -734,7 +778,7 @@ function onUser(u){
     patchStats:obj=>F.setDoc(statsRef, obj, { merge:true }).catch(fail),
     cloud:true
   };
-  $("#status").textContent="★ 同期中…";
+  setStatus("sync");
   const local=readLocal(), localStats=readLocalStats();
   let firstCards=true, cardsReady=false, statsState=null; // null=未受信, "missing", "ok"
   const syncStats=()=>{
@@ -752,20 +796,24 @@ function onUser(u){
       body.cnt=c;
     }
     if(localStats && localStats.goalFrom) for(const [k,v] of Object.entries(localStats.goalFrom)) if(!(stats.goalFrom||{})[k]) (body.goalFrom=body.goalFrom||{})[k]=v;
+    if(!Array.isArray(stats.tagList) && localStats && Array.isArray(localStats.tagList)) body.tagList=localStats.tagList;
     if(localStats && localStats.medals) for(const [k,v] of Object.entries(localStats.medals)) if(!(stats.medals||{})[k]) (body.medals=body.medals||{})[k]=v;
     F.setDoc(statsRef, body, { merge:true }).catch(fail);
     statsState="done";
   };
   acct.unsubs.push(F.onSnapshot(col, snap=>{
     cards=snap.docs.map(d=>({ id:d.id, ...d.data() }));
-    $("#status").textContent = snap.metadata.fromCache ? "★ オフライン（あとで同期）" : "★ クラウド同期中";
+    setStatus(snap.metadata.fromCache ? "offline" : "cloud");
     if(firstCards){ firstCards=false; cardsReady=true; resetQuiz(); showTab(); offerMigrate(local); syncStats(); }
     else refreshAfterData();
     renderAcct();
-  }, e=>{ console.warn(e); toast("同期できませんでした"); $("#status").textContent="同期エラー"; }));
+  }, e=>{ console.warn(e); toast("同期できませんでした"); setStatus("error"); }));
   acct.unsubs.push(F.onSnapshot(statsRef, snap=>{
     const sd = snap.exists() ? snap.data() : {};
     stats = { days:{ ...(sd.days||{}) }, goalFrom:{ ...(sd.goalFrom||{}) }, cnt:{ ...(sd.cnt||{}) }, medals:{ ...(sd.medals||{}) } };
+    if(Array.isArray(sd.tagList)) stats.tagList=[...sd.tagList];
+    statsReady=true;
+    if(st.tab==="add" && !isGrid()) renderTagUI();
     if(statsState===null){ statsState = snap.exists() ? "ok" : "missing"; syncStats(); }
     renderBand();
     if(st.tab==="log") renderCalendar();
@@ -1096,6 +1144,61 @@ function grade(res, mine){
   setTimeout(()=>{ grading=false; nextQ(); }, 650);
 }
 
+
+/* ---------- タグの管理（先に作って、登録のときに選ぶ） ---------- */
+const byJa = (a,b) => a.localeCompare(b,"ja");
+const tagList = () => Array.isArray(stats.tagList) ? stats.tagList : [];
+function saveTagList(list){ stats.tagList=[...new Set(list)].sort(byJa); backend.patchStats({ tagList:stats.tagList }); }
+function ensureTagList(){
+  if(Array.isArray(stats.tagList) || !statsReady) return;
+  const used=[...new Set(cards.flatMap(c=>c.tags||[]))];
+  if(used.length) saveTagList(used); else stats.tagList=[];
+}
+function addTags(names){
+  const now=tagList(), add=names.filter(t=>!now.includes(t));
+  if(add.length) saveTagList([...now, ...add]);
+  return add;
+}
+function tagChips(selected, cls){
+  const list=tagList();
+  if(!list.length) return `<span class="note">まだタグがありません。上の「タグの管理」で作ろう。</span>`;
+  return list.map(t=>`<button type="button" class="chip ${cls}${selected.includes(t)?" on":""}" data-t="${esc(t)}">#${esc(t)}</button>`).join("");
+}
+function renderTagUI(){
+  ensureTagList();
+  st.addTags=(st.addTags||[]).filter(t=>tagList().includes(t));
+  const mgr=$("#tagMgr"), list=tagList();
+  mgr.innerHTML = list.length ? list.map(t=>{
+    const n=cards.filter(c=>(c.tags||[]).includes(t)).length;
+    return `<span class="chip tagm">#${esc(t)} <small>${n}</small><button type="button" class="tx" data-t="${esc(t)}" aria-label="削除">×</button></span>`;
+  }).join("") : `<span class="note">タグはまだありません</span>`;
+  mgr.querySelectorAll(".tx").forEach(x=>x.onclick=()=>deleteTag(x.dataset.t));
+  const sel=$("#addTagChips");
+  sel.innerHTML=tagChips(st.addTags, "pick");
+  sel.querySelectorAll(".pick").forEach(b=>b.onclick=()=>{
+    const t=b.dataset.t; st.addTags = st.addTags.includes(t) ? st.addTags.filter(x=>x!==t) : [...st.addTags, t];
+    b.classList.toggle("on");
+  });
+}
+$("#newTagBtn").onclick=()=>{
+  const names=parseTags($("#newTag").value);
+  if(!names.length){ toast("タグの名前を入力してください"); return; }
+  const add=addTags(names);
+  $("#newTag").value="";
+  toast(add.length ? `タグ ${add.map(t=>"#"+t).join(" ")} を作りました` : "そのタグはもうあります");
+  renderTagUI();
+};
+$("#newTag").addEventListener("keydown", e=>{ if(e.key==="Enter" && !e.isComposing){ e.preventDefault(); $("#newTagBtn").click(); } });
+async function deleteTag(t){
+  const hit=cards.filter(c=>(c.tags||[]).includes(t));
+  if(!await ask(`タグ「#${t}」を削除しますか？`, hit.length ? `このタグがついている${hit.length}件からも外れます。単語や例文そのものは消えません。` : "このタグはまだどの単語・例文にもついていません。")) return;
+  hit.forEach(c=>{ c.tags=c.tags.filter(x=>x!==t); backend.save(c); });
+  saveTagList(tagList().filter(x=>x!==t));
+  st.addTags=(st.addTags||[]).filter(x=>x!==t);
+  st.sent.tags=st.sent.tags.filter(x=>x!==t); st.word.tags=st.word.tags.filter(x=>x!==t);
+  toast(`タグ「#${t}」を削除しました`); renderList();
+}
+
 /* ---------- 登録 ---------- */
 function addCard(ru, ja, memo, tags){
   const c={ id:newId(), kind:st.deck, ru, ja, tags, createdAt:Date.now(), correct:0, vague:0, wrong:0, streak:0, needReview:false, history:[] };
@@ -1103,28 +1206,31 @@ function addCard(ru, ja, memo, tags){
   cards.push(c); backend.save(c); return c;
 }
 $("#addBtn").onclick=()=>{
-  const ru=$("#inRu").value.trim(), ja=$("#inJa").value.trim(), memo=$("#inMemo").value.trim(), tags=parseTags($("#inTags").value);
+  const ru=$("#inRu").value.trim(), ja=$("#inJa").value.trim(), memo=$("#inMemo").value.trim(), tags=(st.addTags||[]).slice();
   if(!ru||!ja){ toast("ロシア語と日本語の両方を入力してください"); return; }
   addCard(ru,ja,memo,tags); $("#inRu").value=""; $("#inJa").value=""; $("#inMemo").value=""; $("#inRu").focus();
   toast("登録しました ★"); S().queue=[]; renderList();
 };
 $("#bulkBtn").onclick=()=>{
   const lines=$("#bulk").value.split("\n").map(l=>l.trim()).filter(Boolean);
-  let n=0, bad=0;
+  let n=0, bad=0; const picked=(st.addTags||[]).slice(), newT=new Set();
+  const withTags = col => { const t=parseTags(col); t.forEach(x=>{ if(!tagList().includes(x)) newT.add(x); }); return [...new Set([...picked, ...t])]; };
   for(const l of lines){
     const p=l.split(/\s*[|\t｜]\s*/);
     if(p.length>=2 && p[0] && p[1]){
-      if(st.deck==="word") addCard(p[0], p[1], (p[2]||"").trim(), parseTags(p.slice(3).join(" ")));
-      else addCard(p[0], p[1], "", parseTags(p.slice(2).join(" ")));
+      if(st.deck==="word") addCard(p[0], p[1], (p[2]||"").trim(), withTags(p.slice(3).join(" ")));
+      else addCard(p[0], p[1], "", withTags(p.slice(2).join(" ")));
       n++;
     } else bad++;
   }
   $("#bulk").value="";
-  toast(`${n}件を登録${bad?`（${bad}行は形式違い）`:""}`); S().queue=[]; renderList();
+  if(newT.size) addTags([...newT]);
+  toast(`${n}件を登録${bad?`（${bad}行は形式違い）`:""}${newT.size?`・新しいタグ${newT.size}個を作成`:""}`); S().queue=[]; renderList();
 };
 $("#search").oninput=renderList;
 
 function renderList(){
+  renderTagUI();
   const mine=deckCards(), D=DECK[st.deck];
   $("#cnt").textContent=mine.length + (st.deck==="word"?"語":"文");
   const q=$("#search").value.trim().toLowerCase().replace(/^#/,"");
@@ -1153,13 +1259,14 @@ function renderList(){
       it.innerHTML=`<textarea rows="${isWord?1:2}" lang="ru" class="eRu">${esc(c.ru)}</textarea><div class="gap"></div>
         <textarea rows="${isWord?1:2}" lang="ja" class="eJa">${esc(c.ja)}</textarea><div class="gap"></div>
         ${isWord?`<input type="text" class="eMemo" placeholder="メモ" value="${esc(c.memo||"")}"><div class="gap"></div>`:""}
-        <input type="text" class="eTags" placeholder="タグ（スペース区切り）" value="${esc((c.tags||[]).join(" "))}"><div class="gap"></div>
+        <div class="chips eTags">${tagChips(c.tags||[], "epick")}</div>
         <div class="row"><button class="mini" data-act="cancel">やめる</button><button class="mini save" data-act="save">保存</button></div>`;
+      it.querySelectorAll(".epick").forEach(b=>b.onclick=()=>b.classList.toggle("on"));
       it.querySelector('[data-act="cancel"]').onclick=renderList;
       it.querySelector('[data-act="save"]').onclick=()=>{
         const ru=it.querySelector(".eRu").value.trim(), ja=it.querySelector(".eJa").value.trim();
         if(!ru||!ja){ toast("両方入力してください"); return; }
-        c.ru=ru; c.ja=ja; c.tags=parseTags(it.querySelector(".eTags").value);
+        c.ru=ru; c.ja=ja; c.tags=[...it.querySelectorAll(".epick.on")].map(b=>b.dataset.t);
         if(isWord){ const m=it.querySelector(".eMemo").value.trim(); if(m) c.memo=m; else delete c.memo; }
         backend.save(c); toast("保存しました"); renderList();
       };

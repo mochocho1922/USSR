@@ -1,5 +1,5 @@
 // オフラインでも開けるようにするための仕組み
-const CACHE = "gakushu-sensen-v6";
+const CACHE = "gakushu-sensen-v7";
 const CORE = ["./", "index.html", "firebase-config.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
 // 保存してよい外部の場所（フォントとFirebaseの部品だけ。データ通信はさわらない）
 const STATIC_HOSTS = ["fonts.googleapis.com", "fonts.gstatic.com", "www.gstatic.com"];
