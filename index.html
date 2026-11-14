@@ -345,6 +345,11 @@ details.thr summary{font-size:13px}
 .thrrow{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:10px 0;font-size:12px;font-weight:700}
 .thrrow i{display:inline-block;width:12px;height:12px;border:1.5px solid rgba(22,18,16,.3);vertical-align:-2px;margin:0 3px}
 details.thr .btn{font-size:14px;padding:10px}
+
+/* 自習の連続記録 */
+.pst-grid div.stk{background:#f3efe6;border-color:var(--ink);color:var(--ink)}
+.pst-grid div.stk b{color:var(--red);font-size:28px}
+.pst-grid div.stk small{display:block;font-size:10px;color:var(--sub);margin-top:1px}
 </style>
 </head>
 <body>
@@ -608,6 +613,8 @@ details.thr .btn{font-size:14px;padding:10px}
       <div class="pst-grid">
         <div><span id="sMonthL">今月</span><b id="sMonthT">0m</b></div>
         <div><span id="sYearL">今年</span><b id="sYearT">0m</b></div>
+        <div class="stk"><span>自習の連続日数</span><b id="sStreak">0日</b><small id="sStreakNote"></small></div>
+        <div class="stk"><span>過去最高の連続</span><b id="sBest">0日</b><small id="sBestWhen"></small></div>
         <div class="all"><span>これまでの合計</span><b id="sAllT">0m</b><small id="sDays"></small></div>
       </div>
     </div>
@@ -2150,6 +2157,22 @@ function renderSelf(){
   const all=studies(), mm=monthMin(ym), yy=sumMin(all.filter(x=>x.date.startsWith(String(y))));
   $("#sMonthL").textContent = ym===today.slice(0,7) ? "今月" : ymLabel(ym);
   $("#sYearL").textContent = `${y}年`;
+  // 自習の連続日数（アプリの連続学習とは別。1分でも記録した日を数える）
+  const sdays=new Set(all.filter(x=>(+x.min||0)>0).map(x=>x.date));
+  let k=today, run=0; const todayDone=sdays.has(today);
+  if(!todayDone) k=addDays(today,-1);
+  while(sdays.has(k)){ run++; k=addDays(k,-1); }
+  let best=0, bestFrom="", bestTo="", cur=0, from="", prev=null;
+  for(const d of [...sdays].sort()){
+    if(prev && addDays(prev,1)===d) cur++; else { cur=1; from=d; }
+    if(cur>=best){ best=cur; bestFrom=from; bestTo=d; }
+    prev=d;
+  }
+  const md=d=>`${+d.slice(5,7)}/${+d.slice(8)}`;
+  $("#sStreak").textContent=`${run}日`;
+  $("#sStreakNote").textContent = run===0 ? "今日から始めよう！" : todayDone ? "今日も記録済み ★" : "今日記録すると +1日";
+  $("#sBest").textContent=`${best}日`;
+  $("#sBestWhen").textContent = best ? (best===1 ? `${bestFrom.slice(0,4)}/${md(bestFrom)}` : `${bestFrom.slice(0,4)}/${md(bestFrom)}〜${md(bestTo)}`) + (best>0 && run===best ? "（更新中！）" : "") : "まだ記録なし";
   $("#sMonthT").textContent=fmtHM(mm); $("#sYearT").textContent=fmtHM(yy); $("#sAllT").textContent=fmtHM(sumMin(all));
   $("#sDays").textContent = all.length ? `勉強した日 ${new Set(all.map(x=>x.date)).size}日・記録 ${all.length}件` : "最初の一歩を記録しよう、同志！";
   // 月の目標（輪グラフ）
