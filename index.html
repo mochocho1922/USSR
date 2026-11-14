@@ -269,6 +269,68 @@ nav button{font-size:13px;padding:9px 2px}
 #status.st-error i{color:#ff6b5e}
 #status.st-sync i{animation:blink 1s infinite}
 @keyframes blink{50%{opacity:.25}}
+
+/* 記録タブの切り替え */
+.seg.logview{background:var(--ink);margin-bottom:16px}
+.seg.logview button{color:#d9cbb0;border-left-color:#5a4a40;font-size:15px;padding:11px 4px}
+.seg.logview button.on{background:var(--gold);color:var(--ink)}
+/* 自習 */
+.sform{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.sf{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;flex:1 1 140px}
+.sf input[type=date]{border:2.5px solid var(--ink);border-radius:0;padding:9px 8px;font:inherit;font-size:16px;background:#fffdf6;color:var(--ink);min-height:46px}
+.hm{display:flex;align-items:center;gap:6px}
+.hm input{width:64px;border:2.5px solid var(--ink);border-radius:0;padding:9px 6px;font-size:18px;font-weight:700;text-align:center;background:#fffdf6;color:var(--ink)}
+.hm em{font-style:normal;font-size:13px}
+.scal .d{aspect-ratio:auto;min-height:50px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer}
+.scal .d .dn{font-size:11px}
+.scal .d .hm{display:block;font-size:10px;font-weight:900;text-align:center;letter-spacing:-.02em;line-height:1.1;padding-bottom:2px}
+.scal .d.h1{background:#f3d9b0}
+.scal .d.h2{background:#e58f6f}
+.scal .d.h3{background:var(--red);color:#fff;border-color:var(--ink)}
+.scal .d.sel{box-shadow:inset 0 0 0 3px var(--ink)}
+.scal .d.fut{cursor:default}
+.poster{position:relative;overflow:hidden;background:var(--red);color:#fff;border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink);padding:16px 14px 14px;margin-bottom:18px}
+.poster::before{content:"";position:absolute;right:-60px;top:-40px;width:190px;height:260px;background:var(--ink);transform:rotate(18deg)}
+.poster .pstar{position:absolute;right:14px;top:12px;width:54px;height:54px;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.4))}
+.pst-head{position:relative;font-family:var(--ru);font-size:20px;letter-spacing:.06em;color:var(--gold);text-shadow:2px 2px 0 var(--ink)}
+.pst-head small{display:block;font-family:"Noto Sans JP";font-size:11px;font-weight:700;color:#ffe9a8;letter-spacing:.05em;text-shadow:none;margin-top:2px}
+.pst-grid{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.pst-grid div{background:rgba(22,18,16,.88);border:2px solid var(--gold);padding:8px 10px}
+.pst-grid div.all{grid-column:1/-1;background:var(--gold);color:var(--ink);border-color:var(--ink)}
+.pst-grid span{display:block;font-size:11px;font-weight:700;opacity:.85}
+.pst-grid b{display:block;font-family:var(--disp);font-weight:400;font-size:26px;line-height:1.2;color:var(--gold)}
+.pst-grid .all b{font-size:36px;color:var(--red)}
+.pst-grid small{font-size:11px;font-weight:700}
+.ringwrap{display:flex;align-items:center;gap:14px}
+#ring{flex:none;width:150px;height:150px}
+.ringside{flex:1;min-width:0}
+.goalin{display:flex;align-items:center;gap:6px}
+.goalin input{width:76px;border:2.5px solid var(--ink);border-radius:0;padding:8px 6px;font-size:18px;font-weight:700;text-align:center;background:#fffdf6;color:var(--ink)}
+.goalin em{font-style:normal;font-size:13px;font-weight:700}
+.gmsg{font-size:13px;line-height:1.6;margin:10px 0 0}
+.gmsg b{color:var(--red);font-family:var(--disp);font-weight:400;font-size:16px}
+.gmsg b.ok{font-family:"Noto Sans JP";font-weight:900;font-size:14px}
+.starsum{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.starsum svg{width:40px;height:40px}
+.starsum b{font-family:var(--disp);font-weight:400;font-size:32px;color:var(--red)}
+.starsum span{font-weight:700}
+.starlist{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rs{display:flex;align-items:center;gap:6px;border:2px solid var(--ink);background:#fffdf6;padding:6px 8px}
+.rs svg{width:26px;height:26px;flex:none}
+.rs b{font-size:13px;display:block}
+.rs span{display:block;font-size:10px;color:var(--sub);font-weight:700}
+.rs > b, .rs > span{flex:none}
+.rs{flex-wrap:wrap}
+.sfilter select{font:inherit;font-size:14px;font-weight:700;border:2.5px solid var(--ink);background:#fffdf6;padding:8px 6px;border-radius:0;color:var(--ink);min-width:0}
+.sfilter{margin-bottom:6px}
+.mhead{display:flex;justify-content:space-between;align-items:baseline;gap:8px;background:var(--ink);color:var(--gold);padding:6px 10px;margin:12px 0 2px;flex-wrap:wrap}
+.mhead b{font-family:var(--disp);font-weight:400;font-size:15px}
+.mhead span{font-size:11px;font-weight:700;color:#f3efe6}
+.sitem{display:flex;align-items:center;gap:12px}
+.sitem .sd{flex:none;width:46px;text-align:center;border:2px solid var(--ink);background:#fffdf6;padding:3px 0}
+.sitem .sd b{display:block;font-size:14px}.sitem .sd small{font-size:10px;color:var(--sub);font-weight:700}
+.sitem .sb{flex:1;min-width:0}
+.sitem .st{font-family:var(--disp);font-weight:400;font-size:20px;color:var(--red)}
 </style>
 </head>
 <body>
@@ -412,6 +474,11 @@ nav button{font-size:13px;padding:9px 2px}
 
 <!-- 記録 -->
 <section id="log">
+  <div class="seg logview" id="logViewSeg">
+    <button data-v="app" class="on">アプリの記録</button>
+    <button data-v="self">自習</button>
+  </div>
+  <div id="logApp">
   <div class="box">
     <p class="label">ПЯТИЛЕТКА <em>学習カレンダー（1日5問で★）</em></p>
     <div class="goalrow">★の目標：1日
@@ -480,6 +547,61 @@ nav button{font-size:13px;padding:9px 2px}
       <p class="note">いま選んでいる種類（名詞・形容詞など）の×の記録をすべて消し、「苦手なマス」の印をリセットします（表と○△の記録は残ります）。</p>
       <div class="gap"></div>
       <button class="btn danger" id="dWipe">この種類の間違いをすべて削除</button>
+    </div>
+  </div>
+  </div>
+  <div id="logSelf">
+    <div class="box">
+      <p class="label">САМОПОДГОТОВКА <em>自習の記録（アプリ外の勉強）</em></p>
+      <div class="sform">
+        <label class="sf"><span>日付</span><input type="date" id="sDate"></label>
+        <label class="sf"><span>時間</span><span class="hm"><input type="number" id="sH" min="0" max="24" inputmode="numeric" placeholder="1"><em>時間</em><input type="number" id="sM" min="0" max="59" inputmode="numeric" placeholder="30"><em>分</em></span></label>
+      </div>
+      <input type="text" id="sMemo" placeholder="メモ（任意）例：教科書 第5課 / 単語帳 / ドラマ">
+      <div class="gap"></div>
+      <button class="btn red" id="sAdd">記録する</button>
+      <p class="note">勲章や連続学習（★）とは別に集計します。下のカレンダーの日付をタップすると、その日の記録として入力できます。</p>
+    </div>
+    <div class="box">
+      <p class="label">КАЛЕНДАРЬ <em>自習カレンダー</em></p>
+      <div class="calhead"><button class="mini" id="sPrev">‹ 前月</button><b id="sTitle"></b><button class="mini" id="sNext">次月 ›</button></div>
+      <div class="cal scal" id="sCal"></div>
+      <div class="legend">
+        <span><i style="background:#f3d9b0"></i>1時間未満</span>
+        <span><i style="background:#e58f6f"></i>1〜2時間</span>
+        <span><i style="background:var(--red)"></i>2時間以上</span>
+        <button class="mini" id="sToday" style="margin-left:auto">今月へ</button>
+      </div>
+    </div>
+    <div class="poster">
+      <svg class="pstar" viewBox="0 0 24 24" aria-hidden="true"><path fill="#e8b923" d="M12 1.5l3 6.8 7.3.6-5.6 4.8 1.7 7.2L12 17.1l-6.4 3.8 1.7-7.2L1.7 8.9 9 8.3z"/></svg>
+      <div class="pst-head">ЗНАНИЕ — СИЛА!<small>知識は力なり ── 自習の成果</small></div>
+      <div class="pst-grid">
+        <div><span id="sMonthL">今月</span><b id="sMonthT">0m</b></div>
+        <div><span id="sYearL">今年</span><b id="sYearT">0m</b></div>
+        <div class="all"><span>これまでの合計</span><b id="sAllT">0m</b><small id="sDays"></small></div>
+      </div>
+    </div>
+    <div class="box">
+      <p class="label">ПЛАН <em>月の目標（<span id="gMonthName"></span>）</em></p>
+      <div class="ringwrap">
+        <svg id="ring" viewBox="0 0 120 120" aria-label="目標の進み具合"></svg>
+        <div class="ringside">
+          <p class="note" style="margin:0 0 6px">この月の目標</p>
+          <div class="goalin"><input type="number" id="gH" min="0" step="0.5" inputmode="decimal" placeholder="20"><em>時間</em><button class="mini save" id="gSet">設定</button></div>
+          <p id="gMsg" class="gmsg"></p>
+        </div>
+      </div>
+    </div>
+    <div class="box">
+      <p class="label">ЗВЁЗДЫ <em>赤い星（月の目標を達成で獲得）</em></p>
+      <div class="starsum"><svg viewBox="0 0 24 24"><path fill="#c8201b" stroke="#161210" stroke-width=".8" d="M12 1.5l3 6.8 7.3.6-5.6 4.8 1.7 7.2L12 17.1l-6.4 3.8 1.7-7.2L1.7 8.9 9 8.3z"/></svg><b id="rsCount">0</b><span>個獲得</span></div>
+      <div class="starlist" id="rsList"></div>
+    </div>
+    <div class="box">
+      <p class="label">ЖУРНАЛ <em>自習の記録一覧</em></p>
+      <div class="row sfilter"><select id="sFilter"></select><select id="sOrder"><option value="desc">新しい順</option><option value="asc">古い順</option></select></div>
+      <div class="list" id="sList"></div>
     </div>
   </div>
 </section>
@@ -554,7 +676,7 @@ const GENDER = {
 };
 const CASES = ["主格","生格","与格","対格","造格","前置格"];
 const ROWS = [...CASES.map(c=>["単数",c]), ...CASES.map(c=>["複数",c])];
-const kindOf = c => c.kind==="word" ? "word" : c.kind==="decl" ? "decl" : "sent";
+const kindOf = c => c.kind==="word" ? "word" : c.kind==="decl" ? "decl" : c.kind==="study" ? "study" : "sent";
 const resOf = h => h.res || (h.ok ? "o" : "x");
 const RES = { o:{mark:"○", name:"正解", stamp:"ВЕРНО!"}, m:{mark:"△", name:"あやふや", stamp:"ПОЧТИ"}, x:{mark:"×", name:"不正解", stamp:"ОШИБКА"} };
 
@@ -564,7 +686,7 @@ let stats = { days:{} };
 let statsReady = false;
 const mk = () => ({ dir:"rj", mode:"random", tags:[], queue:[], cur:null, lastId:null, ok:0, ng:0 });
 const st = {
-  deck:"sent", tab:"quiz", logFilter:"all", calMonth:null,
+  deck:"sent", tab:"quiz", logFilter:"all", calMonth:null, logView:"app", selfMonth:null, selfFilter:"all", selfOrder:"desc",
   sent:mk(), word:mk(),
   decl:{ cat:"noun", view:"practice", logFilter:"all", draft:null }
 };
@@ -673,7 +795,7 @@ function checkDayChange(){
   lastDay = dayKey();
   st.sent.queue=[]; st.word.queue=[]; ["noun","adj","pers","poss","verb"].forEach(k=>st.decl[k].queue=[]);
   renderBand();
-  if(st.tab==="log") renderCalendar();
+  if(st.tab==="log") (st.logView==="self" ? renderSelf : renderCalendar)();
   if(st.tab==="quiz") (isGrid() ? updateDeclScore : updateScore)();
 }
 setInterval(checkDayChange, 30000);
@@ -705,7 +827,7 @@ $("#calPrev").onclick=()=>moveMonth(-1);
 $("#calNext").onclick=()=>moveMonth(1);
 $("#calToday").onclick=()=>{ st.calMonth=dayKey().slice(0,7); renderCalendar(); };
 $("#goalSel").onchange=e=>setGoal(+e.target.value);
-document.addEventListener("click", e=>{ const b=e.target.closest(".band"); if(b){ st.tab="log"; showTab(); window.scrollTo({top:0,behavior:"smooth"}); } });
+document.addEventListener("click", e=>{ const b=e.target.closest(".band"); if(b){ st.tab="log"; st.logView="app"; showTab(); window.scrollTo({top:0,behavior:"smooth"}); } });
 
 /* ---------- ログイン状態の表示（メールアドレスは出さない） ---------- */
 const STATUS = {
@@ -732,7 +854,7 @@ function flushStats(){ try{ localStorage.setItem(KEY_STATS, JSON.stringify(stats
 function useLocal(){
   cards=readLocal();
   stats=readLocalStats() || { days:countsFromHistory(cards) };
-  stats.goalFrom=stats.goalFrom||{}; stats.medals=stats.medals||{};
+  stats.goalFrom=stats.goalFrom||{}; stats.medals=stats.medals||{}; stats.studyGoals=stats.studyGoals||{};
   if(!stats.cnt) stats.cnt=cntFromHistory(cards);
   statsReady=true;
   flushStats();
@@ -797,6 +919,7 @@ function onUser(u){
     }
     if(localStats && localStats.goalFrom) for(const [k,v] of Object.entries(localStats.goalFrom)) if(!(stats.goalFrom||{})[k]) (body.goalFrom=body.goalFrom||{})[k]=v;
     if(!Array.isArray(stats.tagList) && localStats && Array.isArray(localStats.tagList)) body.tagList=localStats.tagList;
+    if(localStats && localStats.studyGoals) for(const [k,v] of Object.entries(localStats.studyGoals)) if(!(stats.studyGoals||{})[k]) (body.studyGoals=body.studyGoals||{})[k]=v;
     if(localStats && localStats.medals) for(const [k,v] of Object.entries(localStats.medals)) if(!(stats.medals||{})[k]) (body.medals=body.medals||{})[k]=v;
     F.setDoc(statsRef, body, { merge:true }).catch(fail);
     statsState="done";
@@ -810,7 +933,7 @@ function onUser(u){
   }, e=>{ console.warn(e); toast("同期できませんでした"); setStatus("error"); }));
   acct.unsubs.push(F.onSnapshot(statsRef, snap=>{
     const sd = snap.exists() ? snap.data() : {};
-    stats = { days:{ ...(sd.days||{}) }, goalFrom:{ ...(sd.goalFrom||{}) }, cnt:{ ...(sd.cnt||{}) }, medals:{ ...(sd.medals||{}) } };
+    stats = { days:{ ...(sd.days||{}) }, goalFrom:{ ...(sd.goalFrom||{}) }, cnt:{ ...(sd.cnt||{}) }, medals:{ ...(sd.medals||{}) }, studyGoals:{ ...(sd.studyGoals||{}) } };
     if(Array.isArray(sd.tagList)) stats.tagList=[...sd.tagList];
     statsReady=true;
     if(st.tab==="add" && !isGrid()) renderTagUI();
@@ -818,6 +941,7 @@ function onUser(u){
     renderBand();
     if(st.tab==="log") renderCalendar();
     if(st.tab==="medal") renderMedals();
+    if(st.tab==="log" && st.logView==="self") renderSelf();
   }, e=>console.warn(e)));
   renderAcct();
 }
@@ -839,6 +963,7 @@ function refreshAfterData(){
     if(st.tab==="log") renderLog();
   }
   if(st.tab==="medal") renderMedals();
+  if(st.tab==="log" && st.logView==="self") renderSelf();
 }
 
 async function offerMigrate(local){
@@ -926,7 +1051,7 @@ function importData(file){
       const j=JSON.parse(r.result); const list=Array.isArray(j)?j:j.cards;
       if(!Array.isArray(list)) throw 0;
       const have=new Map(cards.map(c=>[c.id,c])), got=[];
-      for(const c of list){ if(c && c.id && ((c.ru && c.ja) || c.kind==="decl")){ have.set(c.id,c); got.push(c); } }
+      for(const c of list){ if(c && c.id && ((c.ru && c.ja) || c.kind==="decl" || c.kind==="study")){ have.set(c.id,c); got.push(c); } }
       cards=[...have.values()];
       if(backend.cloud) got.forEach(c=>backend.save(c)); else flush();
       if(j.stats && j.stats.days){
@@ -975,19 +1100,23 @@ function applyDeck(){
 function showTab(){
   setOn($("nav"),"tab",st.tab);
   $$("main > section").forEach(x=>x.classList.toggle("on",x.id===st.tab));
-  const deckTab = ["quiz","add","log"].includes(st.tab), g = isGrid();
+  const deckTab = ["quiz","add"].includes(st.tab) || (st.tab==="log" && st.logView==="app"), g = isGrid();
+  setOn($("#logViewSeg"),"v",st.logView);
+  $("#logApp").style.display = st.logView==="app" ? "" : "none";
+  $("#logSelf").style.display = st.logView==="self" ? "" : "none";
   $(".decks").style.display = deckTab ? "" : "none";
   setOn($(".decks"),"deck",st.deck);
   $("#catBar").style.display = deckTab && st.deck==="decl" ? "" : "none";
   setOn($("#catSeg"),"v",st.decl.cat);
   [["cardQuiz",!g],["cardAdd",!g],["cardLog",!g],["gridQuiz",g],["gridAdd",g],["gridLog",g]].forEach(([id,on])=>$("#"+id).style.display = on ? "" : "none");
   renderBand();
-  if(st.tab==="log") renderCalendar();
+  if(st.tab==="log" && st.logView==="self"){ renderSelf(); }
+  else if(st.tab==="log") renderCalendar();
   if(g){ if(deckTab) showGrid(); }
   else {
     if(st.tab==="quiz"){ renderRange(); if(!S().cur || kindOf(S().cur)!==st.deck || !cards.includes(S().cur) || !eligible(S().cur)) nextQ(); else renderQ(); }
     if(st.tab==="add") renderList();
-    if(st.tab==="log") renderLog();
+    if(st.tab==="log" && st.logView==="app") renderLog();
   }
   if(st.tab==="medal") renderMedals();
   if(st.tab==="acct") renderAcct();
@@ -1931,6 +2060,140 @@ function renderMedals(){
   }).join("");
   st.newMedals=new Set();
 }
+
+
+/* ---------- 自習（アプリ外の勉強時間。勲章・連続学習とは別に集計） ---------- */
+const studies = () => cards.filter(c=>c.kind==="study" && c.date);
+const fmtHM = m => { m=Math.round(+m||0); const h=Math.floor(m/60), r=m%60; return h ? (r ? `${h}h${r}m` : `${h}h`) : `${r}m`; };
+const sumMin = list => list.reduce((a,x)=>a+(+x.min||0),0);
+const monthMin = ym => sumMin(studies().filter(x=>x.date.startsWith(ym)));
+const dayMin = d => sumMin(studies().filter(x=>x.date===d));
+const studyGoal = ym => +((stats.studyGoals||{})[ym]||0);
+const ymLabel = ym => { const [y,m]=ym.split("-"); return `${y}年${+m}月`; };
+function redStars(){
+  const goals=stats.studyGoals||{};
+  return Object.keys(goals).filter(ym=>+goals[ym]>0 && monthMin(ym)>=+goals[ym]).sort().reverse();
+}
+seg("#logViewSeg", v=>{ st.logView=v; showTab(); });
+
+function renderSelf(){
+  const today=dayKey();
+  if(!st.selfMonth) st.selfMonth=today.slice(0,7);
+  if(!$("#sDate").value) $("#sDate").value=today;
+  $("#sDate").max=today;
+  const ym=st.selfMonth, [y,m]=ym.split("-").map(Number);
+  // カレンダー
+  const first=new Date(y,m-1,1), lastD=new Date(y,m,0).getDate();
+  let html=["日","月","火","水","木","金","土"].map((w,i)=>`<div class="wd${i===0?" sun":i===6?" sat":""}">${w}</div>`).join("");
+  for(let i=0;i<first.getDay();i++) html+=`<div class="d blank"></div>`;
+  for(let d=1; d<=lastD; d++){
+    const k=`${y}-${p2(m)}-${p2(d)}`, n=dayMin(k), cls=["d"];
+    if(n>=120) cls.push("h3"); else if(n>=60) cls.push("h2"); else if(n>0) cls.push("h1");
+    if(k===today) cls.push("today"); if(k>today) cls.push("fut"); if(k===$("#sDate").value) cls.push("sel");
+    html+=`<div class="${cls.join(" ")}" data-k="${k}"><span class="dn">${d}</span>${n?`<span class="hm">${fmtHM(n)}</span>`:""}</div>`;
+  }
+  $("#sCal").innerHTML=html;
+  $("#sTitle").textContent=ymLabel(ym);
+  $("#sCal").querySelectorAll(".d[data-k]").forEach(c=>c.onclick=()=>{
+    if(c.dataset.k>today){ toast("未来の日付は選べません"); return; }
+    $("#sDate").value=c.dataset.k; renderSelf();
+    toast(`${+c.dataset.k.slice(5,7)}月${+c.dataset.k.slice(8)}日を選びました`);
+    $("#sH").focus();
+  });
+  // ソ連ポスター風の集計
+  const all=studies(), mm=monthMin(ym), yy=sumMin(all.filter(x=>x.date.startsWith(String(y))));
+  $("#sMonthL").textContent = ym===today.slice(0,7) ? "今月" : ymLabel(ym);
+  $("#sYearL").textContent = `${y}年`;
+  $("#sMonthT").textContent=fmtHM(mm); $("#sYearT").textContent=fmtHM(yy); $("#sAllT").textContent=fmtHM(sumMin(all));
+  $("#sDays").textContent = all.length ? `勉強した日 ${new Set(all.map(x=>x.date)).size}日・記録 ${all.length}件` : "最初の一歩を記録しよう、同志！";
+  // 月の目標（輪グラフ）
+  const goal=studyGoal(ym), pct= goal ? Math.min(1, mm/goal) : 0, done = goal>0 && mm>=goal;
+  $("#gMonthName").textContent=ymLabel(ym);
+  if(document.activeElement!==$("#gH")) $("#gH").value = goal ? String(Math.round(goal/60*10)/10) : "";
+  const R=48, C=2*Math.PI*R;
+  $("#ring").innerHTML=`
+    <circle cx="60" cy="60" r="${R}" fill="none" stroke="#e9dcc0" stroke-width="14"/>
+    <circle cx="60" cy="60" r="${R}" fill="none" stroke="${done?"#e8b923":"#c8201b"}" stroke-width="14" stroke-dasharray="${(C*pct).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 60 60)" stroke-linecap="butt"/>
+    <circle cx="60" cy="60" r="${R+8}" fill="none" stroke="#161210" stroke-width="1.5"/><circle cx="60" cy="60" r="${R-8}" fill="none" stroke="#161210" stroke-width="1.5"/>
+    ${done?`<path transform="translate(44 24) scale(1.35)" fill="#c8201b" stroke="#161210" stroke-width=".6" d="M12 1.5l3 6.8 7.3.6-5.6 4.8 1.7 7.2L12 17.1l-6.4 3.8 1.7-7.2L1.7 8.9 9 8.3z"/>`:""}
+    <text x="60" y="${done?72:58}" text-anchor="middle" font-family="Dela Gothic One, sans-serif" font-size="${fmtHM(mm).length>5?13:15}" fill="#161210">${fmtHM(mm)}</text>
+    <line x1="40" x2="80" y1="${done?77:64}" y2="${done?77:64}" stroke="#161210" stroke-width="1.2"/>
+    <text x="60" y="${done?89:78}" text-anchor="middle" font-family="Noto Sans JP, sans-serif" font-weight="700" font-size="10" fill="#5d4d40">${goal?fmtHM(goal):"目標なし"}</text>
+    ${goal&&!done?`<text x="60" y="91" text-anchor="middle" font-family="Russo One, sans-serif" font-size="9" fill="#c8201b">${Math.floor(pct*100)}%</text>`:""}`;
+  $("#gMsg").innerHTML = !goal ? "目標を決めると、達成したときに赤い星がもらえます。"
+    : done ? `<b class="ok">★ 計画達成！ 赤い星を獲得</b>`
+    : `あと <b>${fmtHM(goal-mm)}</b> で赤い星`;
+  // 赤い星
+  const stars=redStars();
+  $("#rsCount").textContent=stars.length;
+  $("#rsList").innerHTML = stars.length ? stars.map(s=>`<div class="rs"><svg viewBox="0 0 24 24"><path fill="#c8201b" stroke="#161210" stroke-width=".8" d="M12 1.5l3 6.8 7.3.6-5.6 4.8 1.7 7.2L12 17.1l-6.4 3.8 1.7-7.2L1.7 8.9 9 8.3z"/></svg><b>${ymLabel(s)}</b><span>${fmtHM(monthMin(s))} / 目標 ${fmtHM(studyGoal(s))}</span></div>`).join("")
+    : `<div class="empty" style="padding:10px">まだ赤い星はありません。<br>月の目標を決めて、達成しよう！</div>`;
+  renderSelfList();
+}
+
+function renderSelfList(){
+  const all=studies(), months=[...new Set(all.map(x=>x.date.slice(0,7)))].sort().reverse();
+  if(st.selfFilter!=="all" && !months.includes(st.selfFilter)) st.selfFilter="all";
+  $("#sFilter").innerHTML=`<option value="all">すべての年月（${fmtHM(sumMin(all))}）</option>`+months.map(ym=>`<option value="${ym}">${ymLabel(ym)}（${fmtHM(monthMin(ym))}）</option>`).join("");
+  $("#sFilter").value=st.selfFilter; $("#sOrder").value=st.selfOrder;
+  const dir = st.selfOrder==="asc" ? 1 : -1;
+  const list=all.filter(x=>st.selfFilter==="all" || x.date.startsWith(st.selfFilter))
+    .sort((a,b)=> a.date===b.date ? dir*((a.createdAt||0)-(b.createdAt||0)) : dir*(a.date<b.date?-1:1));
+  const el=$("#sList");
+  if(!list.length){ el.innerHTML=`<div class="empty">まだ自習の記録がありません</div>`; return; }
+  let html="", cur="";
+  for(const x of list){
+    const ym=x.date.slice(0,7);
+    if(ym!==cur){ cur=ym; html+=`<div class="mhead"><b>${ymLabel(ym)}</b><span>合計 ${fmtHM(monthMin(ym))}${studyGoal(ym)?`・目標 ${fmtHM(studyGoal(ym))}${monthMin(ym)>=studyGoal(ym)?" ★":""}`:""}</span></div>`; }
+    const dt=new Date(x.date+"T00:00:00");
+    html+=`<div class="item sitem" data-id="${esc(x.id)}">
+      <div class="sd"><b>${+x.date.slice(5,7)}/${+x.date.slice(8)}</b><small>${"日月火水木金土"[dt.getDay()]}</small></div>
+      <div class="sb"><b class="st">${fmtHM(x.min)}</b>${x.memo?`<div class="ja">${esc(x.memo)}</div>`:""}</div>
+      <button class="mini danger">削除</button>
+    </div>`;
+  }
+  el.innerHTML=html;
+  el.querySelectorAll(".sitem").forEach(it=>it.querySelector("button").onclick=async()=>{
+    const x=cards.find(c=>c.id===it.dataset.id); if(!x) return;
+    if(!await ask("この自習の記録を削除しますか？", `${x.date.replace(/-/g,"/")}　${fmtHM(x.min)}${x.memo?"\n"+x.memo:""}\n\n元に戻せません。`)) return;
+    cards=cards.filter(c=>c.id!==x.id); backend.del(x.id);
+    toast("自習の記録を削除しました"); renderSelf();
+  });
+}
+
+$("#sAdd").onclick=()=>{
+  const date=$("#sDate").value, h=Math.max(0,+$("#sH").value||0), mi=Math.max(0,+$("#sM").value||0), min=Math.round(h*60+mi), today=dayKey();
+  if(!date){ toast("日付を選んでください"); return; }
+  if(date>today){ toast("未来の日付は記録できません"); return; }
+  if(min<=0){ toast("勉強時間を入力してください"); return; }
+  if(dayMin(date)+min>24*60){ toast("1日の合計が24時間を超えます"); return; }
+  const ym=date.slice(0,7), goal=studyGoal(ym), before=monthMin(ym);
+  const x={ id:newId(), kind:"study", date, min, memo:$("#sMemo").value.trim(), createdAt:Date.now() };
+  cards.push(x); backend.save(x);
+  $("#sH").value=""; $("#sM").value=""; $("#sMemo").value="";
+  st.selfMonth=ym;
+  if(goal && before<goal && before+min>=goal) setTimeout(()=>toast(`${ymLabel(ym)}の目標達成！ 赤い星を獲得 ★ Ура!`), 300);
+  else toast(`${fmtHM(min)}を記録しました ★`);
+  renderSelf();
+};
+$("#gSet").onclick=()=>{
+  const ym=st.selfMonth||dayKey().slice(0,7), h=+$("#gH").value;
+  if(!(h>=0)){ toast("時間を数字で入力してください"); return; }
+  const min=Math.round(h*60), before=monthMin(ym);
+  stats.studyGoals=stats.studyGoals||{}; stats.studyGoals[ym]=min;
+  backend.patchStats({ studyGoals:{ [ym]:min } });
+  $("#gH").blur();
+  toast(min ? `${ymLabel(ym)}の目標を${fmtHM(min)}にしました${before>=min?"（達成済み ★）":""}` : `${ymLabel(ym)}の目標を外しました`);
+  renderSelf();
+};
+$("#gH").addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); $("#gSet").click(); } });
+const moveSelf = n => { const [y,m]=st.selfMonth.split("-").map(Number), d=new Date(y,m-1+n,1); st.selfMonth=`${d.getFullYear()}-${p2(d.getMonth()+1)}`; renderSelf(); };
+$("#sPrev").onclick=()=>moveSelf(-1);
+$("#sNext").onclick=()=>moveSelf(1);
+$("#sToday").onclick=()=>{ st.selfMonth=dayKey().slice(0,7); renderSelf(); };
+$("#sDate").onchange=()=>{ const v=$("#sDate").value; if(v) st.selfMonth=v.slice(0,7); renderSelf(); };
+$("#sFilter").onchange=e=>{ st.selfFilter=e.target.value; renderSelfList(); };
+$("#sOrder").onchange=e=>{ st.selfOrder=e.target.value; renderSelfList(); };
 
 $("#expBtn").onclick=exportData;
 $("#impBtn").onclick=()=>$("#impFile").click();
