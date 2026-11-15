@@ -419,6 +419,27 @@ details.thr .btn{font-size:14px;padding:10px}
 .proj li b{flex:1}.proj li small{font-size:11px;font-weight:700;color:var(--sub)}
 .proj li:first-child{background:#fff3c9}
 .proj li.now small,.proj li.late small{color:var(--red)}
+
+/* 今日の復習：アプリ＋自習 */
+.rvpager{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.rvpager b{flex:1;text-align:center;font-family:var(--disp);font-weight:400;font-size:20px}
+.rvpager b small{display:block;font-family:"Noto Sans JP";font-size:11px;font-weight:700;color:var(--red)}
+.rvpager .mini:disabled{opacity:.35}
+.rvsum{font-size:13px;font-weight:700;margin:-2px 0 8px}
+.rvsum b{font-family:var(--disp);font-weight:400;font-size:18px}.rvsum b.r{color:var(--red);font-family:"Noto Sans JP";font-weight:900;font-size:14px}
+.rvgrp{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;border-bottom:3px solid var(--ink);margin:12px 0 8px;padding-bottom:3px}
+.rvgrp span{font-family:var(--disp);font-size:14px}
+.rvgrp small{font-size:10px;color:var(--sub);font-weight:700}
+.rvchk.app{cursor:pointer}
+.rvchk.app .bx{border-style:dashed}
+.rvchk.app.done .bx{border-style:solid}
+.rvchk .go{margin-left:auto;flex:none;font-family:var(--disp);font-size:13px;background:var(--red);color:#fff;padding:5px 8px;border:2px solid var(--ink)}
+.rvchk.app.done .tx b{text-decoration:none;opacity:1}
+.rvchk .tx b{flex:1}
+.rvchk .tx{flex:1;min-width:0}
+.rvchk .tx small b{color:var(--red);font-size:13px;display:inline}
+.rvchk.future{background:#f3efe6;border-style:dashed;cursor:default}
+.rvchk.future .bx{border-color:#9a8a7a;background:#f3efe6}
 </style>
 </head>
 <body>
@@ -730,9 +751,20 @@ details.thr .btn{font-size:14px;padding:10px}
 
     <div id="planRev" style="display:none">
       <div class="box">
-        <p class="label">СЕГОДНЯ <em>今日の復習（<span id="rvCount">0</span>）</em></p>
+        <p class="label">СЕГОДНЯ <em id="rvHead">今日の復習</em></p>
+        <div class="rvpager">
+          <button class="mini" id="rvPrev">‹ 前日</button>
+          <b id="rvDay"></b>
+          <button class="mini" id="rvNext">翌日 ›</button>
+        </div>
+        <div class="seg" id="rvFilter">
+          <button data-v="all" class="on">すべて</button>
+          <button data-v="app">アプリ</button>
+          <button data-v="self">自習</button>
+        </div>
+        <div class="rvsum" id="rvCount"></div>
         <div id="rvToday"></div>
-        <p class="note">チェックを入れると、忘却曲線にそって次の復習日が決まります（1日後→3日後→1週間後→2週間後→1か月後→2か月後→4か月後）。間違えてチェックしたら、もう一度押すと戻せます（今日のうち）。</p>
+        <p class="note">アプリの復習は、その教材の「今日の復習」を全部解くと自動でチェックが付きます（行を押すとすぐ解けます）。自習の復習はチェックを入れると、忘却曲線にそって次の復習日が決まります（1日後→3日後→1週間後→2週間後→1か月後→2か月後→4か月後）。間違えてチェックしたら、もう一度押すと戻せます（今日のうち）。「翌日 ›」で明日以降の予定も見られます。</p>
       </div>
       <div class="box">
         <p class="label">МАТЕРИАЛЫ <em>教材・資料</em></p>
@@ -2520,18 +2552,126 @@ function rvTodayItems(){
   for(const m of rmats()) for(const u of (m.units||[])) if(u.due<=today || u.last===today) out.push({ m, u });
   return out.sort((a,b)=> (a.u.last===today) - (b.u.last===today) || a.u.due.localeCompare(b.u.due));
 }
+/* アプリの復習（忘却曲線）を教材ごとに数える。builtin（代名詞の表）は始めた分だけ */
+const APP_SECTIONS = [
+  { id:"sent-rj", label:"翻訳・露文和訳", deck:"sent", dir:"rj" },
+  { id:"sent-jr", label:"翻訳・和文露訳", deck:"sent", dir:"jr" },
+  { id:"word-rj", label:"単語・露→日", deck:"word", dir:"rj" },
+  { id:"word-jr", label:"単語・日→露", deck:"word", dir:"jr" },
+  { id:"noun", label:"格変化・名詞", cat:"noun" },
+  { id:"adj",  label:"格変化・形容詞", cat:"adj" },
+  { id:"poss", label:"格変化・所有代名詞", cat:"poss" },
+  { id:"pers", label:"格変化・人称代名詞", cat:"pers" },
+  { id:"verb", label:"動詞", cat:"verb" }
+];
+function appSrsList(sec){ // [{srs or null}] その教材で忘却曲線の対象になるもの
+  if(sec.deck) return cards.filter(c=>kindOf(c)===sec.deck).map(c=>({ srs:(c.srs||{})[sec.dir]||null, user:true }));
+  const out=[];
+  if(CAT[sec.cat].user){
+    for(const t of declCards(sec.cat)) for(const [k] of filledCells(t)){
+      if(sec.cat==="adj"){ const [r,c]=parseKey(k); if(r>=6 && c>0) continue; }
+      out.push({ srs:((t.cs||{})[k]||{}).srs||null, user:true });
+    }
+  } else {
+    const sys=cards.find(c=>c.id===CAT[sec.cat].sys), cs=(sys&&sys.cs)||{};
+    for(const it of BUILTIN[sec.cat]) out.push({ srs:(cs[it.key]||{}).srs||null, user:false });
+  }
+  return out;
+}
+function appReviewRows(day){
+  const today=dayKey(), isToday = day===today, rows=[];
+  for(const sec of APP_SECTIONS){
+    const list=appSrsList(sec);
+    if(!list.length) continue;
+    const started = list.some(x=>x.srs);
+    let due=0, fresh=0, doneToday=0;
+    for(const x of list){
+      if(x.srs){
+        if(isToday ? x.srs.due<=day : x.srs.due===day) due++;
+        if(isToday && x.srs.last===today) doneToday++;
+      } else if(isToday && x.user) fresh++;
+    }
+    if(isToday && !started && sec.cat && !CAT[sec.cat].user) continue;  // 代名詞の表は始めてから
+    const todo = due + fresh;
+    if(isToday ? (todo>0 || doneToday>0) : due>0) rows.push({ sec, due, fresh, doneToday, done: isToday && todo===0 });
+  }
+  return rows;
+}
+function goReview(sec){
+  if(sec.deck){
+    const s=st[sec.deck]; s.dir=sec.dir; s.mode="review"; s.tags=[]; s.queue=[]; s.cur=null;
+    st.deck=sec.deck;
+  } else {
+    const s=st.decl[sec.cat]; s.mode="review"; s.range=[]; s.queue=[]; s.cur=null;
+    if(sec.cat==="verb") st.deck="verb"; else { st.deck="decl"; st.decl.cat=sec.cat; }
+  }
+  st.tab="quiz"; applyDeck(); window.scrollTo({top:0,behavior:"smooth"});
+}
+st.rvDay=null; st.rvFilter="all";
+seg("#rvFilter", v=>{ st.rvFilter=v; renderRev(); });
+$("#rvPrev").onclick=()=>{ const t=dayKey(); st.rvDay = addDays(st.rvDay||t,-1) < t ? t : addDays(st.rvDay||t,-1); renderRev(); };
+$("#rvNext").onclick=()=>{ const t=dayKey(); const n=addDays(st.rvDay||t,1); if(daysBetween(t,n)>120){ toast("4か月先までです"); return; } st.rvDay=n; renderRev(); };
+function selfReviewItems(day){
+  const today=dayKey(), out=[];
+  for(const m of rmats()) for(const u of (m.units||[])){
+    if(day===today ? (u.due<=today || u.last===today) : u.due===day) out.push({ m, u });
+  }
+  return out.sort((a,b)=> (a.u.last===today) - (b.u.last===today) || a.u.due.localeCompare(b.u.due));
+}
 function renderRev(){
-  const today=dayKey(), items=rvTodayItems(), todo=items.filter(x=>x.u.last!==today).length;
-  $("#rvCount").textContent = items.length ? `${todo}件${items.length-todo?`・済み${items.length-todo}件`:""}` : "0件";
-  $("#rvToday").innerHTML = items.length ? items.map(({m,u})=>{
-    const done=u.last===today;
-    return `<label class="rvchk${done?" done":""}" data-m="${esc(m.id)}" data-u="${esc(u.id)}">
-      <input type="checkbox" ${done?"checked":""}>
-      <span class="bx"></span>
-      <span class="tx"><b>${esc(u.name)}</b><small>${esc(m.title)}・${done?`済み → 次は ${mdj(u.due)}（${rvLabel(u.due)}）`:`${u.step+1}回目の復習${u.due<today?`・<em>${rvLabel(u.due)}</em>`:""}`}</small></span>
-    </label>`;
-  }).join("") : `<div class="empty" style="padding:12px">今日の復習はありません。<br>計画は達成された、同志よ。<span class="ru">ПЛАН ВЫПОЛНЕН!</span></div>`;
-  $("#rvToday").querySelectorAll(".rvchk input").forEach(cb=>cb.onchange=()=>{
+  const today=dayKey();
+  if(!st.rvDay || st.rvDay<today) st.rvDay=today;
+  const day=st.rvDay, isToday=day===today, f=st.rvFilter;
+  setOn($("#rvFilter"),"v",f);
+  $("#rvPrev").disabled = isToday;
+  const n=daysBetween(today,day);
+  $("#rvDay").innerHTML = `${mdj(day)}（${wdj(day)}）<small>${isToday?"今日":n===1?"明日":`${n}日後`}</small>`;
+  $("#rvHead").textContent = isToday ? "今日の復習" : `${n===1?"明日":`${n}日後`}の復習予定`;
+  const appRows = f==="self" ? [] : appReviewRows(day);
+  const selfItems = f==="app" ? [] : selfReviewItems(day);
+  // 件数
+  const appLeft=appRows.filter(r=>!r.done).length, selfLeft=selfItems.filter(x=>x.u.last!==today).length;
+  const total=appRows.length+selfItems.length, left=appLeft+selfLeft;
+  $("#rvCount").innerHTML = !total ? "" : isToday
+    ? `<b>${total-left}</b> / ${total} 完了${left?`・残り <b class="r">${left}</b>`:"・<b class=\"r\">すべて完了！ ★</b>"}`
+    : `予定 <b>${total}</b> 件`;
+  let html="";
+  if(appRows.length){
+    html+=`<div class="rvgrp"><span>アプリの復習</span><small>行を押すと、その教材の「今日の復習」に移ります</small></div>`;
+    html+=appRows.map(r=>{
+      const cnt = isToday
+        ? (r.done ? `完了（今日 ${r.doneToday}問）` : `残り <b>${r.due+r.fresh}</b>${r.fresh?`（復習 ${r.due}・初めて ${r.fresh}）`:""}${r.doneToday?`・済み ${r.doneToday}`:""}`)
+        : `復習予定 <b>${r.due}</b>`;
+      return `<div class="rvchk app${r.done?" done":""}${isToday?"":" future"}" data-sec="${r.sec.id}">
+        <span class="bx"></span>
+        <span class="tx"><b>${r.sec.label}</b><small>${cnt}</small></span>
+        ${isToday&&!r.done?`<span class="go">解く ›</span>`:""}
+      </div>`;
+    }).join("");
+  }
+  if(selfItems.length){
+    html+=`<div class="rvgrp"><span>自習の復習</span><small>${isToday?"終わったらチェック":"この日に予定されている課・ページ"}</small></div>`;
+    html+=selfItems.map(({m,u})=>{
+      const done=u.last===today;
+      return `<label class="rvchk${done?" done":""}${isToday?"":" future"}" data-m="${esc(m.id)}" data-u="${esc(u.id)}">
+        <input type="checkbox" ${done?"checked":""} ${isToday?"":"disabled"}>
+        <span class="bx"></span>
+        <span class="tx"><b>${esc(u.name)}</b><small>${esc(m.title)}・${done?`済み → 次は ${mdj(u.due)}（${rvLabel(u.due)}）`:`${u.step+1}回目の復習${u.due<today?`・<em>${rvLabel(u.due)}</em>`:""}`}</small></span>
+      </label>`;
+    }).join("");
+  }
+  if(!html) html = isToday
+    ? `<div class="empty" style="padding:12px">${f==="app"?"アプリの":f==="self"?"自習の":""}今日の復習はありません。<br>計画は達成された、同志よ。<span class="ru">ПЛАН ВЫПОЛНЕН!</span></div>`
+    : `<div class="empty" style="padding:12px">この日の${f==="app"?"アプリの":f==="self"?"自習の":""}復習予定はありません。</div>`;
+  $("#rvToday").innerHTML=html;
+  $("#rvToday").querySelectorAll(".rvchk.app").forEach(row=>row.onclick=()=>{
+    if(!isToday){ toast("その日になったら解けます"); return; }
+    const sec=APP_SECTIONS.find(x=>x.id===row.dataset.sec);
+    if(row.classList.contains("done")){ toast("今日の分は完了しています ★"); return; }
+    goReview(sec);
+  });
+  $("#rvToday").querySelectorAll("label.rvchk input").forEach(cb=>cb.onchange=()=>{
+    if(!isToday) return;
     const lab=cb.closest(".rvchk"), m=cards.find(c=>c.id===lab.dataset.m), u=m && (m.units||[]).find(x=>x.id===lab.dataset.u);
     if(!u) return;
     if(cb.checked && u.last!==today){
